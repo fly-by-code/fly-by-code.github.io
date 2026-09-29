@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
+import vm from 'node:vm';
 import {fileURLToPath} from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -25,7 +26,7 @@ for (const [name,source] of Object.entries(html)) {
     const url=match[1];
     if (/^(https?:|data:|mailto:)/.test(url)) continue;
     const [file,fragment]=url.split('#');
-    const target=file||name;
+    const target=file.split('?')[0]||name;
     assert(fs.existsSync(path.join(root,target)),`${name}: missing file ${target}`);
     if (fragment && ids[target]) assert(ids[target].has(fragment),`${name}: missing anchor ${target}#${fragment}`);
     count++;
@@ -34,8 +35,12 @@ for (const [name,source] of Object.entries(html)) {
 assert(html['index.html'].includes('31.7'),'baseline missing');
 assert(html['index.html'].includes('48.3'),'trace baseline missing');
 assert(html['index.html'].includes('45 of 60'),'AF denominator missing');
-assert(html['index.html'].includes('static/videos/hero-sequence-1440p.mp4'),'high-resolution desktop hero missing');
-assert(html['index.html'].includes('static/videos/hero-sequence-1080p.mp4'),'smaller-screen hero missing');
+assert(html['index.html'].includes('static/videos/hero-sequence-v3-1440p.mp4'),'high-resolution desktop hero missing');
+assert(html['index.html'].includes('static/videos/hero-sequence-v3-1080p.mp4'),'smaller-screen hero missing');
+assert(html['index.html'].includes('Embodied coding agents for<br>Real-world aerial manipulation.'),'hero two-line wording missing');
+assert(html['index.html'].includes('At SNU’s Siheung Laboratory'),'laboratory location missing');
+assert(html['index.html'].includes('Research / 2026'),'research label missing');
+assert(html['index.html'].includes('id="hero-stage-label"'),'video action label missing');
 assert(html['index.html'].includes('media="(max-width: 1023px)"'),'hero media breakpoint missing');
 assert(html['index.html'].includes('poster="static/images/hero-sequence.jpg"'),'high-resolution poster missing');
 assert(html['index.html'].includes('static/papers/fly-by-code_preprint.pdf'),'preprint link missing');
@@ -58,3 +63,18 @@ for (const name of ['flight.css','home.css']) {
   for (const m of css.matchAll(/font-size:\s*(\d+(?:\.\d+)?)px/g)) assert(Number(m[1])>=15,`${name}: font below 15px`);
 }
 console.log(`PASS: single-page content + legacy redirect; ${count} local references; unique IDs; all 13 authors; seven closed disclosures; graphs and case videos retained; no conference/review disclosure.`);
+
+// Exercise the actual synchronization code, including backwards seeks/looping.
+const flight=fs.readFileSync(path.join(root,'static/js/flight.js'),'utf8');
+const syncSource=flight.slice(flight.indexOf('const heroStages'),flight.indexOf('function safelyPlay'));
+const stageFields={'#hero-stage-number':{},'#hero-stage-label':{}};
+const stage={hidden:true,querySelector:selector=>stageFields[selector]};
+const video={currentTime:0,addEventListener:()=>{}};
+const context=vm.createContext({hero:video,document:{querySelector:()=>stage}});
+vm.runInContext(syncSource,context);
+for (const [time,label] of [[0,'Grasp hammer'],[8.99,'Grasp hammer'],[9,'Place hammer'],[14.99,'Place hammer'],[15,'Open left door'],[24,'Open right door'],[33,'Grasp bottle'],[40,'Carry bottle'],[45,'Place bottle'],[48.99,'Place bottle'],[0,'Grasp hammer'],[24,'Open right door']]) {
+  vm.runInContext(`syncHeroStage(${time})`,context);
+  assert.equal(stageFields['#hero-stage-label'].textContent,label,`wrong hero label at ${time}s`);
+  assert.equal(stage.hidden,false);
+}
+console.log('PASS: hero stage boundaries, seek, and loop reset.');

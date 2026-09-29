@@ -1,4 +1,29 @@
 /* A concise single-page story; detail stays one click away. */
+.hero-topline>.hero-location:first-child{display:grid;grid-template-columns:6px minmax(0,1fr);column-gap:9px;row-gap:6px;align-items:start;min-width:0}
+.hero-location>.status-dot{margin-top:8px}
+.hero-location-title{line-height:1.5}
+.hero-location-detail{grid-column:2;text-transform:none;letter-spacing:.015em;line-height:1.5;color:#e5eff2}
+.hero-area{white-space:nowrap}
+.hero-stage{position:absolute;top:158px;right:var(--gutter);display:flex;align-items:center;gap:13px;padding:11px 16px;color:#f5fcff;background:rgba(8,20,32,.78);border-right:3px solid var(--lab-teal);border-radius:4px;line-height:1.4;pointer-events:none}
+#hero-stage-number{font-size:15px;letter-spacing:.06em;color:var(--ice);font-variant-numeric:tabular-nums}
+#hero-stage-label{font-size:clamp(17px,1.65vw,24px);font-weight:600}
+@media(max-width:760px){.hero-stage{top:220px;right:var(--gutter);padding:9px 12px;gap:10px}#hero-stage-label{font-size:17px}}
+/* Keep the hero's reading cue distinct even over the brightest video frames. */
+.hero-copy>.eyebrow{
+  display:table;
+  max-width:100%;
+  padding:9px 16px;
+  color:#f5fcff;
+  font-weight:700;
+  background:rgba(8,20,32,.78);
+  border-left:3px solid var(--lab-teal);
+  border-radius:4px;
+  box-shadow:0 3px 18px #07131d24;
+  text-shadow:0 1px 2px #0008;
+}
+@media(max-width:760px){
+  .hero-copy>.eyebrow{padding:8px 10px;font-size:clamp(15px,4.5vw,19px);letter-spacing:.015em}
+}
 .section-shell{padding-block:76px}
 .section-top{padding-bottom:30px}
 .section-top .eyebrow{min-width:0;flex-shrink:1}

@@ -8,6 +8,36 @@ const heroButton = document.querySelector('#hero-toggle');
 let heroUserPaused = false;
 let heroVisible = true;
 
+// Boundaries are seconds in the 49 s edited video, not robot wall-clock time.
+const heroStages = [
+  [0, 'Grasp hammer'], [9, 'Place hammer'], [15, 'Open left door'],
+  [24, 'Open right door'], [33, 'Grasp bottle'], [40, 'Carry bottle'],
+  [45, 'Place bottle']
+];
+const heroStage = document.querySelector('#hero-stage');
+let lastHeroStage = -1;
+function syncHeroStage(seconds = hero?.currentTime || 0) {
+  if (!heroStage) return;
+  let index = 0;
+  for (let i = 1; i < heroStages.length; i++) if (seconds >= heroStages[i][0]) index = i;
+  if (index === lastHeroStage) return;
+  heroStage.querySelector('#hero-stage-number').textContent = `${String(index + 1).padStart(2, '0')} / 07`;
+  heroStage.querySelector('#hero-stage-label').textContent = heroStages[index][1];
+  heroStage.hidden = false;
+  lastHeroStage = index;
+}
+if (hero) {
+  ['loadedmetadata', 'timeupdate', 'seeked', 'emptied'].forEach(event => hero.addEventListener(event, () => syncHeroStage()));
+  if ('requestVideoFrameCallback' in hero) {
+    const onFrame = (_now, metadata) => {
+      syncHeroStage(metadata.mediaTime);
+      hero.requestVideoFrameCallback(onFrame);
+    };
+    hero.requestVideoFrameCallback(onFrame);
+  }
+  syncHeroStage();
+}
+
 function safelyPlay(video) {
   if (!video) return;
   const result = video.play();
