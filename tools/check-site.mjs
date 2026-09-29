@@ -12,9 +12,11 @@ for (const [name,source] of Object.entries(html)) {
   assert.equal(found.length, new Set(found).size, `${name}: duplicate IDs`);
   ids[name] = new Set(found);
   assert(!/ICLR|double.blind|under.{0,15}review|Anonymous Authors/i.test(source), `${name}: conference/review disclosure`);
-  assert.equal((source.match(/class="author-names"/g)||[]).length,1,`${name}: author block`);
-  for (const author of ['Jaewoo Lee','Jeongyeon Seo','Sihyun Cho','Gyeongrak Choe','Yutong Wang','Bavin Saravanan','Jia-Bin Huang','Furong Huang','Sebastian Scherer','Guanya Shi','H. Jin Kim','Seungjae Lee','Dongjae Lee']) {
-    assert(source.includes(`${author}<sup>`),`${name}: missing author ${author}`);
+  if (name === 'index.html') {
+    assert.equal((source.match(/class="author-names"/g)||[]).length,1,`${name}: author block`);
+    for (const author of ['Jaewoo Lee','Jeongyeon Seo','Sihyun Cho','Gyeongrak Choe','Yutong Wang','Bavin Saravanan','Jia-Bin Huang','Furong Huang','Sebastian Scherer','Guanya Shi','H. Jin Kim','Seungjae Lee','Dongjae Lee']) {
+      assert(source.includes(`${author}<sup>`),`${name}: missing author ${author}`);
+    }
   }
 }
 let count=0;
@@ -36,10 +38,23 @@ assert(html['index.html'].includes('static/videos/hero-sequence-1440p.mp4'),'hig
 assert(html['index.html'].includes('static/videos/hero-sequence-1080p.mp4'),'smaller-screen hero missing');
 assert(html['index.html'].includes('media="(max-width: 1023px)"'),'hero media breakpoint missing');
 assert(html['index.html'].includes('poster="static/images/hero-sequence.jpg"'),'high-resolution poster missing');
-for (const name of pages) assert(html[name].includes('static/papers/fly-by-code_preprint.pdf'),`${name}: preprint link missing`);
-for (const name of ['flight.css','research.css']) {
+assert(html['index.html'].includes('static/papers/fly-by-code_preprint.pdf'),'preprint link missing');
+assert(!html['index.html'].includes('research.html'),'separate research-page link remains');
+assert(html['research.html'].includes('static/js/research-redirect.js'),'legacy redirect missing');
+for (const section of ['view-case','probe-details','method','physical-outcomes','evaluation','tasks','abstract']) {
+  const tag=html['index.html'].match(new RegExp(`<details[^>]*id="${section}"[^>]*>`))?.[0];
+  assert(tag,`missing inline disclosure: ${section}`);
+  assert(!/\sopen(?:\s|=|>)/.test(tag),`detail should initially be collapsed: ${section}`);
+}
+for (const figure of ['method.png','tasks.jpg','results_success.png','results_models.png']) {
+  assert(html['index.html'].includes(`static/images/${figure}`),`missing main-page figure: ${figure}`);
+}
+for (const video of ['k2_turn1','k2_af1','k2_turn2','align_af1','align_turn2']) {
+  assert(html['index.html'].includes(`static/videos/${video}.mp4`),`missing case video: ${video}`);
+}
+for (const name of ['flight.css','home.css']) {
   const css=fs.readFileSync(path.join(root,'static/css',name),'utf8');
   assert(!/Georgia|Times New Roman|var\(--serif\)/.test(css),`${name}: decorative serif reintroduced`);
   for (const m of css.matchAll(/font-size:\s*(\d+(?:\.\d+)?)px/g)) assert(Number(m[1])>=15,`${name}: font below 15px`);
 }
-console.log(`PASS: ${pages.length} pages; ${count} local references; unique IDs; all 13 authors; no conference/review disclosure.`);
+console.log(`PASS: single-page content + legacy redirect; ${count} local references; unique IDs; all 13 authors; seven closed disclosures; graphs and case videos retained; no conference/review disclosure.`);
