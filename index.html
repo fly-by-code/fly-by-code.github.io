@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="description" content="Anonymous project page for double-blind review.">
+  <title>Fly-by-Code: Embodied Coding Agents for Aerial Manipulation with Active Visual and Physical Feedback</title>
+  <link rel="icon" href="data:,">
+
+  <link rel="stylesheet" href="static/css/fonts.css">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <style>
+    :root { --af: #e4572e; --view: #1f8a86; --probe: #7a4fb0; --ink: #1d2733; --muted: #5b6673; }
+    body { color: var(--ink); }
+    .section { padding: 2.75rem 1.25rem; }
+    .section-title { margin-bottom: 1.25rem !important; }
+    .fig { width: 100%; height: auto; display: block; border-radius: 6px; }
+    .caption { color: var(--muted); font-size: 0.92rem; line-height: 1.5; margin-top: 0.6rem; text-align: left; }
+    .tldr { border-left: 4px solid var(--af); background: #fff6f2; padding: 0.9rem 1.1rem; border-radius: 4px;
+            font-size: 1.08rem; line-height: 1.55; text-align: left; }
+    .tldr b { color: var(--af); }
+    .venue-note { color: var(--muted); }
+    .stat-row { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin: 1.25rem 0 0.25rem; }
+    .stat { flex: 1 1 180px; max-width: 240px; text-align: center; padding: 0.9rem 0.6rem; border-radius: 8px; background: #f4f6f8; }
+    .stat .num { font-size: 2rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .stat .lbl { color: var(--muted); font-size: 0.9rem; }
+    .stat.ours { background: #fff1ec; }
+    .stat.ours .num { color: var(--af); }
+    .af-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+    .af-card { border: 1px solid #e3e7ec; border-radius: 8px; padding: 1rem 1.1rem; }
+    .af-card h4 { font-weight: 700; margin-bottom: 0.35rem; }
+    .af-card.view h4 { color: var(--view); }
+    .af-card.probe h4 { color: var(--probe); }
+    .af-card.loop h4 { color: var(--af); }
+    .table-wrap { overflow-x: auto; }
+    table.res { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 0.95rem; }
+    table.res th, table.res td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #e3e7ec; text-align: center; white-space: nowrap; }
+    table.res th:first-child, table.res td:first-child { text-align: left; }
+    table.res thead th { border-bottom: 2px solid #c9d0d8; font-weight: 700; }
+    table.res tr.ours td { font-weight: 700; background: #fff6f2; }
+    table.res tr.ours .nd { font-weight: 400; }
+    table.res td.l, table.res th.l { text-align: left; }
+    table.res td[rowspan] { vertical-align: middle; }
+    table.res .sep { border-left: 2px solid #c9d0d8; }
+    .case { border: 1px solid #e3e7ec; border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem; }
+    .case .tag { display: inline-block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+                 padding: 0.15rem 0.55rem; border-radius: 4px; color: #fff; margin-bottom: 0.5rem; }
+    .case .tag.view { background: var(--view); }
+    .case .tag.probe { background: var(--probe); }
+    .step { font-weight: 700; margin: 1rem 0 0.4rem; }
+    .quote { border-left: 3px solid #c9d0d8; padding: 0.2rem 0 0.2rem 0.9rem; color: #33404f; font-style: italic; margin: 0.4rem 0; }
+    pre.code { background: #0f1720; color: #e6edf3; border-radius: 6px; padding: 0.85rem 1rem; font-size: 0.82rem; line-height: 1.45;
+               overflow-x: auto; white-space: pre; }
+    pre.code .c { color: #8b98a5; }
+    .img-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.9rem; }
+    .img-grid figure img { width: 100%; height: auto; border-radius: 6px; display: block; }
+    .img-grid figcaption { font-size: 0.86rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.4; }
+    .img-grid figcaption b { color: var(--ink); }
+    .decision { display: inline-block; font-weight: 700; font-family: 'SF Mono', Monaco, monospace; font-size: 0.9rem;
+                padding: 0.15rem 0.5rem; border-radius: 4px; background: #eef1f4; }
+    .decision.regen { color: #b3401b; }
+    .decision.finish { color: #1c7a4b; }
+    /* ---- demo band: the two real-world videos, stacked and wide ---- */
+    .title-body { padding-bottom: 1.5rem !important; }
+    .title-wrap { max-width: 1180px; }
+    .title-wrap .publication-title { line-height: 1.2 !important; margin-bottom: 1rem !important; }
+    .publication-title .t-main { display: block; font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -0.01em; }
+    .publication-title .t-sub { display: block; font-size: clamp(1.15rem, 2.1vw, 1.75rem); font-weight: 600; color: #33404f;
+                                max-width: 900px; margin: 0.35rem auto 0; text-wrap: balance; }
+    .demo-band { background: #0e141b; color: #e8edf2; padding: 2.25rem 1rem 2.75rem; }
+    .demo-wrap { max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 2.25rem; }
+    .demo-kicker { text-align: center; color: #9fb0c0; font-size: 0.95rem; letter-spacing: 0.02em; margin: 0; }
+    .demo { display: flex; flex-direction: column; gap: 0.6rem; }
+    .demo-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem 1rem; }
+    .demo-title { color: #fff; font-size: 1.45rem; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 0.6rem; }
+    .demo-num { display: inline-flex; align-items: center; justify-content: center; width: 1.9rem; height: 1.9rem;
+                border-radius: 6px; background: var(--af); color: #fff; font-size: 1.05rem; }
+    .demo-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; margin: 0; padding: 0; }
+    .demo-chips li { font-size: 0.82rem; font-weight: 600; padding: 0.22rem 0.65rem; border-radius: 999px;
+                     background: #1f2a36; color: #c9d4de; border: 1px solid #2e3b49; }
+    .demo-chips li.ok { background: #16372a; color: #7fe0b0; border-color: #245a43; }
+    .demo-video { width: 100%; height: auto; aspect-ratio: 16 / 9; max-width: 100%; display: block;
+                  border-radius: 8px; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.45); }
+    .demo-task { color: #c9d4de; font-size: 1rem; margin: 0; }
+    .demo-task b { color: #fff; }
+    .demo-note { color: #8c9bab; font-size: 0.9rem; line-height: 1.55; max-width: 960px; margin: 0 auto; text-align: center; }
+    @media (max-width: 600px) { .demo-title { font-size: 1.15rem; } .demo-band { padding: 1.5rem 0.75rem 2rem; } }
+    @media (prefers-reduced-motion: reduce) { .demo-video { box-shadow: none; } }
+    /* ---- Method: four cards around a loop hub ---- */
+    .af-loop { position: relative; display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "diag view" "loop probe";
+               gap: 1.5rem 5.5rem; margin-top: 1.75rem; }
+    .af-loop .diag { grid-area: diag; } .af-loop .view { grid-area: view; }
+    .af-loop .loop { grid-area: loop; } .af-loop .probe { grid-area: probe; }
+    .af-loop .af-card { position: relative; background: #fff; }
+    .af-step { position: absolute; top: -0.7rem; left: 1rem; font-size: 0.78rem; font-weight: 800; color: #fff;
+               background: var(--ink); border-radius: 999px; padding: 0.1rem 0.55rem; }
+    .af-card.view .af-step { background: var(--view); } .af-card.probe .af-step { background: var(--probe); }
+    .af-card.loop .af-step { background: var(--af); }
+    .af-hub { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+    .af-spin { transform-origin: 60px 60px; animation: af-rotate 14s linear infinite; }
+    @keyframes af-rotate { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .af-spin { animation: none; } }
+    @media (max-width: 760px) {
+      .af-loop { grid-template-columns: 1fr; grid-template-areas: "diag" "view" "probe" "loop"; gap: 1.4rem; }
+      .af-hub { display: none; }
+    }
+    .img-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 560px) { .img-grid.two { grid-template-columns: 1fr; } }
+    /* ---- simulation clips inside the case studies ---- */
+    .simclip { margin: 0.5rem 0 1rem; max-width: 760px; }
+    .simclip-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; margin-bottom: 0.4rem; }
+    .simclip-phase { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; color: #fff;
+                     padding: 0.18rem 0.6rem; border-radius: 4px; background: var(--ink); }
+    .simclip-phase.af { background: var(--view); }
+    .simclip-meta { font-size: 0.85rem; color: var(--muted); }
+    .simclip video { width: 100%; height: auto; aspect-ratio: 640 / 368; max-width: 100%; display: block; border-radius: 6px; background: #000; }
+    .simclip figcaption { font-size: 0.9rem; color: var(--muted); margin-top: 0.4rem; line-height: 1.45; }
+    .truth { border-left: 3px solid #d64545; background: #fdf1f1; padding: 0.55rem 0.9rem; border-radius: 4px; margin: 0.2rem 0 0.9rem; font-size: 0.95rem; }
+    .truth b { color: #b42318; }
+    /* ---- case-study steps as a numbered timeline ---- */
+    .cstep { position: relative; margin: 0; padding: 0 0 2.4rem 0; }
+    .cstep:last-of-type { padding-bottom: 0.2rem; }
+    .cstep-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .cstep-num { flex: 0 0 auto; width: 2rem; height: 2rem; border-radius: 50%; display: inline-flex; align-items: center;
+                 justify-content: center; font-weight: 800; font-size: 0.95rem; color: #fff; background: var(--view);
+                 box-shadow: 0 0 0 4px #fff; position: relative; z-index: 1; }
+    .cstep.probe .cstep-num { background: var(--probe); }
+    .cstep-title { margin: 0 !important; font-size: 1.08rem; font-weight: 700; color: var(--ink); line-height: 1.35; }
+    .cstep-body { margin-left: 1rem; padding-left: 1.75rem; border-left: 2px solid #dfe5ea; }
+    .cstep:last-of-type .cstep-body { border-left-color: transparent; }
+    .cstep-body > :first-child { margin-top: 0; }
+    .cstep-body > :last-child { margin-bottom: 0.2rem; }
+    @media (max-width: 560px) { .cstep-body { margin-left: 0.5rem; padding-left: 1rem; } }
+    /* ---- code boxes in the case studies ---- */
+    .codebox { margin: 0.4rem 0 0.9rem; border-radius: 8px; overflow: hidden; border: 1px solid #1f2933; }
+    .codebox figcaption { display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+                          background: #161b22; color: #9fb0c0; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em;
+                          text-transform: uppercase; padding: 0.45rem 0.9rem; border-bottom: 1px solid #262f3a; }
+    .codebox.con figcaption { background: #1b1f24; }
+    .codebox .lang { color: #d2a8ff; letter-spacing: 0.02em; }
+    .codebox pre.code { margin: 0; border-radius: 0; background: #0d1117; color: #e6edf3;
+                        font-family: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; font-size: 0.97rem;
+                        line-height: 1.6; padding: 0.9rem 1.1rem; white-space: pre-wrap; word-break: break-word; overflow-x: visible; }
+    .codebox.con pre.code { background: #111418; color: #d7dde3; }
+    .t-kw { color: #ff7b72; font-weight: 600; } .t-str { color: #a5d6ff; } .t-num { color: #79c0ff; }
+    .t-const { color: #79c0ff; font-weight: 600; } .t-com { color: #8b949e; font-style: italic; } .t-fn { color: #d2a8ff; }
+    .t-tag { color: #ffa657; font-weight: 600; } .t-bad { color: #ff7b72; font-weight: 700; } .t-good { color: #7ee787; font-weight: 700; }
+    @media (max-width: 480px) { .section { padding: 2rem 1rem; } .stat .num { font-size: 1.6rem; } }
+  </style>
+
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+</head>
+<body>
+
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">&uarr;</button>
+
+  <!-- ========== Title ========== -->
+  <section class="hero">
+    <div class="hero-body title-body">
+      <div class="container title-wrap">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title"><span class="t-main">Fly-by-Code:</span> <span class="t-sub">Embodied Coding Agents for Aerial Manipulation with Active Visual and Physical Feedback</span></h1>
+            <div class="is-size-5 publication-authors"><span>Anonymous Authors</span></div>
+            <div class="is-size-6 venue-note">Paper under double-blind review</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Demo videos (the page's centerpiece) ========== -->
+  <section class="demo-band" id="demos">
+    <div class="demo-wrap">
+      <p class="demo-kicker">Real-world demos &middot; programs synthesized in simulation, run on the physical robot without source-code changes</p>
+
+      <article class="demo">
+        <header class="demo-bar">
+          <h2 class="demo-title"><span class="demo-num">1</span>Cabinet door opening, then pick-and-place</h2>
+          <ul class="demo-chips">
+            <li>Real robot</li><li class="ok">16/20 subtask success</li><li class="ok">3/5 full-task success</li><li>4&times; speed</li>
+          </ul>
+        </header>
+        <video class="demo-video" controls muted playsinline preload="auto" width="1920" height="1080"
+               poster="static/images/poster_real_water_bottle_delivery.jpg"
+               aria-label="Real-world demo: the aerial manipulator opens both cabinet doors, grasps the water bottle inside, and delivers it to a hanging basket.">
+          <source src="static/videos/real_water_bottle_delivery.mp4" type="video/mp4">
+        </video>
+        <p class="demo-task"><b>Task.</b> Find the water bottle and place it in the basket.</p>
+      </article>
+
+      <article class="demo">
+        <header class="demo-bar">
+          <h2 class="demo-title"><span class="demo-num">2</span>Tool pick-and-place</h2>
+          <ul class="demo-chips">
+            <li>Real robot</li><li class="ok">19/20 subtask success</li><li class="ok">4/5 full-task success</li><li>4&times; speed</li>
+          </ul>
+        </header>
+        <video class="demo-video" controls muted playsinline preload="none" width="1920" height="1080"
+               poster="static/images/poster_real_tool_pick_and_place.jpg"
+               aria-label="Real-world demo: the aerial manipulator finds the hammer on a pegboard, places it in a basket on the stairs, then places the wrench on the cabinet's upper shelf.">
+          <source src="static/videos/real_tool_pick_and_place.mp4" type="video/mp4">
+        </video>
+        <p class="demo-task"><b>Task.</b> Find the hammer and place it in the basket, then place the wrench on the cabinet&rsquo;s upper shelf.</p>
+      </article>
+
+      <p class="demo-note">Each run is fully autonomous on a custom aerial manipulator (coaxial
+        quad-tiltrotor, 4-DoF arm, wrist RGB-D camera). Trials vary the initial robot position and heading, and the physical scene
+        differs from the simulated one.</p>
+    </div>
+  </section>
+
+  <!-- ========== Teaser ========== -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <img class="fig" src="static/images/teaser.jpg" width="2000" height="1433"
+           alt="An aerial manipulator picks a hammer from a pegboard and places it in a basket, then places a wrench on an upper shelf. Below, the Fly-by-Code loop: a coding agent writes a task program, executes it, and uses Active Feedback (View and Probe) to check the outcome.">
+      <p class="caption">
+        Fly-by-Code addresses visual and physical ambiguities under partial observability and limited interaction robustness
+        via <b>Active Feedback (AF)</b>. Rather than relying only on feedback passively collected during task execution,
+        Fly-by-Code generates an executable diagnostic program to acquire the evidence needed for outcome assessment and program
+        revision. The program either navigates to an informative viewpoint (<b>View</b>) to inspect an unobserved outcome or
+        performs a targeted physical interaction (<b>Probe</b>) to distinguish between possible failure causes. Using shared robot
+        APIs, task programs refined in simulation are transferred without source-code modification to a physical aerial
+        manipulator, enabling multi-stage tasks such as the illustrated four-step tool-manipulation sequence.
+      </p>
+
+      <h3 class="title is-5" style="margin-top:2rem;">Physical task outcomes</h3>
+      <div class="table-wrap">
+        <table class="res">
+          <thead><tr><th>Task</th><th class="l">Outcome</th><th>Successful trials</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="5">Tool pick-and-place</td><td class="l">Grasp hammer</td><td>5/5</td></tr>
+            <tr><td class="l">Place hammer in basket</td><td>4/5</td></tr>
+            <tr><td class="l">Grasp wrench</td><td>5/5</td></tr>
+            <tr><td class="l">Place wrench on shelf</td><td>5/5</td></tr>
+            <tr class="ours"><td class="l">Full task</td><td>4/5</td></tr>
+            <tr><td rowspan="5">Water-bottle delivery (Cabinet door opening)</td><td class="l">Open left door</td><td>5/5</td></tr>
+            <tr><td class="l">Open right door</td><td>4/5</td></tr>
+            <tr><td class="l">Grasp bottle</td><td>4/5</td></tr>
+            <tr><td class="l">Place bottle in basket</td><td>3/5</td></tr>
+            <tr class="ours"><td class="l">Full task</td><td>3/5</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">Denominators include all evaluated trials per task, including those that did not reach a stage.</p>
+    </div>
+  </section>
+
+  <!-- ========== Abstract ========== -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Embodied coding agents emerge as a promising approach to construct robot policies from natural-language instructions.
+              However, extending these agents to physically demanding settings introduces two fundamental challenges: partial
+              observability and limited interaction robustness. These challenges can leave task-critical outcomes unobserved, and
+              failures remain unresolved, making execution feedback insufficient for completion assessment and program revision.
+              To address these gaps, we introduce <b>Active Feedback (AF)</b>, an active &ldquo;View and Probe&rdquo; framework.
+              After each task execution, the agent synthesizes a separate diagnostic program to acquire informative viewpoints or
+              perform targeted physical tests in simulation, returning evidence for completion assessment and program revision.
+              We study AF in aerial manipulation, where payload constraints limit onboard sensing and exacerbate partial
+              observability, while strong dynamic coupling and limited control margins make physical interactions fragile.
+              Across six aerial manipulation tasks, AF increases final task success from 31.7% to 75% relative to terminal
+              feedback, using the same coding-agent configuration and task-execution limit. The task programs synthesized in
+              simulation transfer directly to a physical aerial manipulator via shared APIs without task-program source-code
+              modifications and successfully execute multi-stage tasks in the real world. These results show that executable
+              diagnosis helps embodied coding agents address gaps in execution feedback, improving both completion assessment
+              and program refinement for autonomous aerial manipulation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Method ========== -->
+  <section class="section" id="method">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title">Method</h2>
+      <p>
+        Standard execution feedback is a passive byproduct of a task trajectory. An egocentric camera couples its viewpoint to
+        the robot&rsquo;s flight, so the outcome of an action often lies outside the terminal field of view; and a static
+        terminal image may not distinguish whether a failed interaction came from erroneous contact geometry or violated kinematic constraints.
+        Fly-by-Code inserts an <b>executable diagnostic stage</b> between task-program execution and the decision to finish or
+        regenerate the program.
+      </p>
+      <img class="fig" src="static/images/method.png" width="2000" height="1160" style="margin-top:1.25rem;"
+           alt="Overview of Fly-by-Code. Bottom: the program refinement loop from task prompt to policy code, execution, Active Feedback, verdict, and program revision, built on shared robot APIs (SAM3 segmentation, motion planning, semantic mapping, depth-to-point cloud, pixel-level pointing, grasp pose generation). Top: View navigates to an informative viewpoint to verify a placement; Probe tests door articulation with a small arc after a straight pull fails.">
+      <p class="caption">
+        <b>Bottom:</b> the program refinement loop. The coding agent translates a task prompt into policy code using shared robot
+        APIs; after execution it enters the Active Feedback stage and refines the program until it decides to stop.
+        <b>Top:</b> during AF, the agent synthesizes a diagnostic program. <i>View</i> navigates to informative viewpoints
+        (e.g., inspecting a basket from above to verify placement). <i>Probe</i> conducts diagnostic physical tests (e.g., testing
+        door articulation with an arc motion after a straight pull fails).
+      </p>
+
+      <div class="af-loop" role="list" aria-label="The Active Feedback loop, repeated after every task attempt">
+        <div class="af-card diag" role="listitem">
+          <span class="af-step">1</span>
+          <h4>Diagnostic program</h4>
+          <p>After a task attempt, the agent reads the console log, terminal observation and semantic-map summary, names the
+            uncertainties this passive evidence leaves open, and writes a separate program &mdash; with the same robot APIs as
+            the task program. This is a diagnostic step: the program does not try to complete the task, it gathers the
+            additional information the next decision needs.</p>
+        </div>
+        <div class="af-card view" role="listitem">
+          <span class="af-step">2a</span>
+          <h4>View &mdash; active viewpoint selection</h4>
+          <p>Using the semantic map as a spatial reference, the diagnostic program flies the robot to vantage points that
+            reveal outcomes the terminal frame cannot &mdash; for example, looking down into a basket to confirm a
+            placement.</p>
+        </div>
+        <div class="af-card loop" role="listitem">
+          <span class="af-step">3</span>
+          <h4>Closing the loop</h4>
+          <p>The task score is recorded before AF, so diagnosis is never penalized. The environment then resets its physical
+            state, while the feedback AF produced &mdash; the acquired views themselves, the agent&rsquo;s notes on them, and
+            the measured values &mdash; is passed back to the agent and drives the
+            <span class="decision finish">FINISH</span> / <span class="decision regen">REGENERATE</span> decision and the
+            next program.</p>
+        </div>
+        <div class="af-card probe" role="listitem">
+          <span class="af-step">2b</span>
+          <h4>Probe &mdash; diagnostic physical interaction</h4>
+          <p>Contact responses, payload limits and articulation constraints are invisible to inspection, so the program probes
+            them through physical interaction &mdash; pushing a box at different contact points, or test-lifting a candidate load.</p>
+        </div>
+        <div class="af-hub" aria-hidden="true">
+          <svg viewBox="0 0 120 120" width="120" height="120">
+            <circle cx="60" cy="60" r="56" fill="#fff" stroke="#e3e7ec" stroke-width="2"/>
+            <g>
+              <path d="M18.3 54.9 A42 42 0 0 1 50.6 19.1" fill="none" stroke="#1d2733" stroke-width="3.2" stroke-linecap="round"/>
+              <polygon points="54.9,18.3 48.7,14.8 51.0,23.7" fill="#1d2733"/>
+              <path d="M65.1 18.3 A42 42 0 0 1 100.9 50.6" fill="none" stroke="#1f8a86" stroke-width="3.2" stroke-linecap="round"/>
+              <polygon points="101.7,54.9 105.2,48.7 96.3,51.0" fill="#1f8a86"/>
+              <path d="M101.7 65.1 A42 42 0 0 1 69.4 100.9" fill="none" stroke="#7a4fb0" stroke-width="3.2" stroke-linecap="round"/>
+              <polygon points="65.1,101.7 71.3,105.2 69.0,96.3" fill="#7a4fb0"/>
+              <path d="M54.9 101.7 A42 42 0 0 1 19.1 69.4" fill="none" stroke="#e4572e" stroke-width="3.2" stroke-linecap="round"/>
+              <polygon points="18.3,65.1 14.8,71.3 23.7,69.0" fill="#e4572e"/>
+            </g>
+            <text x="60" y="57" text-anchor="middle" font-size="10" font-weight="700" fill="#1d2733">after every</text>
+            <text x="60" y="70" text-anchor="middle" font-size="10" font-weight="700" fill="#1d2733">attempt</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Tasks ========== -->
+  <section class="section hero is-light" id="tasks">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title">Tasks</h2>
+      <p>
+        Six tasks in two simulated environments, a warehouse and a laboratory digital twin, range from spatial object transport
+        (<b>1-Object</b> and <b>2-Objects Pick-and-place</b>, <b>Sort</b>) to contact-rich interactions involving articulated structures
+        (<b>Cabinet</b>), unknown payload constraints (<b>Payload</b>), and contact-dependent pushing (<b>Align</b>). A shared execution backend handles
+        collision-aware whole-body motion planning and tracks trajectories under simulated flight dynamics.
+      </p>
+      <img class="fig" src="static/images/tasks.jpg" width="2000" height="1246" style="margin-top:1.25rem;"
+           alt="Four representative tasks: Sort, Align, Cabinet and Payload, with overlaid robot poses and trajectories.">
+      <p class="caption">
+        <b>Sort:</b> Identify the target bottle and place it into the color-matched bin.
+        <b>Align:</b> Push protruding boxes into alignment with the rack. Due to offset centers of mass, varying contact points
+        induce distinct translational or rotational motions.
+        <b>Cabinet:</b> Open the cabinet doors, retrieve the bottle inside, and deliver it to a hanging basket.
+        <b>Payload:</b> Transport filled bottles and baskets with minimal hall crossings under an undisclosed payload limit.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== Results ========== -->
+  <section class="section" id="results">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title">Results</h2>
+      <p>
+        We build on the CaP-X program-generation and execution loop and compare three feedback conditions that share the same
+        perception, control and semantic-map APIs, and the same skill library: <b>CaP-X</b> (execution logs and the terminal RGB observation), <b>CaP-X+Trace</b> (additionally,
+        per-primitive call records and execution keyframes), and <b>Ours</b> (CaP-X + Active Feedback). Each revised program
+        runs from the initial state and must perform the full task. The primary agent is Claude Opus 5 in a persistent session.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat"><div class="num">31.7%</div><div class="lbl">CaP-X<br>19 / 60 trials</div></div>
+        <div class="stat"><div class="num">48.3%</div><div class="lbl">CaP-X+Trace<br>29 / 60 trials</div></div>
+        <div class="stat ours"><div class="num">75.0%</div><div class="lbl">Ours (CaP-X+AF)<br>45 / 60 trials</div></div>
+      </div>
+
+      <img class="fig" src="static/images/results_success.png" width="1659" height="645" style="margin-top:1.25rem;"
+           alt="Bar chart of final task success on six tasks. Ours matches or exceeds both baselines on every task: Cabinet 4/10, 1-Object 10/10, 2-Objects 9/10, Payload 10/10, Box alignment (Align) 7/10, Object sorting (Sort) 5/10; 45/60 overall versus 19/60 for CaP-X and 29/60 for CaP-X+Trace.">
+      <p class="caption">Final task success across six tasks (10 trials per task and method). AF achieves the highest success
+        overall and matches or exceeds both baselines on every task.</p>
+
+      <h3 class="title is-4" style="margin-top:2rem;">Reliable completion assessment</h3>
+      <p>
+        Baselines often declare success from unverified execution signals &mdash; for example, taking an open gripper as proof
+        of placement. AF gathers visual and physical evidence first: across 60 trials it makes only <b>5</b> false completion
+        declarations, against 25 for CaP-X and 19 for CaP-X+Trace.
+      </p>
+      <div class="table-wrap" style="margin-top:1rem;">
+        <table class="res">
+          <thead>
+            <tr><th rowspan="2">Method</th><th colspan="6">Per task (TP / FP / ND)</th><th colspan="2" class="sep">Overall</th></tr>
+            <tr><th>Cabinet</th><th>1-Obj P&amp;P</th><th>2-Obj P&amp;P</th><th>Payload</th><th>Align</th><th>Sort</th><th class="sep">TP / FP / ND</th><th>Precision</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>CaP-X</td><td>1/1/8</td><td>9/1/0</td><td>4/5/1</td><td>3/6/1</td><td>0/10/0</td><td>2/2/6</td><td class="sep">19/25/16</td><td>43.2%</td></tr>
+            <tr><td>CaP-X+Trace</td><td>0/3/7</td><td>10/0/0</td><td>6/3/1</td><td>6/3/1</td><td>3/7/0</td><td>4/3/3</td><td class="sep">29/19/12</td><td>60.4%</td></tr>
+            <tr class="ours"><td>Ours (CaP-X+AF)</td><td>4/1/<span class="nd">5</span></td><td>10/0/<span class="nd">0</span></td><td>9/1/<span class="nd">0</span></td><td>10/0/<span class="nd">0</span></td><td>7/3/<span class="nd">0</span></td><td>5/0/<span class="nd">5</span></td><td class="sep">45/5/<span class="nd">10</span></td><td>90.0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">TP: correct completion declaration. FP: incorrect declaration. ND: step limit reached without a
+        declaration. Precision = TP / (TP + FP).</p>
+    </div>
+  </section>
+
+  <!-- ========== Case studies ========== -->
+  <section class="section hero is-light" id="case-studies">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title">How does Active Feedback support policy refinement? &mdash; Case studies</h2>
+      <p>Two recorded trials, excerpted verbatim from the agent&rsquo;s own analysis, code and console
+        (omissions marked [&hellip;]). Image notes were written by the agent <i>before</i> capture and state inspection
+        questions, not conclusions.</p>
+
+      <!-- View case -->
+      <div class="case" style="margin-top:1.25rem; background:#fff;">
+        <span class="tag view">View</span>
+        <h3 class="title is-5">Evidence against a reported success &mdash; 2-Objects Pick-and-place</h3>
+
+        <section class="cstep view">
+          <div class="cstep-head"><span class="cstep-num">1</span><h4 class="cstep-title">The task program reports success</h4></div>
+          <div class="cstep-body">
+        <figure class="simclip">
+          <div class="simclip-bar"><span class="simclip-phase exec">Turn 1 &mdash; task program</span><span class="simclip-meta">Simulation &middot; 8&times; speed</span></div>
+          <video controls muted playsinline preload="none" width="640" height="368" poster="static/images/poster_k2_turn1.jpg">
+            <source src="static/videos/k2_turn1.mp4" type="video/mp4">
+          </video>
+          <figcaption>The agent-generated task program reported both the hammer and wrench placements as successful, although neither tool actually remained at its destination.</figcaption>
+        </figure>
+        <figure class="codebox con"><figcaption><span>Console output</span></figcaption><pre class="code">hammer done: <span class="t-const">True</span>
+[...]
+wrench done: <span class="t-const">True</span></pre></figure>
+          </div>
+        </section>
+        <section class="cstep view">
+          <div class="cstep-head"><span class="cstep-num">2</span><h4 class="cstep-title">The agent names what the evidence does not show</h4></div>
+          <div class="cstep-body">
+        <p class="quote">&ldquo;The previous program reports both parts done, but neither is confirmed.&rdquo;</p>
+        <p class="quote">Hammer. [&hellip;] &ldquo;That shows the hammer left the hand, not that it landed inside the basket.
+          It could have dropped beside the basket or onto the stairs. I need a view looking down into the basket.&rdquo;</p>
+        <p class="quote">Wrench. [&hellip;] &ldquo;I need to look at the upper shelf more closely from above, then at the lower
+          shelf and the floor in front of the cabinet, and write down where the wrench actually is.&rdquo;</p>
+          </div>
+        </section>
+        <section class="cstep view">
+          <div class="cstep-head"><span class="cstep-num">3</span><h4 class="cstep-title">It writes a diagnostic program: move, observe, attach a question</h4></div>
+          <div class="cstep-body">
+        <figure class="codebox py"><figcaption><span>Agent-generated code</span><span class="lang">Python</span></figcaption><pre class="code"><span class="t-kw">def</span> <span class="t-fn">look</span>(target, offsets, note):
+    target = np.<span class="t-fn">asarray</span>(target, float)
+    <span class="t-kw">for</span> off <span class="t-kw">in</span> offsets:
+        vp = target + np.<span class="t-fn">asarray</span>(off, float)
+        <span class="t-kw">if</span> <span class="t-fn">go</span>(vp, target - vp):
+            <span class="t-kw">return</span> <span class="t-fn">get_observation</span>(note=note)
+    <span class="t-com"># [...]</span>
+
+fl = np.<span class="t-fn">array</span>([<span class="t-num">3.55</span>, cc[<span class="t-num">1</span>], <span class="t-num">0.05</span>])
+o = <span class="t-fn">look</span>(fl, [[<span class="t-num">-0.8</span>, <span class="t-num">0</span>, <span class="t-num">1.0</span>], [<span class="t-num">-1.0</span>, <span class="t-num">0.3</span>, <span class="t-num">1.1</span>]],
+         <span class="t-str">"Floor in front of the cabinet's open face: did the wrench fall to the floor?"</span>)
+<span class="t-fn">report</span>(o, [<span class="t-str">"wrench"</span>])</pre></figure>
+          </div>
+        </section>
+        <section class="cstep view">
+          <div class="cstep-head"><span class="cstep-num">4</span><h4 class="cstep-title">Returned diagnostic views, measurements, and the agent&rsquo;s image notes</h4></div>
+          <div class="cstep-body">
+        <figure class="simclip">
+          <div class="simclip-bar"><span class="simclip-phase af">AF &mdash; diagnostic program</span><span class="simclip-meta">Simulation &middot; 8&times; speed</span></div>
+          <video controls muted playsinline preload="none" width="640" height="368" poster="static/images/poster_k2_af1.jpg">
+            <source src="static/videos/k2_af1.mp4" type="video/mp4">
+          </video>
+          <figcaption>The diagnostic flight: upper shelf, the floor in front of the cabinet, the basket from above, and the area around it.</figcaption>
+        </figure>
+        <div class="img-grid two">
+          <figure><img src="static/images/case_view_1.jpg" width="1280" height="720" loading="lazy" alt="Upper shelf of the cabinet seen from above-front.">
+            <figcaption><b>Upper shelf.</b> &ldquo;Upper open shelf of the cabinet from above-front: is the black-handled wrench from the pegboard on it?&rdquo;</figcaption></figure>
+          <figure><img src="static/images/case_view_2.jpg" width="1280" height="720" loading="lazy" alt="Floor in front of the cabinet with the wrench lying on it.">
+            <figcaption><b>Cabinet floor.</b> &ldquo;Floor in front of the cabinet&rsquo;s open face: did the wrench fall to the floor?&rdquo;</figcaption></figure>
+          <figure><img src="static/images/case_view_3.jpg" width="1280" height="720" loading="lazy" alt="The basket on the stairs seen from above; it is empty.">
+            <figcaption><b>Basket interior.</b> &ldquo;Basket on the stairs from above: is the hammer inside it?&rdquo;</figcaption></figure>
+          <figure><img src="static/images/case_view_4.jpg" width="1280" height="720" loading="lazy" alt="The area below the basket and stairs.">
+            <figcaption><b>Around the basket.</b> &ldquo;Area below/around the basket and stairs: did the hammer fall out instead?&rdquo;</figcaption></figure>
+        </div>
+        <figure class="codebox con"><figcaption><span>Console output &mdash; median world-frame coordinates from segmented depth</span></figcaption><pre class="code"><span class="t-tag">[wrench]</span> score 0.91 [...] med [ 3.567  0.953 -0.009] [...]
+<span class="t-tag">[hammer]</span> score 0.92 [...] med [ 2.463  3.979 -0.009] [...]</pre></figure>
+          </div>
+        </section>
+        <section class="cstep view">
+          <div class="cstep-head"><span class="cstep-num">5</span><h4 class="cstep-title">Decision and the next program</h4></div>
+          <div class="cstep-body">
+        <figure class="simclip">
+          <div class="simclip-bar"><span class="simclip-phase exec">Turn 2 &mdash; revised task program</span><span class="simclip-meta">Simulation &middot; 8&times; speed</span></div>
+          <video controls muted playsinline preload="none" width="640" height="368" poster="static/images/poster_k2_turn2.jpg">
+            <source src="static/videos/k2_turn2.mp4" type="video/mp4">
+          </video>
+          <figcaption>The next program, run again from the initial state after REGENERATE.</figcaption>
+        </figure>
+        <p><span class="decision regen">REGENERATE</span> &mdash; the next program adds a release-and-hold routine, revises the
+          hammer release pose, and tries deeper wrench placements.</p>
+        <figure class="codebox py"><figcaption><span>Agent-generated code</span><span class="lang">Python</span></figcaption><pre class="code"><span class="t-kw">def</span> <span class="t-fn">release_and_hold</span>():
+    <span class="t-fn">open_gripper</span>()
+    p = <span class="t-fn">pos</span>()
+    <span class="t-fn">goto_pose</span>(p, settle=<span class="t-const">True</span>)   <span class="t-com"># hold still ~3 s so the object drops free</span>
+    <span class="t-fn">get_observation</span>()
+    <span class="t-fn">open_gripper</span>()</pre></figure>
+        <p class="caption">The trial succeeded on the fourth task execution. The case shows AF producing evidence
+          <i>against</i> a reported completion and directing the revision.</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Probe case -->
+      <div class="case" style="background:#fff;">
+        <span class="tag probe">Probe</span>
+        <h3 class="title is-5">Box alignment: testing alternative contact points</h3>
+        <p>After repeated pushes kept rotating a carton, the agent used AF to test alternative contact locations and sideways slides.</p>
+        <section class="cstep probe">
+          <div class="cstep-head"><span class="cstep-num">1</span><h4 class="cstep-title">Agent&rsquo;s recorded AF analysis: which push reduces rotation?</h4></div>
+          <div class="cstep-body">
+          <p class="quote">&ldquo;My working guess is sideways friction drag.&rdquo; [&hellip;]</p>
+          <p class="quote">&ldquo;I need controlled experiments to learn how much each action twists the carton: centre push, high-edge push, low-edge push, and a push followed by a small sideways slide while still in contact.&rdquo;</p>
+          </div>
+        </section>
+        <section class="cstep probe">
+          <div class="cstep-head"><span class="cstep-num">2</span><h4 class="cstep-title">Generated diagnostic code: compare contact actions</h4></div>
+          <div class="cstep-body">
+          <p>The program tested these actions sequentially, returning to the same viewpoint after each probe to measure the response from RGB-D observations. In the code and console below, &ldquo;hi-edge&rdquo; and &ldquo;lo-edge&rdquo; are the carton&rsquo;s left and right edges in the head-on camera view, and &ldquo;drag +y&rdquo; / &ldquo;drag -y&rdquo; are small slides to the left / right.</p>
+          <figure class="codebox py"><figcaption><span>Agent-generated code</span><span class="lang">Python</span></figcaption><pre class="code"><span class="t-fn">open_gripper</span>()
+<span class="t-com"># [...]</span>
+exps = [(<span class="t-str">"centre"</span>, <span class="t-num">0.0</span>, <span class="t-num">0.0</span>), (<span class="t-str">"hi-edge"</span>, +<span class="t-num">1</span>, <span class="t-num">0.0</span>),
+        (<span class="t-str">"lo-edge"</span>, <span class="t-num">-1</span>, <span class="t-num">0.0</span>), (<span class="t-str">"centre+drag+y"</span>, <span class="t-num">0.0</span>, +<span class="t-num">0.015</span>),
+        (<span class="t-str">"centre+drag-y"</span>, <span class="t-num">0.0</span>, <span class="t-num">-0.015</span>), (<span class="t-str">"hi-edge"</span>, +<span class="t-num">1</span>, <span class="t-num">0.0</span>)]
+<span class="t-kw">for</span> name, where, drag <span class="t-kw">in</span> exps:
+    <span class="t-com"># [...]</span>
+    r = <span class="t-fn">go</span>(G, approach=N, z_approach=<span class="t-num">0.15</span>, allow_contact=<span class="t-const">True</span>, settle=<span class="t-const">True</span>)
+    <span class="t-com"># [...]</span>
+    <span class="t-kw">if</span> drag != <span class="t-num">0.0</span> <span class="t-kw">and</span> r:
+        G2 = G + np.<span class="t-fn">array</span>([<span class="t-num">0.0</span>, drag, <span class="t-num">0.0</span>])
+        <span class="t-fn">go</span>(G2, approach=N, allow_contact=<span class="t-const">True</span>, settle=<span class="t-const">True</span>)
+        <span class="t-com"># [...]</span>
+    <span class="t-com"># [...]</span>
+    f2, s2 = <span class="t-fn">measure_B</span>(<span class="t-str">"after "</span> + name)</pre></figure>
+          </div>
+        </section>
+        <section class="cstep probe">
+          <div class="cstep-head"><span class="cstep-num">3</span><h4 class="cstep-title">Returned diagnostic views, measurements, and the agent&rsquo;s image notes</h4></div>
+          <div class="cstep-body">
+          <figure class="simclip">
+            <div class="simclip-bar"><span class="simclip-phase af">AF &mdash; diagnostic program</span><span class="simclip-meta">Simulation &middot; 8&times; speed</span></div>
+            <video controls muted playsinline preload="none" width="640" height="368" poster="static/images/poster_align_af1.jpg">
+              <source src="static/videos/align_af1.mp4" type="video/mp4">
+            </video>
+            <figcaption>The diagnostic program pushes carton B at the centre, the left edge and the right edge, then with small sideways slides, backing off to the same viewpoint after each push.</figcaption>
+          </figure>
+          <figure class="codebox con"><figcaption><span>Console output</span></figcaption><pre class="code">RESULT centre:        centre moved 0.0285, yaw change -3.17 deg
+RESULT hi-edge:       centre moved 0.0385, yaw change <span class="t-good">-0.31 deg</span>
+RESULT lo-edge:       centre moved 0.0241, yaw change <span class="t-bad">-4.01 deg</span>
+RESULT centre+drag+y: centre moved 0.0439, yaw change -4.56 deg
+RESULT centre+drag-y: centre moved 0.0426, yaw change -4.75 deg
+RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
+          <div class="img-grid two">
+            <figure><img src="static/images/align_probe_before.jpg" width="1280" height="720" loading="lazy" alt="Carton B seen head-on before any push experiment.">
+              <figcaption><b>Before probing.</b> &ldquo;carton B untouched, head-on, before the push experiments&rdquo;</figcaption></figure>
+            <figure><img src="static/images/align_probe_after.jpg" width="1280" height="720" loading="lazy" alt="Carton B seen head-on after the six push experiments; it is now rotated.">
+              <figcaption><b>After probing.</b> &ldquo;carton B after the six push experiments (centre, hi-edge, lo-edge, drag +y, drag -y, hi-edge)&rdquo;</figcaption></figure>
+          </div>
+          <p>The first left-edge push produced less rotation per unit of advance than the centre and right-edge pushes. Neither sideways slide reversed the rotation.</p>
+          </div>
+        </section>
+        <section class="cstep probe">
+          <div class="cstep-head"><span class="cstep-num">4</span><h4 class="cstep-title">Decision and subsequent policy revision</h4></div>
+          <div class="cstep-body">
+          <p><span class="decision regen">REGENERATE</span> &mdash; the next program initialized a linear push-response model from the diagnostic observations and used it to select the lateral contact position.</p>
+          <figure class="codebox py"><figcaption><span>Agent-generated code &mdash; next task program</span><span class="lang">Python</span></figcaption><pre class="code"><span class="t-com"># ---------------- twist model: yaw change (deg) per cm of push = alpha + beta*u ----------------</span>
+<span class="t-com"># u = contact offset from face centre / half-width (+ toward +y). Prior from observed pushes:</span>
+<span class="t-com"># [...]</span>
+        w = y2 - y1; yc = <span class="t-num">0.5</span> * (y1 + y2)
+        <span class="t-com"># [...]</span>
+        alpha, beta = <span class="t-fn">twist_model</span>()
+        <span class="t-com"># [...]</span>
+        u = <span class="t-fn">float</span>(np.<span class="t-fn">clip</span>((rate_des - alpha) / beta, <span class="t-num">-0.82</span>, <span class="t-num">0.82</span>))
+        yp = yc + u * w / <span class="t-num">2.0</span>
+        <span class="t-com"># [...]</span>
+        <span class="t-kw">if</span> dc_cm &gt; <span class="t-num">0.4</span>:
+            twist_data.<span class="t-fn">append</span>((u, dpsi / dc_cm, <span class="t-fn">min</span>(<span class="t-num">2.0</span>, dc_cm / <span class="t-num">2.0</span>)))</pre></figure>
+          <figure class="simclip">
+            <div class="simclip-bar"><span class="simclip-phase exec">Next execution &mdash; revised task program</span><span class="simclip-meta">Simulation &middot; 8&times; speed</span></div>
+            <video controls muted playsinline preload="none" width="640" height="368" poster="static/images/poster_align_turn2.jpg">
+              <source src="static/videos/align_turn2.mp4" type="video/mp4">
+            </video>
+            <figcaption>In the next task execution, the robot pushed on the left side, toward which the carton&rsquo;s center of mass was shifted, and precisely aligned the boxes.</figcaption>
+          </figure>
+          </div>
+        </section>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Generality ========== -->
+  <section class="section" id="generality">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title">Generality across models and interfaces</h2>
+      <p>
+        Across the twelve model&ndash;task pairs, AF matches or exceeds CaP-X in every case, improving success in eight and
+        tying in four (three of them at 0/10). The size of the gain varies across configurations: Cabinet rises from 0% to
+        90% with the Astra API and Payload from 30% to 100% with Claude Code Opus 5, while Gemini 3.8 Flash API and Opus 5 API
+        remain at or near 0% under both methods. A <b>No harness</b> condition, which receives full raw videos and console
+        logs, falls below AF in nearly all coding-agent configurations, indicating that synthesizing targeted diagnostic
+        programs resolves execution uncertainties more effectively than unstructured log analysis.
+      </p>
+      <img class="fig" src="static/images/results_models.png" width="1667" height="597" style="margin-top:1.25rem;" loading="lazy"
+           alt="Bar charts of success on Cabinet and Payload for six model and interface configurations under No harness, CaP-X and Ours.">
+      <p class="caption">Final task success across models and agent interfaces on Cabinet and Payload (10 trials per task and condition).</p>
+    </div>
+  </section>
+
+
+
+</body>
+</html>
