@@ -33,6 +33,16 @@ for (const [name,source] of Object.entries(html)) {
   }
 }
 assert(html['index.html'].includes('31.7'),'baseline missing');
+assert(/<nav[^>]*>[\s\S]*?<a href="#video">Video<\/a>/.test(html['index.html']),'Video navigation missing');
+assert(ids['index.html'].has('video'),'research-film section missing');
+const researchVideo=html['index.html'].match(/<video\b[^>]*id="research-video"[^>]*>/)?.[0];
+assert(researchVideo,'research-film player missing');
+for (const attribute of ['controls','playsinline','preload="none"','width="1920"','height="1080"']) assert(researchVideo.includes(attribute),`research-film player missing ${attribute}`);
+assert(!/\b(?:autoplay|loop)\b/.test(researchVideo),'full film must not autoplay or loop');
+const filmPath=path.join(root,'static/videos/fly-by-code-film-v7-1080p.mp4');
+assert(fs.statSync(filmPath).size>1_000_000,'research-film asset is empty or incomplete');
+assert(fs.statSync(filmPath).size<100*1024*1024,'research-film asset exceeds the GitHub file limit');
+assert(html['index.html'].includes('download="Fly-by-Code.mp4"'),'direct film download missing');
 assert(html['index.html'].includes('48.3'),'trace baseline missing');
 assert(html['index.html'].includes('45 of 60'),'AF denominator missing');
 assert(html['index.html'].includes('static/videos/hero-sequence-v5-1440p.mp4'),'high-resolution desktop hero missing');
