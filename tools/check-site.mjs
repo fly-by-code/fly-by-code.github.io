@@ -76,7 +76,13 @@ for (const name of ['flight.css','home.css']) {
   assert(!/Georgia|Times New Roman|var\(--serif\)/.test(css),`${name}: decorative serif reintroduced`);
   for (const m of css.matchAll(/font-size:\s*(\d+(?:\.\d+)?)px/g)) assert(Number(m[1])>=15,`${name}: font below 15px`);
 }
+const homeCss=fs.readFileSync(path.join(root,'static/css/home.css'),'utf8');
+assert(/--hero-title-size:\s*clamp\([^;]*min\([^;]*vw[^;]*svh/.test(homeCss),'hero title must account for viewport width AND height');
+assert(/--hero-support-size:\s*clamp\([^;]*min\([^;]*vw[^;]*svh/.test(homeCss),'hero supporting text must account for viewport width AND height');
+assert(/\.hero-copy h1\{font-size:var\(--hero-title-size\)/.test(homeCss),'responsive hero title token is not applied');
+assert(/@media\(min-width:761px\)/.test(homeCss),'landscape hero sizing must preserve the portrait layout');
 console.log(`PASS: single-page content + legacy redirect; ${count} local references; unique IDs; all 13 authors; seven closed disclosures; graphs and case videos retained; no conference/review disclosure.`);
+console.log('PASS: width/height-aware hero typography with bounded sizes; portrait layout retained.');
 
 // Exercise the actual synchronization code, including backwards seeks/looping.
 const flight=fs.readFileSync(path.join(root,'static/js/flight.js'),'utf8');

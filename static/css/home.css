@@ -31,6 +31,25 @@
 @media(max-width:760px){
   .hero-copy>.eyebrow{padding:8px 10px;font-size:clamp(15px,4.5vw,19px);letter-spacing:.015em}
 }
+/* Fit landscape heroes to both viewport dimensions, not monitor inches.
+   Keep the established portrait layout and readable metadata/body sizes. */
+@media(min-width:761px){
+  .site-header{height:clamp(4rem,8svh,4.875rem)}
+  .hero-film{
+    --hero-support-size:clamp(1.0625rem,min(1.4vw,2.6svh),1.5rem);
+    --hero-title-size:clamp(3.25rem,min(9vw,16svh),11.375rem);
+    min-height:36rem;
+  }
+  .hero-topline{top:calc(clamp(4rem,8svh,4.875rem) + clamp(1.25rem,3svh,2.25rem))}
+  .hero-stage{top:calc(clamp(4rem,8svh,4.875rem) + clamp(1.25rem,3svh,2.25rem) - .25rem)}
+  .hero-copy{bottom:clamp(6.75rem,12svh,9.375rem)}
+  .hero-copy h1{font-size:var(--hero-title-size);margin:.1em 0 .15em}
+  .hero-copy>.eyebrow{padding:.4em .7em;letter-spacing:.075em}
+  .hero-description{gap:1.5rem}
+  .hero-facts{margin-top:clamp(.875rem,2.2svh,1.375rem);gap:.5rem 1.5rem}
+  .hero-bottom{bottom:clamp(1.25rem,3svh,2.5rem);padding-top:clamp(.875rem,2svh,1.375rem)}
+  .round-link>span{width:clamp(2.5rem,4.8svh,3rem);height:clamp(2.5rem,4.8svh,3rem)}
+}
 .section-shell{padding-block:76px}
 .section-top{padding-bottom:30px}
 .section-top .eyebrow{min-width:0;flex-shrink:1}
