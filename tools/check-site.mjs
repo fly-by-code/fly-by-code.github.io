@@ -107,8 +107,16 @@ for (const rule of ['height:auto;min-height:0;max-height:none','aspect-ratio:16/
 }
 assert(/\.hero-video\{[^}]*position:static/.test(mobileHero),'mobile video must participate in document flow');
 assert(/\.hero-film>\.hero-topline[^}]*position:static/.test(mobileHero),'mobile text must not overlay video');
+for (const selector of ['.hero-video','.hero-stage']) assert(new RegExp(`\\${selector}\\{grid-area:2 / 1`).test(mobileHero),`${selector}: task badge must share the video grid cell`);
+assert(/\.hero-stage\{[^}]*align-self:start;justify-self:end/.test(mobileHero),'mobile task badge must sit at the video top-right');
+assert(/\.hero-copy h1\{font-size:clamp\(2rem,9vw,2.75rem\)/.test(mobileHero),'mobile title should use the smaller 32–44px range');
+assert(/\.hero-copy>\.eyebrow\{[^}]*font-size:\.8125rem/.test(mobileHero),'mobile eyebrow should be the requested smaller 13px equivalent');
+assert(/\.site-header nav\{[^}]*min-width:0[^}]*overflow-x:auto/.test(mobileHero),'mobile navigation must scroll within its available width');
+assert(/\.site-header nav a\[href\]\{[^}]*display:flex;flex:none/.test(mobileHero),'all mobile navigation destinations must be shown and keep their width');
+assert(!/\.site-header nav a\[href="#[^"]+"\][^{]*\{display:none/.test(homeCss),'mobile section links must not be hidden');
+assert(html['index.html'].includes('class="mobile-nav-paper"'),'preprint must be reachable in the mobile navigation');
 console.log(`PASS: single-page content + legacy redirect; ${count} local references; unique IDs; all 13 authors; seven closed disclosures; graphs and case videos retained; no conference/review disclosure.`);
-console.log('PASS: separately scoped desktop typography and uncropped, width-fitted mobile hero.');
+console.log('PASS: separately scoped desktop typography; width-fitted mobile film, top-right task badge, compact titles, and scrollable navigation.');
 
 // Exercise the actual synchronization code, including backwards seeks/looping.
 const flight=fs.readFileSync(path.join(root,'static/js/flight.js'),'utf8');

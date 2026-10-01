@@ -10,6 +10,7 @@
 .hero-location-title{line-height:1.5;text-transform:none}
 .hero-location-detail{grid-column:2;text-transform:none;letter-spacing:.015em;line-height:1.5;color:#e5eff2}
 .hero-area{white-space:nowrap}
+.site-header nav .mobile-nav-paper{display:none}
 .hero-stage{position:absolute;top:108px;right:var(--gutter);display:flex;align-items:center;gap:13px;padding:11px 16px;color:#f5fcff;background:rgba(8,20,32,.78);border-right:3px solid var(--lab-teal);border-radius:4px;line-height:1.4;pointer-events:none}
 #hero-stage-number{font-size:15px;letter-spacing:.06em;color:var(--ice);font-variant-numeric:tabular-nums}
 #hero-stage-label{font-size:15px;font-weight:600}
@@ -58,14 +59,17 @@
 }
 /* Mobile hero: an uncropped, full-width film followed by its own reading area.
    Natural height accommodates wrapped text and browser text enlargement;
-   nothing is overlaid on the footage. Desktop/laptop rules are untouched. */
+   only the task badge overlays the footage. Desktop rules are untouched. */
 @media(max-width:760px){
   .site-header{height:60px;padding-inline:18px;gap:12px}
   .site-header:not(.scrolled):not(.solid){background:var(--night)}
-  .site-header .wordmark{font-size:17px}
+  .site-header .wordmark{font-size:17px;flex:none}
   .site-header .wordmark svg{width:24px;height:24px;margin-right:8px}
-  .site-header nav{gap:14px;font-size:15px}
-  .site-header nav a{min-height:44px;display:flex;align-items:center}
+  /* Native horizontal scrolling keeps every destination reachable by touch
+     and keyboard without shrinking tap targets or widening the page. */
+  .site-header nav{flex:1;min-width:0;gap:18px;font-size:15px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--lab-teal) transparent}
+  .site-header nav a[href]{min-height:44px;display:flex;flex:none;align-items:center;white-space:nowrap}
+  .site-header nav a:focus-visible{outline-offset:-3px}
   .hero-film{
     --hero-support-size:clamp(.9375rem,3.9vw,1rem);
     --hero-mobile-gutter:clamp(18px,4.6vw,28px);
@@ -76,13 +80,13 @@
   .hero-topline{grid-row:1;margin:18px var(--hero-mobile-gutter) 16px;font-size:15px;letter-spacing:.015em}
   .hero-topline>.hero-location:first-child{row-gap:3px}
   .hero-location-detail{color:#c4d4dc;letter-spacing:0}
-  .hero-video{grid-row:2;position:static;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;object-position:center;mask-image:none;-webkit-mask-image:none}
+  .hero-video{grid-area:2 / 1;position:static;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;object-position:center;mask-image:none;-webkit-mask-image:none}
   .hero-shade{display:none}
-  .hero-stage{grid-row:3;justify-self:start;margin:12px var(--hero-mobile-gutter) 0;padding:0 0 0 10px;gap:10px;background:none;border:0;border-left:2px solid var(--lab-teal);border-radius:0}
+  .hero-stage{grid-area:2 / 1;align-self:start;justify-self:end;z-index:1;max-width:calc(100% - 20px);margin:10px;padding:6px 9px;gap:8px;background:rgba(8,20,32,.86);border:0;border-right:2px solid var(--lab-teal);border-radius:3px}
   #hero-stage-number,#hero-stage-label{font-size:15px;line-height:1.5}
-  .hero-copy{grid-row:4;margin:22px var(--hero-mobile-gutter) 0}
-  .hero-copy>.eyebrow{display:block;padding:0;font-size:15px;letter-spacing:.045em;color:var(--ice);background:none;border:0;border-radius:0;box-shadow:none;text-shadow:none}
-  .hero-copy h1{font-size:clamp(2.625rem,12vw,3.625rem);line-height:1.12;margin:10px 0 14px}
+  .hero-copy{grid-row:3;margin:20px var(--hero-mobile-gutter) 0}
+  .hero-copy>.eyebrow{display:block;padding:0;font-size:.8125rem;letter-spacing:.035em;color:var(--ice);background:none;border:0;border-radius:0;box-shadow:none;text-shadow:none}
+  .hero-copy h1{font-size:clamp(2rem,9vw,2.75rem);line-height:1.12;margin:8px 0 12px}
   .hero-description{align-items:flex-start;gap:14px}
   .hero-description p{font-size:var(--hero-support-size);line-height:1.55}
   .hero-description .round-link{min-height:44px;gap:10px;font-size:15px}
@@ -91,7 +95,7 @@
   .hero-code-credit{gap:4px 8px}
   .hero-model{gap:6px}
   .hero-model img{width:20px;height:auto}
-  .hero-bottom{grid-row:5;display:block;margin:18px var(--hero-mobile-gutter) 0;padding-top:12px;border-color:#ffffff25}
+  .hero-bottom{grid-row:4;display:block;margin:18px var(--hero-mobile-gutter) 0;padding-top:12px;border-color:#ffffff25}
   .hero-bottom .scroll-cue{display:none}
   .hero-bottom .film-controls{display:flex;justify-content:space-between;gap:12px;max-width:none;font-size:15px;letter-spacing:0}
   .hero-bottom .film-controls>span{display:block;max-width:none;font-size:15px;line-height:1.5;color:#c4d4dc}
@@ -213,8 +217,6 @@ details[open]>summary>.disclosure-plus{transform:rotate(45deg)}
 .abstract-copy p{max-width:1000px;font-size:var(--copy-size);color:var(--subtle)}
 @media(max-width:760px){
   .section-shell{padding-block:50px}.publication-meta{padding-bottom:40px}.section-top{padding-bottom:25px}
-  .site-header nav a[href="#idea"],.site-header nav a[href="#results"]{display:none}
-  .site-header nav a[href="#video"],.site-header nav a[href="#in-flight"]{display:block}
   .research-film-heading{display:block;padding-top:24px;margin-bottom:22px}
   .research-film-heading>p{margin-top:18px;max-width:100%}
   .research-film-player video{border-radius:6px}
