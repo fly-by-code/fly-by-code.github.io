@@ -115,8 +115,15 @@ assert(/\.site-header nav\{[^}]*min-width:0[^}]*overflow-x:auto/.test(mobileHero
 assert(/\.site-header nav a\[href\]\{[^}]*display:flex;flex:none/.test(mobileHero),'all mobile navigation destinations must be shown and keep their width');
 assert(!/\.site-header nav a\[href="#[^"]+"\][^{]*\{display:none/.test(homeCss),'mobile section links must not be hidden');
 assert(html['index.html'].includes('class="mobile-nav-paper"'),'preprint must be reachable in the mobile navigation');
+const mobileCredits=homeCss.slice(homeCss.indexOf('/* Compact mobile publication credits'));
+assert(mobileCredits.includes('@media(max-width:760px)'), 'compact publication credits must be mobile-only');
+for (const [selector,size] of [['.author-names','.875rem'],['.affiliations','.8125rem'],['.author-note','.8125rem']]) {
+  assert(mobileCredits.includes(`.publication-meta ${selector}{font-size:${size}`), `${selector}: requested smaller mobile credit size missing`);
+}
+assert(/\.publication-meta \.publication-links \.text-link\{font-size:\.8125rem[^}]*min-height:44px/.test(mobileCredits),'compact publication links must retain touch targets');
 console.log(`PASS: single-page content + legacy redirect; ${count} local references; unique IDs; all 13 authors; seven closed disclosures; graphs and case videos retained; no conference/review disclosure.`);
 console.log('PASS: separately scoped desktop typography; width-fitted mobile film, top-right task badge, compact titles, and scrollable navigation.');
+console.log('PASS: mobile-only compact authors, affiliations, notes, and publication links with 44px touch targets.');
 
 // Exercise the actual synchronization code, including backwards seeks/looping.
 const flight=fs.readFileSync(path.join(root,'static/js/flight.js'),'utf8');

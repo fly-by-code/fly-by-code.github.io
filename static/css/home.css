@@ -238,3 +238,15 @@ details[open]>summary>.disclosure-plus{transform:rotate(45deg)}
   .paper-compact{padding-block:20px 35px}
 }
 @media(max-width:380px){.case-disclosure>summary{grid-template-columns:1fr 24px}.case-disclosure>summary>img{display:none}.site-header nav{gap:14px}}
+
+/* Compact mobile publication credits, explicitly requested independently of
+   the body-text minimum. Rem/em sizes still respect text enlargement. */
+@media(max-width:760px){
+  .publication-meta .author-block{padding-top:18px}
+  .publication-meta .author-names{font-size:.875rem;line-height:1.65;gap:5px 12px}
+  .publication-meta .author-block sup{font-size:.7em;line-height:0;margin-left:2px}
+  .publication-meta .affiliations{font-size:.8125rem;line-height:1.6;gap:6px;margin-top:16px;padding:12px 14px;border-radius:8px}
+  .publication-meta .author-note{font-size:.8125rem;line-height:1.6;margin-top:14px}
+  .publication-meta .publication-links{gap:8px clamp(8px,2.5vw,16px);margin-top:14px}
+  .publication-meta .publication-links .text-link{font-size:.8125rem;line-height:1.4;gap:6px;min-height:44px;margin-top:0;padding:10px 0 8px}
+}
