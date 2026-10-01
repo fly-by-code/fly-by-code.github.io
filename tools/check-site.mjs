@@ -79,6 +79,18 @@ for (const name of ['flight.css','home.css']) {
   for (const m of css.matchAll(/font-size:\s*(\d+(?:\.\d+)?)px/g)) assert(Number(m[1])>=15,`${name}: font below 15px`);
 }
 const homeCss=fs.readFileSync(path.join(root,'static/css/home.css'),'utf8');
+for (const token of ['--copy-size','--copy-compact-size']) {
+  const rule=homeCss.match(new RegExp(`${token}:([^;]+)`))?.[1];
+  assert(rule?.startsWith('clamp(.9375rem,') && rule.includes('vw') && rule.includes('svh'),`${token}: descriptions must scale with the viewport with a 15px-equivalent minimum`);
+}
+for (const selector of ['.research-film-heading>p','.feedback-heading>p','.compact-heading>p','.abstract-copy p']) {
+  const rule=homeCss.slice(homeCss.indexOf(`${selector}{`)).split('}')[0];
+  assert(rule.includes('font-size:var(--copy-size)'),`${selector}: fluid description size missing`);
+}
+for (const selector of ['.case-summary>span:last-child','.detail-body','.concise-flight .demo-caption p','.task-key dd']) {
+  const rule=homeCss.slice(homeCss.indexOf(`${selector}{`)).split('}')[0];
+  assert(rule.includes('font-size:var(--copy-compact-size)'),`${selector}: fluid compact description size missing`);
+}
 for (const token of ['--film-height:', '--demo-height:', 'calc(var(--film-height) * 16 / 9)', 'calc(var(--demo-height) * 16 / 9)']) assert(homeCss.includes(token),`viewport-fitted video layout missing: ${token}`);
 assert(!/\.research-film-heading\s*,\s*\.research-film-player/.test(homeCss),'film heading must not inherit the player width limit');
 assert(/--hero-title-size:\s*clamp\([^;]*min\([^;]*vw[^;]*svh/.test(homeCss),'hero title must account for viewport width AND height');
