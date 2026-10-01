@@ -80,6 +80,7 @@ for (const name of ['flight.css','home.css']) {
 }
 const homeCss=fs.readFileSync(path.join(root,'static/css/home.css'),'utf8');
 for (const token of ['--film-height:', '--demo-height:', 'calc(var(--film-height) * 16 / 9)', 'calc(var(--demo-height) * 16 / 9)']) assert(homeCss.includes(token),`viewport-fitted video layout missing: ${token}`);
+assert(!/\.research-film-heading\s*,\s*\.research-film-player/.test(homeCss),'film heading must not inherit the player width limit');
 assert(/--hero-title-size:\s*clamp\([^;]*min\([^;]*vw[^;]*svh/.test(homeCss),'hero title must account for viewport width AND height');
 assert(/--hero-support-size:\s*clamp\([^;]*min\([^;]*vw[^;]*svh/.test(homeCss),'hero supporting text must account for viewport width AND height');
 assert(/\.hero-copy h1\{font-size:var\(--hero-title-size\)/.test(homeCss),'responsive hero title token is not applied');
