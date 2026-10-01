@@ -7,7 +7,7 @@
 }
 .hero-topline>.hero-location:first-child{display:grid;grid-template-columns:6px minmax(0,1fr);column-gap:9px;row-gap:6px;align-items:start;min-width:0}
 .hero-location>.status-dot{margin-top:8px}
-.hero-location-title{line-height:1.5}
+.hero-location-title{line-height:1.5;text-transform:none}
 .hero-location-detail{grid-column:2;text-transform:none;letter-spacing:.015em;line-height:1.5;color:#e5eff2}
 .hero-area{white-space:nowrap}
 .hero-stage{position:absolute;top:108px;right:var(--gutter);display:flex;align-items:center;gap:13px;padding:11px 16px;color:#f5fcff;background:rgba(8,20,32,.78);border-right:3px solid var(--lab-teal);border-radius:4px;line-height:1.4;pointer-events:none}
@@ -19,6 +19,11 @@
 .hero-code-credit{flex-wrap:wrap;gap:5px 8px}
 .hero-model{white-space:nowrap;color:#f5fcff}
 .hero-model img{width:25px;height:21px;flex:none}
+/* Remove the forced tagline break; move the CTA first if space gets tight.
+   Only narrow phones wrap the sentence, instead of clipping or tiny text. */
+.hero-description{flex-wrap:wrap}
+.hero-description p{flex-shrink:0;max-width:100%}
+.hero-description .round-link{flex-shrink:0}
 @media(min-width:1600px){.hero-stage{top:121px}}
 @media(max-width:760px){.hero-film{min-height:900px}.hero-facts{display:grid;gap:8px;margin-top:24px}}
 /* Keep the hero's reading cue distinct even over the brightest video frames. */

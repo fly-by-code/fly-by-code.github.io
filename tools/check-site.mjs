@@ -49,13 +49,14 @@ assert(html['index.html'].includes('48.3'),'trace baseline missing');
 assert(html['index.html'].includes('45 of 60'),'AF denominator missing');
 assert(html['index.html'].includes('static/videos/hero-sequence-v5-1440p.mp4'),'high-resolution desktop hero missing');
 assert(html['index.html'].includes('static/videos/hero-sequence-v5-1080p.mp4'),'smaller-screen hero missing');
-assert(html['index.html'].includes('Embodied coding agents for<br>Real-world aerial manipulation.'),'hero two-line wording missing');
+assert(html['index.html'].includes('<p>Embodied coding agents for real-world aerial manipulation.</p>'),'hero sentence should not contain a forced line break');
+assert(html['index.html'].includes('class="hero-location-title">Real-world Aerial Manipulation</span>'),'hero location capitalization is incorrect');
 assert(html['index.html'].includes('At SNU’s Siheung Laboratory'),'laboratory location missing');
 assert(!/Research(?: project)? \/ 2026/i.test(html['index.html']),'old research stamp remains');
-assert(html['index.html'].includes('Task code by'),'task-code attribution missing');
+assert(html['index.html'].includes('Task code made by'),'task-code attribution missing');
 assert(html['index.html'].includes('Claude Code · Opus 5'),'coding-agent attribution missing');
-assert(html['index.html'].includes('Vision: onboard ego RGB-D only'),'visual-input qualification missing');
-assert(html['index.html'].includes('No hard-coded object coordinates'),'object-coordinate statement missing');
+assert(html['index.html'].includes('Onboard ego RGB-D only'),'visual-input qualification missing');
+assert(!html['index.html'].includes('No hard-coded object coordinates'),'removed hero fact remains');
 assert(html['index.html'].includes('id="hero-stage-label"'),'video action label missing');
 assert(html['index.html'].includes('media="(max-width: 1023px)"'),'hero media breakpoint missing');
 assert(html['index.html'].includes('poster="static/images/hero-sequence.jpg"'),'high-resolution poster missing');
@@ -79,6 +80,7 @@ for (const name of ['flight.css','home.css']) {
   for (const m of css.matchAll(/font-size:\s*(\d+(?:\.\d+)?)px/g)) assert(Number(m[1])>=15,`${name}: font below 15px`);
 }
 const homeCss=fs.readFileSync(path.join(root,'static/css/home.css'),'utf8');
+assert(/\.hero-location-title\{[^}]*text-transform:none/.test(homeCss),'hero location capitalization must not be overridden by uppercase CSS');
 for (const token of ['--copy-size','--copy-compact-size']) {
   const rule=homeCss.match(new RegExp(`${token}:([^;]+)`))?.[1];
   assert(rule?.startsWith('clamp(.9375rem,') && rule.includes('vw') && rule.includes('svh'),`${token}: descriptions must scale with the viewport with a 15px-equivalent minimum`);
