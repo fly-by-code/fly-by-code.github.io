@@ -39,8 +39,8 @@ const researchVideo=html['index.html'].match(/<video\b[^>]*id="research-video"[^
 assert(researchVideo,'research-film player missing');
 for (const attribute of ['controls','playsinline','preload="none"','width="1920"','height="1080"']) assert(researchVideo.includes(attribute),`research-film player missing ${attribute}`);
 assert(!/\b(?:autoplay|loop)\b/.test(researchVideo),'full film must not autoplay or loop');
-const filmPath=path.join(root,'static/videos/fly-by-code-film-v10-1080p.mp4');
-assert(html['index.html'].includes('src="static/videos/fly-by-code-film-v10-1080p.mp4"') && researchVideo.includes('poster="static/images/research-film-v10.jpg"'),'research film and poster must both use v10');
+const filmPath=path.join(root,'static/videos/fly-by-code-film-v11-1080p.mp4');
+assert(html['index.html'].includes('src="static/videos/fly-by-code-film-v11-1080p.mp4"') && researchVideo.includes('poster="static/images/research-film-v11.jpg"'),'research film and poster must both use v11');
 assert(fs.statSync(filmPath).size>1_000_000,'research-film asset is empty or incomplete');
 assert(fs.statSync(filmPath).size<100*1024*1024,'research-film asset exceeds the GitHub file limit');
 assert(!html['index.html'].includes('research-film-caption'),'removed film metadata row returned');
