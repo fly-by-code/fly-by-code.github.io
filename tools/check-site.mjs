@@ -39,7 +39,7 @@ const researchVideo=html['index.html'].match(/<video\b[^>]*id="research-video"[^
 assert(researchVideo,'research-film player missing');
 for (const attribute of ['controls','playsinline','preload="none"','width="1920"','height="1080"']) assert(researchVideo.includes(attribute),`research-film player missing ${attribute}`);
 assert(!/\b(?:autoplay|loop)\b/.test(researchVideo),'full film must not autoplay or loop');
-const filmPath=path.join(root,'static/videos/fly-by-code-film-v7-1080p.mp4');
+const filmPath=path.join(root,'static/videos/fly-by-code-film-v8-1080p.mp4');
 assert(fs.statSync(filmPath).size>1_000_000,'research-film asset is empty or incomplete');
 assert(fs.statSync(filmPath).size<100*1024*1024,'research-film asset exceeds the GitHub file limit');
 assert(html['index.html'].includes('download="Fly-by-Code.mp4"'),'direct film download missing');
