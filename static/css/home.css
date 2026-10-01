@@ -13,7 +13,6 @@
 .hero-stage{position:absolute;top:108px;right:var(--gutter);display:flex;align-items:center;gap:13px;padding:11px 16px;color:#f5fcff;background:rgba(8,20,32,.78);border-right:3px solid var(--lab-teal);border-radius:4px;line-height:1.4;pointer-events:none}
 #hero-stage-number{font-size:15px;letter-spacing:.06em;color:var(--ice);font-variant-numeric:tabular-nums}
 #hero-stage-label{font-size:15px;font-weight:600}
-@media(max-width:760px){.hero-stage{top:220px;right:var(--gutter);padding:9px 12px;gap:10px}}
 .hero-facts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 28px;margin-top:22px;font-size:15px;line-height:1.5;color:#d9e6ec;text-shadow:0 1px 4px #08141bcc}
 .hero-code-credit,.hero-model{display:inline-flex;align-items:center;gap:8px}
 .hero-code-credit{flex-wrap:wrap;gap:5px 8px}
@@ -25,7 +24,6 @@
 .hero-description p{flex-shrink:0;max-width:100%}
 .hero-description .round-link{flex-shrink:0}
 @media(min-width:1600px){.hero-stage{top:121px}}
-@media(max-width:760px){.hero-film{min-height:900px}.hero-facts{display:grid;gap:8px;margin-top:24px}}
 /* Keep the hero's reading cue distinct even over the brightest video frames. */
 .hero-copy>.eyebrow{
   display:table;
@@ -39,11 +37,8 @@
   box-shadow:0 3px 18px #07131d24;
   text-shadow:0 1px 2px #0008;
 }
-@media(max-width:760px){
-  .hero-copy>.eyebrow{padding:8px 10px;font-size:clamp(15px,4.5vw,19px);letter-spacing:.015em}
-}
 /* Fit landscape heroes to both viewport dimensions, not monitor inches.
-   Keep the established portrait layout and readable metadata/body sizes. */
+   These desktop rules stay independent of the mobile composition below. */
 @media(min-width:761px){
   .site-header{height:clamp(4rem,8svh,4.875rem)}
   .hero-film{
@@ -60,6 +55,47 @@
   .hero-facts{margin-top:clamp(.875rem,2.2svh,1.375rem);gap:.5rem 1.5rem}
   .hero-bottom{bottom:clamp(1.25rem,3svh,2.5rem);padding-top:clamp(.875rem,2svh,1.375rem)}
   .round-link>span{width:clamp(2.5rem,4.8svh,3rem);height:clamp(2.5rem,4.8svh,3rem)}
+}
+/* Mobile hero: an uncropped, full-width film followed by its own reading area.
+   Natural height accommodates wrapped text and browser text enlargement;
+   nothing is overlaid on the footage. Desktop/laptop rules are untouched. */
+@media(max-width:760px){
+  .site-header{height:60px;padding-inline:18px;gap:12px}
+  .site-header:not(.scrolled):not(.solid){background:var(--night)}
+  .site-header .wordmark{font-size:17px}
+  .site-header .wordmark svg{width:24px;height:24px;margin-right:8px}
+  .site-header nav{gap:14px;font-size:15px}
+  .site-header nav a{min-height:44px;display:flex;align-items:center}
+  .hero-film{
+    --hero-support-size:clamp(.9375rem,3.9vw,1rem);
+    --hero-mobile-gutter:clamp(18px,4.6vw,28px);
+    display:grid;grid-template-columns:minmax(0,1fr);
+    height:auto;min-height:0;max-height:none;padding:60px 0 24px;
+  }
+  .hero-film>.hero-topline,.hero-film>.hero-stage,.hero-film>.hero-copy,.hero-film>.hero-bottom{position:static;min-width:0}
+  .hero-topline{grid-row:1;margin:18px var(--hero-mobile-gutter) 16px;font-size:15px;letter-spacing:.015em}
+  .hero-topline>.hero-location:first-child{row-gap:3px}
+  .hero-location-detail{color:#c4d4dc;letter-spacing:0}
+  .hero-video{grid-row:2;position:static;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;object-position:center;mask-image:none;-webkit-mask-image:none}
+  .hero-shade{display:none}
+  .hero-stage{grid-row:3;justify-self:start;margin:12px var(--hero-mobile-gutter) 0;padding:0 0 0 10px;gap:10px;background:none;border:0;border-left:2px solid var(--lab-teal);border-radius:0}
+  #hero-stage-number,#hero-stage-label{font-size:15px;line-height:1.5}
+  .hero-copy{grid-row:4;margin:22px var(--hero-mobile-gutter) 0}
+  .hero-copy>.eyebrow{display:block;padding:0;font-size:15px;letter-spacing:.045em;color:var(--ice);background:none;border:0;border-radius:0;box-shadow:none;text-shadow:none}
+  .hero-copy h1{font-size:clamp(2.625rem,12vw,3.625rem);line-height:1.12;margin:10px 0 14px}
+  .hero-description{align-items:flex-start;gap:14px}
+  .hero-description p{font-size:var(--hero-support-size);line-height:1.55}
+  .hero-description .round-link{min-height:44px;gap:10px;font-size:15px}
+  .hero-description .round-link>span{width:36px;height:36px;font-size:15px}
+  .hero-facts{display:grid;gap:6px;margin-top:16px;font-size:15px;line-height:1.5;text-shadow:none;color:#c4d4dc}
+  .hero-code-credit{gap:4px 8px}
+  .hero-model{gap:6px}
+  .hero-model img{width:20px;height:auto}
+  .hero-bottom{grid-row:5;display:block;margin:18px var(--hero-mobile-gutter) 0;padding-top:12px;border-color:#ffffff25}
+  .hero-bottom .scroll-cue{display:none}
+  .hero-bottom .film-controls{display:flex;justify-content:space-between;gap:12px;max-width:none;font-size:15px;letter-spacing:0}
+  .hero-bottom .film-controls>span{display:block;max-width:none;font-size:15px;line-height:1.5;color:#c4d4dc}
+  .hero-bottom .icon-button{width:44px;height:44px;flex:none}
 }
 .section-shell{padding-block:76px}
 .section-top{padding-bottom:30px}

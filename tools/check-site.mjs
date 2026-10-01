@@ -99,9 +99,16 @@ assert(!/\.research-film-heading\s*,\s*\.research-film-player/.test(homeCss),'fi
 assert(/--hero-title-size:\s*clamp\([^;]*min\([^;]*vw[^;]*svh/.test(homeCss),'hero title must account for viewport width AND height');
 assert(/--hero-support-size:\s*clamp\([^;]*min\([^;]*vw[^;]*svh/.test(homeCss),'hero supporting text must account for viewport width AND height');
 assert(/\.hero-copy h1\{font-size:var\(--hero-title-size\)/.test(homeCss),'responsive hero title token is not applied');
-assert(/@media\(min-width:761px\)/.test(homeCss),'landscape hero sizing must preserve the portrait layout');
+assert(/@media\(min-width:761px\)/.test(homeCss),'desktop hero sizing must stay separately scoped');
+const mobileHero=homeCss.slice(homeCss.indexOf('/* Mobile hero:'),homeCss.indexOf('.section-shell{padding-block:76px}'));
+assert(mobileHero.includes('@media(max-width:760px)'), 'mobile hero overrides must not affect laptops/desktops');
+for (const rule of ['height:auto;min-height:0;max-height:none','aspect-ratio:16/9;object-fit:contain','mask-image:none;-webkit-mask-image:none','.hero-shade{display:none}','.hero-bottom .icon-button{width:44px;height:44px;flex:none}']) {
+  assert(mobileHero.includes(rule),`uncropped, accessible mobile hero missing: ${rule}`);
+}
+assert(/\.hero-video\{[^}]*position:static/.test(mobileHero),'mobile video must participate in document flow');
+assert(/\.hero-film>\.hero-topline[^}]*position:static/.test(mobileHero),'mobile text must not overlay video');
 console.log(`PASS: single-page content + legacy redirect; ${count} local references; unique IDs; all 13 authors; seven closed disclosures; graphs and case videos retained; no conference/review disclosure.`);
-console.log('PASS: width/height-aware hero typography with bounded sizes; portrait layout retained.');
+console.log('PASS: separately scoped desktop typography and uncropped, width-fitted mobile hero.');
 
 // Exercise the actual synchronization code, including backwards seeks/looping.
 const flight=fs.readFileSync(path.join(root,'static/js/flight.js'),'utf8');
