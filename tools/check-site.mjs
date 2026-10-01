@@ -42,7 +42,9 @@ assert(!/\b(?:autoplay|loop)\b/.test(researchVideo),'full film must not autoplay
 const filmPath=path.join(root,'static/videos/fly-by-code-film-v8-1080p.mp4');
 assert(fs.statSync(filmPath).size>1_000_000,'research-film asset is empty or incomplete');
 assert(fs.statSync(filmPath).size<100*1024*1024,'research-film asset exceeds the GitHub file limit');
-assert(html['index.html'].includes('download="Fly-by-Code.mp4"'),'direct film download missing');
+assert(!html['index.html'].includes('research-film-caption'),'removed film metadata row returned');
+assert(!html['index.html'].includes('Download MP4'),'removed download link returned');
+assert(researchVideo.includes('aria-describedby="research-film-description"') && ids['index.html'].has('research-film-description'),'film description reference is missing');
 assert(html['index.html'].includes('48.3'),'trace baseline missing');
 assert(html['index.html'].includes('45 of 60'),'AF denominator missing');
 assert(html['index.html'].includes('static/videos/hero-sequence-v5-1440p.mp4'),'high-resolution desktop hero missing');
@@ -77,6 +79,7 @@ for (const name of ['flight.css','home.css']) {
   for (const m of css.matchAll(/font-size:\s*(\d+(?:\.\d+)?)px/g)) assert(Number(m[1])>=15,`${name}: font below 15px`);
 }
 const homeCss=fs.readFileSync(path.join(root,'static/css/home.css'),'utf8');
+for (const token of ['--film-height:', '--demo-height:', 'calc(var(--film-height) * 16 / 9)', 'calc(var(--demo-height) * 16 / 9)']) assert(homeCss.includes(token),`viewport-fitted video layout missing: ${token}`);
 assert(/--hero-title-size:\s*clamp\([^;]*min\([^;]*vw[^;]*svh/.test(homeCss),'hero title must account for viewport width AND height');
 assert(/--hero-support-size:\s*clamp\([^;]*min\([^;]*vw[^;]*svh/.test(homeCss),'hero supporting text must account for viewport width AND height');
 assert(/\.hero-copy h1\{font-size:var\(--hero-title-size\)/.test(homeCss),'responsive hero title token is not applied');
