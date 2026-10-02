@@ -61,7 +61,7 @@ assert(!html['index.html'].includes('No hard-coded object coordinates'),'removed
 assert(html['index.html'].includes('id="hero-stage-label"'),'video action label missing');
 assert(html['index.html'].includes('media="(max-width: 1023px)"'),'hero media breakpoint missing');
 assert(html['index.html'].includes('poster="static/images/hero-sequence.jpg"'),'high-resolution poster missing');
-assert(html['index.html'].includes('static/papers/fly-by-code_preprint.pdf'),'preprint link missing');
+assert(!html['index.html'].includes('static/papers/'),'preprint must stay unpublished during review');
 assert(!html['index.html'].includes('research.html'),'separate research-page link remains');
 assert(html['research.html'].includes('static/js/research-redirect.js'),'legacy redirect missing');
 for (const section of ['view-case','probe-details','method','physical-outcomes','evaluation','tasks','abstract']) {
@@ -114,7 +114,7 @@ assert(/\.hero-copy>\.eyebrow\{[^}]*font-size:\.8125rem/.test(mobileHero),'mobil
 assert(/\.site-header nav\{[^}]*min-width:0[^}]*overflow-x:auto/.test(mobileHero),'mobile navigation must scroll within its available width');
 assert(/\.site-header nav a\[href\]\{[^}]*display:flex;flex:none/.test(mobileHero),'all mobile navigation destinations must be shown and keep their width');
 assert(!/\.site-header nav a\[href="#[^"]+"\][^{]*\{display:none/.test(homeCss),'mobile section links must not be hidden');
-assert(html['index.html'].includes('class="mobile-nav-paper"'),'preprint must be reachable in the mobile navigation');
+assert(html['index.html'].includes('name="robots" content="noindex'),'site must stay noindex during review');
 const mobileCredits=homeCss.slice(homeCss.indexOf('/* Compact mobile publication credits'));
 assert(mobileCredits.includes('@media(max-width:760px)'), 'compact publication credits must be mobile-only');
 for (const [selector,size] of [['.author-names','.875rem'],['.affiliations','.8125rem'],['.author-note','.8125rem']]) {
