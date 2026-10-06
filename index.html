@@ -17,7 +17,7 @@
   <link rel="preload" href="static/fonts/inter-latin-0.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="static/css/fonts.css">
   <link rel="stylesheet" href="static/css/flight.css">
-  <link rel="stylesheet" href="static/css/home.css?v=20261006-sns-film">
+  <link rel="stylesheet" href="static/css/home.css?v=20261006-footer-credit">
   <script src="static/js/flight.js?v=20260930" defer></script>
   <noscript><style>[role="tabpanel"][hidden]{display:block!important}[role="tablist"],#hero-toggle{display:none}</style></noscript>
 </head>
@@ -53,11 +53,10 @@
     <section class="research-film" id="video" aria-labelledby="research-film-title"><div class="section-shell">
       <div class="research-film-heading"><div><p class="eyebrow">Project film</p><h2 id="research-film-title">From code to flight.</h2></div><p id="research-film-description">Active Feedback and real-world aerial manipulation, in 38 seconds.</p></div>
       <figure class="research-film-player">
-        <video id="research-video" controls playsinline preload="none" width="1920" height="1080" poster="static/images/sns-film-v11.jpg" aria-label="Fly-by-Code 38-second project film with music" aria-describedby="research-film-description">
+        <video id="research-video" controls playsinline preload="none" width="1920" height="1080" poster="static/images/sns-film-v11.jpg" aria-label="Fly-by-Code 38-second project film with music" aria-describedby="research-film-description film-music-credit">
           <source src="static/videos/fly-by-code-sns-v11-1080p.mp4" type="video/mp4">
           Your browser does not support embedded video. <a href="static/videos/fly-by-code-sns-v11-1080p.mp4">Open the MP4 video</a>.
         </video>
-        <figcaption class="film-music-credit"><span>Royalty Free Music: <a href="https://www.bensound.com" target="_blank" rel="noopener">https://www.bensound.com</a></span><span>Artist: Benjamin Tissot</span><span>License code: 7XCGZP26MIZMBQZA</span></figcaption>
       </figure>
       <details class="full-film-disclosure" id="full-research-film">
         <summary><span>Watch the full research film</span><span class="disclosure-plus" aria-hidden="true">+</span></summary>
@@ -345,6 +344,9 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
             </p></div></details>
     </section>
   </main>
-  <footer class="site-footer"><a class="wordmark" href="#top">Fly-by-Code<span class="wordmark-dot">.</span></a><span>Embodied coding agents for aerial manipulation</span><a href="#top">Back to top <span aria-hidden="true">↑</span></a></footer>
+  <footer>
+    <div class="site-footer"><a class="wordmark" href="#top">Fly-by-Code<span class="wordmark-dot">.</span></a><span>Embodied coding agents for aerial manipulation</span><a href="#top">Back to top <span aria-hidden="true">↑</span></a></div>
+    <div class="film-music-credit" id="film-music-credit" aria-label="Music credit for the 38-second project film"><span><a href="#video">38-second project film</a> · Music credit</span><span>Royalty Free Music: <a href="https://www.bensound.com" target="_blank" rel="noopener">https://www.bensound.com</a></span><span>Artist: Benjamin Tissot</span><span>License code: 7XCGZP26MIZMBQZA</span></div>
+  </footer>
 </body>
 </html>

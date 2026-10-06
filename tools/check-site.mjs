@@ -43,14 +43,17 @@ const filmPath=path.join(root,'static/videos/fly-by-code-sns-v11-1080p.mp4');
 assert(html['index.html'].includes('src="static/videos/fly-by-code-sns-v11-1080p.mp4"') && researchVideo.includes('poster="static/images/sns-film-v11.jpg"'),'project film and first-frame poster must both use SNS v11');
 assert(fs.statSync(filmPath).size>1_000_000,'research-film asset is empty or incomplete');
 assert(fs.statSync(filmPath).size<100*1024*1024,'research-film asset exceeds the GitHub file limit');
-for (const credit of ['Royalty Free Music:', 'https://www.bensound.com', 'Artist: Benjamin Tissot', 'License code: 7XCGZP26MIZMBQZA']) assert(html['index.html'].includes(credit),`required music attribution missing: ${credit}`);
+const footer=html['index.html'].match(/<footer\b[^>]*>[\s\S]*?<\/footer>/)?.[0];
+assert(footer?.includes('id="film-music-credit"'),'music credit must be at the bottom of the page');
+for (const credit of ['Royalty Free Music:', 'https://www.bensound.com', 'Artist: Benjamin Tissot', 'License code: 7XCGZP26MIZMBQZA']) assert(footer.includes(credit),`required footer attribution missing: ${credit}`);
+assert(!html['index.html'].split('</main>')[0].includes('class="film-music-credit"'),'music credit must not occupy the video section');
 const fullFilm=html['index.html'].match(/<details\b[^>]*id="full-research-film"[^>]*>[\s\S]*?<\/details>/)?.[0];
 assert(fullFilm && !/\sopen(?:\s|=|>)/.test(fullFilm.split('>')[0]),'full research film must be retained in a closed disclosure');
 assert(fullFilm.includes('static/videos/fly-by-code-film-v12-1080p.mp4') && fullFilm.includes('static/images/research-film-v12.jpg'),'original full film and poster must be preserved');
 assert(!/\bautoplay\b/.test(fullFilm),'full film must not autoplay');
 assert(!html['index.html'].includes('research-film-caption'),'removed film metadata row returned');
 assert(!html['index.html'].includes('Download MP4'),'removed download link returned');
-assert(researchVideo.includes('aria-describedby="research-film-description"') && ids['index.html'].has('research-film-description'),'film description reference is missing');
+assert(researchVideo.includes('aria-describedby="research-film-description film-music-credit"') && ids['index.html'].has('research-film-description'),'film description and footer-credit association are missing');
 assert(html['index.html'].includes('48.3'),'trace baseline missing');
 assert(html['index.html'].includes('45 of 60'),'AF denominator missing');
 assert(html['index.html'].includes('static/videos/hero-sequence-v5-1440p.mp4'),'high-resolution desktop hero missing');
@@ -86,6 +89,7 @@ for (const name of ['flight.css','home.css']) {
   for (const m of css.matchAll(/font-size:\s*(\d+(?:\.\d+)?)px/g)) assert(Number(m[1])>=15,`${name}: font below 15px`);
 }
 const homeCss=fs.readFileSync(path.join(root,'static/css/home.css'),'utf8');
+assert(/\.film-music-credit\{[^}]*font-size:\.6875rem/.test(homeCss),'footer credit should use the requested compact 11px-equivalent text');
 assert(/\.hero-location-title\{[^}]*text-transform:none/.test(homeCss),'hero location capitalization must not be overridden by uppercase CSS');
 for (const token of ['--copy-size','--copy-compact-size']) {
   const rule=homeCss.match(new RegExp(`${token}:([^;]+)`))?.[1];

@@ -117,7 +117,8 @@
 .research-film-heading h2{font-size:clamp(34px,3.1vw,48px);margin-top:12px}
 .research-film-heading>p{max-width:300px;color:var(--subtle);font-size:var(--copy-size)}
 .research-film-player video{width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;border-radius:10px;box-shadow:0 12px 40px #101d2512}
-.film-music-credit{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:14px;color:var(--subtle);font-size:var(--copy-compact-size);line-height:1.6;overflow-wrap:anywhere}
+/* Explicitly requested small footer credit; keep it visible and zoomable. */
+.film-music-credit{display:flex;flex-wrap:wrap;gap:3px 14px;padding:0 var(--gutter) 24px;color:var(--subtle);font-size:.6875rem;line-height:1.65;overflow-wrap:anywhere}
 .film-music-credit a{text-decoration:underline;text-underline-offset:3px}
 .full-film-disclosure{margin-top:28px;border-top:1px solid var(--line)}
 .full-film-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:48px;padding:14px 0;font-size:var(--copy-size);font-weight:500}
