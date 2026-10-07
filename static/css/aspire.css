@@ -415,3 +415,5 @@ body.ax-page{--paper:#ffffff;background:#ffffff}
 .ax-section .cstep-title{font-size:1.06rem}
 .ax-section .quote,.ax-section .tag,.ax-section .decision{font-size:.92rem}
 .ax-abstract p{font-size:.98rem}
+/* hero: no visible play/pause control (the element stays so flight.js keeps autoplaying the video) */
+.ax-page #hero-toggle{display:none}
