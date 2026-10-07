@@ -111,7 +111,7 @@ assert(timing, 'animation timing missing');
 const seconds = (+timing[1] + +timing[2]) / 1000 + (7.4 - 4) / +timing[3];
 assert(seconds > 1.5 && seconds < 3, 'diagram should build quickly but remain readable');
 assert(overview.includes("querySelectorAll('.ov-hot, .ov-choice')"));
-assert(index.includes('Click a highlighted block to watch a demo'));
+assert(index.includes('Click a highlighted block to view details'));
 assert.equal([...index.matchAll(/class="ov-choice(?: view| probe)?"/g)].length, 3);
 const methodIntro = index.match(/<h2 id="method-title">([\s\S]*?)<div class="ov-figure/)?.[1];
 assert(methodIntro && (methodIntro.match(/<p\b/g) || []).length === 1, 'keep Method introduction concise');
