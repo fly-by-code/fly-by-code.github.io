@@ -11,15 +11,16 @@
   <meta property="og:description" content="Embodied coding agents for aerial manipulation with active visual and physical feedback.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fly-by-code.github.io/">
-  <meta property="og:image" content="https://fly-by-code.github.io/static/images/hero-sequence.jpg">
+  <meta property="og:image" content="https://fly-by-code.github.io/static/images/hero-sequence-v6.jpg">
   <title>Fly-by-Code — From code to flight</title>
   <link rel="icon" href="static/images/flight-mark.svg" type="image/svg+xml">
   <link rel="preload" href="static/fonts/inter-latin-0.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="static/css/fonts.css?v=3">
   <link rel="stylesheet" href="static/css/flight.css">
   <link rel="stylesheet" href="static/css/home.css?v=20261006-footer-credit">
-  <link rel="stylesheet" href="static/css/aspire.css?v=51">
-  <script src="static/js/flight.js?v=20260930" defer></script>
+  <link rel="stylesheet" href="static/css/aspire.css?v=20261008-feedback2">
+  <link rel="stylesheet" href="static/css/responsive.css?v=20261008-feedback6">
+  <script src="static/js/flight.js?v=20261008-feedback6" type="module"></script>
   <noscript><style>[role="tabpanel"][hidden]{display:block!important}[role="tablist"],#hero-toggle{display:none}</style></noscript>
 </head>
 <body class="ax-page">
@@ -28,35 +29,64 @@
     <a href="#top">Overview</a>
     <a href="#method">Method</a>
     <a href="#real-world">Real world</a>
+    <a href="#tasks">Tasks</a>
     <a href="#results">Results</a>
     <a href="#case-studies">Case studies</a>
     <a href="#abstract">Abstract</a>
   </nav>
   <main>
     <section class="hero-film" id="top" aria-label="Fly-by-Code introduction">
-      <video class="hero-video" id="hero-video" muted loop playsinline preload="metadata" poster="static/images/hero-sequence.jpg" aria-label="Real robot: grasp the hammer and place it in the basket, open the left and right cabinet doors, then grasp and deliver the bottle to the basket. Edited excerpts at four times speed.">
-        <source src="static/videos/hero-sequence-v5-1080p.mp4" type="video/mp4" media="(max-width: 1023px)">
-        <source src="static/videos/hero-sequence-v5-1440p.mp4" type="video/mp4">
+      <video class="hero-video" id="hero-video" muted loop playsinline preload="metadata" poster="static/images/hero-sequence-v6.jpg" aria-label="Real robot: grasp the hammer and place it in the basket, open the left and right cabinet doors, then grasp and deliver the bottle to the basket. Edited excerpts at five times speed.">
+        <source src="static/videos/hero-sequence-v6-1080p.mp4" type="video/mp4" media="(max-width: 1023px)">
+        <source src="static/videos/hero-sequence-v6-1440p.mp4" type="video/mp4">
       </video>
       <div class="hero-shade" aria-hidden="true"></div>
-      <div class="hero-copy"><h1>Fly-by-Code<span class="title-period">.</span></h1><p class="hero-paper-title">Embodied Coding Agents for Aerial Manipulation with Active Visual and Physical Feedback</p></div>
+      <div class="hero-copy"><h1>Fly-by-Code<span class="title-period">.</span></h1></div>
       <div class="hero-bottom"><span></span><div class="film-controls"><button class="icon-button" id="hero-toggle" type="button" aria-label="Play background video"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3l11 7-11 7Z"/></svg></button></div></div>
     </section>
     <section class="ax-authors" aria-label="Authors and affiliations">
+      <div class="publication-layout">
+      <div class="publication-info">
+      <h2 class="publication-title">Embodied Coding Agents for Aerial Manipulation with Active Visual and Physical Feedback</h2>
       <p class="ax-author-list"><span>Jaewoo Lee<sup>1*</sup></span><span>Jeongyeon Seo<sup>1*</sup></span><span>Sihyun Cho<sup>1*</sup></span><span>Gyeongrak Choe<sup>1</sup></span><span>Yutong Wang<sup>2</sup></span><span>Bavin Saravanan<sup>2</sup></span><span class="ax-break" aria-hidden="true"></span><span>Jia-Bin Huang<sup>3</sup></span><span>Furong Huang<sup>3,4</sup></span><span>Sebastian Scherer<sup>2</sup></span><span>Guanya Shi<sup>2</sup></span><span>H. Jin Kim<sup>1</sup></span><span>Seungjae Lee<sup>3&dagger;</sup></span><span>Dongjae Lee<sup>5&dagger;</sup></span></p>
       <p class="ax-affil"><span><sup>1</sup>Seoul National University</span><span><sup>2</sup>Carnegie Mellon University</span><span><sup>3</sup>University of Maryland, College Park</span><span class="ax-break" aria-hidden="true"></span><span><sup>4</sup>All Purpose AI</span><span><sup>5</sup>Kyung Hee University</span></p>
-      <p class="ax-author-note">* Equal contribution &middot; &dagger; Corresponding authors</p>
+        <p class="ax-author-note">* Equal contribution; order determined by coin flip. &middot; &dagger; Project leads</p>
+      </div>
+        <div class="publication-links" role="group" aria-label="Upcoming releases">
+          <span class="publication-control">
+            <button class="publication-link" type="button" aria-disabled="true" aria-describedby="arxiv-release-hint">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6v18h12V7zM14 3v5h4M9 12h6M9 16h6"/></svg>
+              <b>arXiv</b>
+            </button>
+            <span class="publication-hint" id="arxiv-release-hint" role="tooltip" hidden>coming soon</span>
+          </span>
+          <span class="publication-control">
+            <button class="publication-link" type="button" aria-disabled="true" aria-describedby="code-release-hint">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-14-2 18"/></svg>
+              <b>Code</b>
+            </button>
+            <span class="publication-hint" id="code-release-hint" role="tooltip" hidden>coming soon</span>
+          </span>
+        </div>
+      </div>
     </section>
 
     <section class="ax-section" id="method" aria-labelledby="method-title"><div class="ax-wrap">
-      <h2 id="method-title">Method: How Fly-by-Code Works</h2>
-      <p class="ax-lead" id="research-film-description">Embodied coding agents use execution feedback, such as console logs and the final camera view, to assess task completion and revise their programs. This feedback can leave <b>missing outcome observations</b> and <b>unresolved failure causes</b>.</p>
-      <p class="ax-lead"><b class="ax-strong">Fly-by-Code</b> adds <b class="ax-strong">Active Feedback</b> to the program-refinement loop in simulation: after a task execution, the agent writes and runs a diagnostic program to investigate unresolved questions. It moves to informative viewpoints to inspect task outcomes (<b class="ax-v">View</b>), performs targeted physical tests to investigate failure causes (<b class="ax-p">Probe</b>), or combines both. The new evidence helps the agent check whether the task is complete and write a better task program for the next attempt.</p>
+      <h2 id="method-title">Method</h2>
+      <p class="ax-lead" id="research-film-description"><b class="ax-strong">Active Feedback</b> adds targeted visual and physical tests to code refinement.</p>
 
       <div class="ov-figure ov-ours" id="ov-ours">
-        <div class="ov-caprow"><p class="ov-cap"><span class="k0">Typical coding-agent refinement loop</span><span class="k1"><b>Fly-by-Code (ours)</b>: adds Active Feedback to the loop</span></p><span class="ov-clickhint" aria-hidden="true">Click a highlighted block to explore</span><button type="button" class="ov-replay" aria-label="Replay the animation"><span aria-hidden="true">&#8634;</span> Replay</button></div>
+        <div class="ov-caprow"><p class="ov-cap"><span class="k0">Typical coding-agent refinement loop</span><span class="k1"><b>Fly-by-Code (ours)</b>: adds Active Feedback to the loop</span></p><button type="button" class="ov-replay" aria-label="Replay the animation"><span aria-hidden="true">&#8634;</span> Replay</button></div>
+        <div class="ov-explore">
+          <p class="ov-clickhint" id="ov-clickhint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 3 4 16 3-6 6-3L5 3zm8 11 5 5"/></svg>Click a highlighted block to watch a demo</p>
+          <div class="ov-choices" role="group" aria-label="Watch a method demo">
+            <button class="ov-choice" type="button" data-ov="af" aria-controls="ov-detail" aria-expanded="false">Active Feedback <span aria-hidden="true">&#9656;</span></button>
+            <button class="ov-choice view" type="button" data-ov="view" aria-controls="ov-detail" aria-expanded="false">View <span aria-hidden="true">&#9656;</span></button>
+            <button class="ov-choice probe" type="button" data-ov="probe" aria-controls="ov-detail" aria-expanded="false">Probe <span aria-hidden="true">&#9656;</span></button>
+          </div>
+        </div>
         <p class="ov-swipe" aria-hidden="true">Swipe to see the whole loop &rarr;</p>
-        <div class="ov-scroll"><div class="ov-canvas" id="ov-canvas" style="aspect-ratio:1100/515"><svg class="ov-lines" viewBox="0 0 1100 515" aria-hidden="true"><defs><marker id="ov-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z"/></marker></defs><g id="ov-paths"><path id="ov-p-tp" marker-end="url(#ov-head)"/><path id="ov-p-pe" marker-end="url(#ov-head)"/><path id="ov-p-ev" marker-end="url(#ov-head)"/><path id="ov-p-af" marker-end="url(#ov-head)"/><path id="ov-p-vf" marker-end="url(#ov-head)"/><path id="ov-p-vr" marker-end="url(#ov-head)"/><path id="ov-p-rp" marker-end="url(#ov-head)"/></g><g id="ov-connect"><path class="ov-conn" d="M635 330V296M432.5 296H882.5M432.5 296V262M882.5 296V262"/><circle class="ov-dot" cx="635" cy="296" r="4"/></g></svg><div class="ov-node ov-box" data-k="task" style="left:0.000%;top:64.078%;width:11.364%;height:17.476%"><span class="ov-ic"><svg class="ov-i ov-doc" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M9 11h6M9 14h6M9 17h6"/></svg></span><span>Task prompt</span></div><div class="ov-node ov-box" data-k="policy" style="left:15.000%;top:64.078%;width:13.636%;height:17.476%"><span class="ov-ic"><img class="ov-i" src="static/images/claude-code-clawd.svg" alt="Claude Code" width="47" height="38"><img class="ov-i" src="static/images/overview/film_codex.png" alt="Codex" width="102" height="102"></span><span>Task program</span></div><div class="ov-node ov-box" data-k="exec" style="left:32.273%;top:64.078%;width:12.273%;height:17.476%"><span class="ov-ic"><img class="ov-i ov-i-sq" src="static/images/overview/film_isaac.png" alt="Isaac Sim" width="122" height="122"></span><span>Execution</span></div><button class="ov-node ov-box ov-af ov-hot" data-k="af" style="left:48.182%;top:64.078%;width:19.091%;height:17.476%" type="button" data-ov="af" aria-controls="ov-detail" aria-expanded="false"><span class="ov-ic"><img class="ov-i" src="static/images/claude-code-clawd.svg" alt="Claude Code" width="47" height="38"><img class="ov-i" src="static/images/overview/film_codex.png" alt="Codex" width="102" height="102"></span><span>Active Feedback</span></button><div class="ov-node ov-verdict" data-k="verdict" style="left:70.909%;top:62.136%;width:13.636%;height:21.359%"><svg class="ov-dia" viewBox="0 0 150 110" preserveAspectRatio="none" aria-hidden="true"><polygon points="75,1 149,55 75,109 1,55"/></svg><span>Verdict</span></div><div class="ov-node ov-box ov-finish" data-k="finish" style="left:88.182%;top:64.078%;width:11.818%;height:17.476%"><span>Finish</span></div><div class="ov-node ov-box ov-refine" data-k="refine" style="left:46.818%;top:88.350%;width:21.818%;height:9.709%"><span>Refine the code</span></div><button class="ov-node ov-diag ov-hot" data-k="diag" style="left:0.000%;top:0.000%;width:18.182%;height:50.874%" type="button" data-ov="af" aria-controls="ov-detail" aria-expanded="false" aria-label="Diagnostic program: show details"><svg class="ov-diag-arrows" viewBox="0 0 200 262" aria-hidden="true"><defs><marker id="ov-dh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M214 44H62V80" marker-end="url(#ov-dh)"/><path d="M62 192V222H213" marker-end="url(#ov-dh)"/></svg><span class="ov-diag-t">Diagnostic program</span><img class="ov-drone" src="static/images/overview/drone.webp" alt=""><span class="ov-diag-b">New evidence</span></button><button class="ov-node ov-card ov-view ov-hot" data-k="view" style="left:19.545%;top:0.000%;width:39.545%;height:50.874%" type="button" data-ov="view" aria-controls="ov-detail" aria-expanded="false" aria-label="VIEW: Flies to new viewpoints to verify outcomes. Show details."><span class="ov-card-head"><img src="static/images/overview/i_eye.png" alt=""><b>VIEW</b><span>Flies to new viewpoints to verify outcomes.</span></span><span class="ov-pair"><img src="static/images/overview/view_before.jpg" alt=""><i aria-hidden="true">&rarr;</i><img src="static/images/overview/view_after.jpg" alt=""></span><span class="ov-labels"><span>Not visible</span><b>Verified</b></span><span class="ov-foot">Acquire visual evidence</span></button><button class="ov-node ov-card ov-probe ov-hot" data-k="probe" style="left:60.455%;top:0.000%;width:39.545%;height:50.874%" type="button" data-ov="probe" aria-controls="ov-detail" aria-expanded="false" aria-label="PROBE: Runs physical tests to find failure causes. Show details."><span class="ov-card-head"><img src="static/images/overview/i_hand.png" alt=""><b>PROBE</b><span>Runs physical tests to find failure causes.</span></span><span class="ov-pair"><img src="static/images/overview/probe_before.jpg" alt=""><i aria-hidden="true">&rarr;</i><img src="static/images/overview/probe_after.jpg" alt=""></span><span class="ov-labels"><span>Straight pull: no opening</span><b>Arc test: door opens</b></span><span class="ov-foot">Acquire physical evidence</span></button></div></div>
+        <div class="ov-scroll" tabindex="0" role="region" aria-label="Method diagram; scroll horizontally on small screens"><div class="ov-canvas" id="ov-canvas" style="aspect-ratio:1100/515"><svg class="ov-lines" viewBox="0 0 1100 515" aria-hidden="true"><defs><marker id="ov-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z"/></marker></defs><g id="ov-paths"><path id="ov-p-tp" marker-end="url(#ov-head)"/><path id="ov-p-pe" marker-end="url(#ov-head)"/><path id="ov-p-ev" marker-end="url(#ov-head)"/><path id="ov-p-af" marker-end="url(#ov-head)"/><path id="ov-p-vf" marker-end="url(#ov-head)"/><path id="ov-p-vr" marker-end="url(#ov-head)"/><path id="ov-p-rp" marker-end="url(#ov-head)"/></g><g id="ov-connect"><path class="ov-conn" d="M635 330V296M432.5 296H882.5M432.5 296V262M882.5 296V262"/><circle class="ov-dot" cx="635" cy="296" r="4"/></g></svg><div class="ov-node ov-box" data-k="task" style="left:0.000%;top:64.078%;width:11.364%;height:17.476%"><span class="ov-ic"><svg class="ov-i ov-doc" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M9 11h6M9 14h6M9 17h6"/></svg></span><span>Task prompt</span></div><div class="ov-node ov-box" data-k="policy" style="left:15.000%;top:64.078%;width:13.636%;height:17.476%"><span class="ov-ic"><img class="ov-i" src="static/images/claude-code-clawd.svg" alt="Claude Code" width="47" height="38"><img class="ov-i" src="static/images/overview/film_codex.png" alt="Codex" width="102" height="102"></span><span>Task program</span></div><div class="ov-node ov-box" data-k="exec" style="left:32.273%;top:64.078%;width:12.273%;height:17.476%"><span class="ov-ic"><img class="ov-i ov-i-sq" src="static/images/overview/film_isaac.png" alt="Isaac Sim" width="122" height="122"></span><span>Execution</span></div><button class="ov-node ov-box ov-af ov-hot" data-k="af" style="left:48.182%;top:64.078%;width:19.091%;height:17.476%" type="button" data-ov="af" aria-controls="ov-detail" aria-expanded="false"><span class="ov-ic"><img class="ov-i" src="static/images/claude-code-clawd.svg" alt="Claude Code" width="47" height="38"><img class="ov-i" src="static/images/overview/film_codex.png" alt="Codex" width="102" height="102"></span><span>Active Feedback</span></button><div class="ov-node ov-verdict" data-k="verdict" style="left:70.909%;top:62.136%;width:13.636%;height:21.359%"><svg class="ov-dia" viewBox="0 0 150 110" preserveAspectRatio="none" aria-hidden="true"><polygon points="75,1 149,55 75,109 1,55"/></svg><span>Verdict</span></div><div class="ov-node ov-box ov-finish" data-k="finish" style="left:88.182%;top:64.078%;width:11.818%;height:17.476%"><span>Finish</span></div><div class="ov-node ov-box ov-refine" data-k="refine" style="left:46.818%;top:88.350%;width:21.818%;height:9.709%"><span>Refine the code</span></div><button class="ov-node ov-diag ov-hot" data-k="diag" style="left:0.000%;top:0.000%;width:18.182%;height:50.874%" type="button" data-ov="af" aria-controls="ov-detail" aria-expanded="false" aria-label="Diagnostic program: show details"><svg class="ov-diag-arrows" viewBox="0 0 200 262" aria-hidden="true"><defs><marker id="ov-dh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M214 44H62V80" marker-end="url(#ov-dh)"/><path d="M62 192V222H213" marker-end="url(#ov-dh)"/></svg><span class="ov-diag-t">Diagnostic program</span><img class="ov-drone" src="static/images/overview/drone.webp" alt=""><span class="ov-diag-b">New evidence</span></button><button class="ov-node ov-card ov-view ov-hot" data-k="view" style="left:19.545%;top:0.000%;width:39.545%;height:50.874%" type="button" data-ov="view" aria-controls="ov-detail" aria-expanded="false" aria-label="VIEW: Flies to new viewpoints to verify outcomes. Show details."><span class="ov-card-head"><img src="static/images/overview/i_eye.png" alt=""><b>VIEW</b><span>Flies to new viewpoints to verify outcomes.</span></span><span class="ov-pair"><img src="static/images/overview/view_before.jpg" alt=""><i aria-hidden="true">&rarr;</i><img src="static/images/overview/view_after.jpg" alt=""></span><span class="ov-labels"><span>Not visible</span><b>Verified</b></span><span class="ov-foot">Acquire visual evidence</span></button><button class="ov-node ov-card ov-probe ov-hot" data-k="probe" style="left:60.455%;top:0.000%;width:39.545%;height:50.874%" type="button" data-ov="probe" aria-controls="ov-detail" aria-expanded="false" aria-label="PROBE: Runs physical tests to find failure causes. Show details."><span class="ov-card-head"><img src="static/images/overview/i_hand.png" alt=""><b>PROBE</b><span>Runs physical tests to find failure causes.</span></span><span class="ov-pair"><img src="static/images/overview/probe_before.jpg" alt=""><i aria-hidden="true">&rarr;</i><img src="static/images/overview/probe_after.jpg" alt=""></span><span class="ov-labels"><span>Straight pull: no opening</span><b>Arc test: door opens</b></span><span class="ov-foot">Acquire physical evidence</span></button></div></div>
                 <div class="ov-detail" id="ov-detail" role="region" aria-live="polite" hidden>
           <button type="button" class="ov-close" aria-label="Close details">&times;</button>
           <article data-ov="view" hidden>
@@ -85,8 +115,8 @@
       <h2 id="real-world-title">From simulation to the physical robot</h2>
       <p class="ax-lead">Task programs refined in simulation transfer zero-shot to our aerial manipulator through shared robot APIs, without task-program source-code modification. Rather than replaying simulated trajectories, the deployed programs use real-world observations through the shared robot APIs to guide execution, despite differences between the simulated and physical scenes and variations in the initial robot pose.</p>
       <div class="ax-stack">
-        <article class="ax-card"><figure class="ax-media"><video controls muted playsinline preload="none" poster="static/images/poster_real_water_bottle_delivery_faces_only.jpg" aria-label="Real-world Cabinet execution, four times speed" width="1920" height="1080"><source src="static/videos/real_water_bottle_delivery_faces_only.mp4" type="video/mp4"></video></figure><div class="ax-card-body"><h3>Cabinet</h3><p>Open both cabinet doors, grasp the bottle inside, and carry it to the hanging basket.</p></div></article>
-        <article class="ax-card"><figure class="ax-media"><video controls muted playsinline preload="none" poster="static/images/poster_real_tool_pick_and_place_faces_only.jpg" aria-label="Real-world 2-Objects Pick-and-place execution, four times speed" width="1920" height="1080"><source src="static/videos/real_tool_pick_and_place_faces_only.mp4" type="video/mp4"></video></figure><div class="ax-card-body"><h3>2-Objects Pick-and-place</h3><p>Pick the hammer from the pegboard and place it in the basket, then carry the wrench to the upper shelf.</p></div></article>
+        <article class="ax-card" id="cabinet-demo"><figure class="ax-media"><video controls muted playsinline preload="none" poster="static/images/poster_real_water_bottle_delivery_faces_only.jpg" aria-label="Real-world Cabinet execution, four times speed" width="1920" height="1080"><source src="static/videos/real_water_bottle_delivery_faces_only.mp4" type="video/mp4"></video></figure><div class="ax-card-body"><h3>Cabinet</h3><p>Open both cabinet doors, grasp the bottle inside, and carry it to the hanging basket.</p></div></article>
+        <article class="ax-card" id="tools-demo"><figure class="ax-media"><video controls muted playsinline preload="none" poster="static/images/poster_real_tool_pick_and_place_faces_only.jpg" aria-label="Real-world 2-Objects Pick-and-place execution, four times speed" width="1920" height="1080"><source src="static/videos/real_tool_pick_and_place_faces_only.mp4" type="video/mp4"></video></figure><div class="ax-card-body"><h3>2-Objects Pick-and-place</h3><p>Pick the hammer from the pegboard and place it in the basket, then carry the wrench to the upper shelf.</p></div></article>
       </div>
       <details class="ax-more" id="physical-outcomes"><summary>Trial outcomes &amp; hardware</summary><div class="ax-more-body"><p>A custom omnidirectional coaxial quad-tiltrotor carries a four-degree-of-freedom arm, a UMI gripper and a wrist RGB-D camera. Trials vary the robot’s initial position and heading; object placements differ from simulation. The videos show successful runs. In the table below, denominators include all evaluated trials per task, even those not reaching the subtask.</p>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Physical task outcomes"><table class="res">
@@ -106,18 +136,23 @@
         </table></div></div></details>
     </div></section>
 
+    <section class="ax-section" id="tasks" aria-labelledby="tasks-title"><div class="ax-wrap">
+      <h2 id="tasks-title">Tasks</h2>
+      <figure class="ax-figure"><img src="static/images/tasks.jpg" alt="Sort, Align, Cabinet and Payload in the warehouse and laboratory digital twin, with overlaid robot poses and paths." width="2000" height="1246" loading="lazy"><figcaption><b>Sort:</b> identify the target bottle and place it into the color-matched bin. <b>Align:</b> push protruding boxes into alignment with the rack; because of offset centers of mass, different contact points induce translation or rotation. <b>Cabinet:</b> open the cabinet doors, retrieve the bottle inside, and deliver it to a hanging basket. <b>Payload:</b> transport filled bottles and baskets with minimal hall crossings under an undisclosed payload limit. Sort and Align use the warehouse simulation; Cabinet and Payload use the laboratory digital twin.</figcaption></figure>
+    </div></section>
+
     <section class="ax-section" id="results" aria-labelledby="results-title"><div class="ax-wrap">
       <h2 id="results-title">Results across six simulated tasks</h2>
-      <p class="ax-lead">Six aerial manipulation tasks in two simulated environments, with the same coding-agent configuration and task-execution limit. Each trial permits one initial execution and up to ten program revisions; 10 trials per task and condition.</p>
+      <p class="ax-lead" id="evaluation">Six aerial manipulation tasks in two simulated environments, with the same coding-agent configuration and task-execution limit. Each trial permits one initial execution and up to ten program revisions; 10 trials per task and condition.</p>
       <div class="ax-stats">
         <div><span class="ax-num">31.7%</span><span>CaP-X · 19 of 60 trials</span></div>
         <div><span class="ax-num">48.3%</span><span>CaP-X+Trace · 29 of 60 trials</span></div>
         <div class="ax-ours"><span class="ax-num">75.0%</span><span>Ours (CaP-X+AF) · 45 of 60 trials</span></div>
       </div>
-      <h3 class="ax-sub">Final task success</h3>
+      <h3 class="ax-sub" id="task-success">Final task success</h3>
       <figure class="ax-figure ax-white"><div class="chart-scroll" tabindex="0" role="region" aria-label="Task success chart"><img class="fig" src="static/images/results_success.png" width="1659" height="645" loading="lazy"
            alt="Bar chart of final task success on six tasks. Ours matches or exceeds both baselines on every task: Cabinet 4/10, 1-Object 10/10, 2-Objects 9/10, Payload 10/10, Box alignment (Align) 7/10, Object sorting (Sort) 5/10; 45/60 overall versus 19/60 for CaP-X and 29/60 for CaP-X+Trace."></div><figcaption>AF achieves the highest success overall and matches or exceeds both CaP-X and CaP-X+Trace on every task. Labels above the bars indicate successful trials out of ten per task.</figcaption></figure>
-      <h3 class="ax-sub">Completion assessment</h3>
+      <h3 class="ax-sub" id="completion">Completion assessment</h3>
       <p>Across 60 trials, AF makes 5 false completion declarations, compared with 25 for CaP-X and 19 for CaP-X+Trace.</p>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Completion judgments per task"><table class="res">
           <thead>
@@ -131,11 +166,9 @@
           </tbody>
         </table></div>
       <p class="ax-note">TP: correct completion declaration. FP: incorrect declaration. ND: no declaration before the step limit. Precision = TP / (TP + FP).</p>
-      <h3 class="ax-sub">Models and interfaces</h3>
+      <h3 class="ax-sub" id="generality">Models and interfaces</h3>
       <figure class="ax-figure ax-white"><div class="chart-scroll" tabindex="0" role="region" aria-label="Model and interface comparison chart"><img class="fig" src="static/images/results_models.png" width="2096" height="651"  loading="lazy"
            alt="Bar charts of final task success on Payload and Cabinet for five model and interface configurations under No harness, CaP-X and Ours (CaP-X+AF)."></div><figcaption>Final task success on Payload and Cabinet across models and agent interfaces. Across ten model&ndash;task pairs, AF improves on CaP-X in eight and ties in two.</figcaption></figure>
-      <h3 class="ax-sub">Tasks</h3>
-      <figure class="ax-figure"><img src="static/images/tasks.jpg" alt="Sort, Align, Cabinet and Payload in the warehouse and laboratory digital twin, with overlaid robot poses and paths." width="2000" height="1246" loading="lazy"><figcaption><b>Sort:</b> identify the target bottle and place it into the color-matched bin. <b>Align:</b> push protruding boxes into alignment with the rack; because of offset centers of mass, different contact points induce translation or rotation. <b>Cabinet:</b> open the cabinet doors, retrieve the bottle inside, and deliver it to a hanging basket. <b>Payload:</b> transport filled bottles and baskets with minimal hall crossings under an undisclosed payload limit. Sort and Align use the warehouse simulation; Cabinet and Payload use the laboratory digital twin.</figcaption></figure>
     </div></section>
 
     <section class="ax-section ax-dark" id="case-studies" aria-labelledby="case-title"><div class="ax-wrap">
@@ -331,25 +364,21 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
     <section class="ax-section" id="abstract" aria-labelledby="abs-title"><div class="ax-wrap">
       <h2 id="abs-title">Abstract</h2>
       <div class="ax-abstract"><p>
-              Embodied coding agents emerge as a promising approach to construct robot policies from natural-language instructions.
-              However, extending these agents to physically demanding settings introduces two fundamental challenges: partial
-              observability and limited interaction robustness. These challenges can leave task-critical outcomes unobserved, and
-              failures remain unresolved, making execution feedback insufficient for completion assessment and program revision.
-              To address these gaps, we introduce <b>Active Feedback (AF)</b>, an active &ldquo;View and Probe&rdquo; framework.
-              After each task execution, the agent synthesizes a separate diagnostic program to acquire informative viewpoints or
-              perform targeted physical tests in simulation, returning evidence for completion assessment and program revision.
-              We study AF in aerial manipulation, where payload constraints limit onboard sensing and exacerbate partial
-              observability, while strong dynamic coupling and limited control margins make physical interactions fragile.
-              Across six aerial manipulation tasks, AF increases final task success from 31.7% to 75% relative to terminal
-              feedback, using the same coding-agent configuration and task-execution limit. The task programs synthesized in
-              simulation transfer directly to a physical aerial manipulator via shared APIs without task-program source-code
-              modifications and successfully execute multi-stage tasks in the real world. These results show that executable
-              diagnosis helps embodied coding agents address gaps in execution feedback, improving both completion assessment
-              and program refinement for autonomous aerial manipulation.
+              Embodied coding agents construct robot policies from natural-language instructions by generating executable programs and refining them from execution feedback.
+              This refinement assumes that execution feedback reveals whether the task succeeded and, after a failure, provides sufficient evidence to guide program revision.
+              Aerial manipulation violates this assumption in two ways.
+              Payload constraints restrict onboard camera coverage and leave task-critical outcomes outside the robot’s view (partial observability), while strong dynamic coupling and limited control margins make physical interactions fragile (limited interaction robustness) and leave failure causes unresolved.
+              Re-examining the same feedback cannot recover observations that were never collected or separate failure causes that the available evidence does not distinguish.
+              To acquire this missing evidence, we introduce <b>Active Feedback (AF)</b>, an active “View and Probe” framework.
+              When execution feedback leaves unresolved questions, the agent synthesizes a separate diagnostic program that runs in simulation to inspect unseen outcomes from informative viewpoints (View) or test hypotheses about failure causes through targeted physical interactions (Probe).
+              The returned evidence supports more reliable completion assessment and guides program revision using newly observed outcomes and tested interaction hypotheses.
+              Across six simulated aerial manipulation tasks with 60 trials per condition, AF reduces false completion declarations from 25 to 5 and raises final task success from 31.7% to 75% compared with terminal feedback under the same coding-agent configuration and task-execution limit.
+              Using shared robot APIs, task programs refined with AF in simulation run on a physical aerial manipulator without task-program source-code modification and complete multi-stage manipulation tasks in the real world.
+              These results show that executable diagnosis fills gaps in execution feedback for embodied coding agents, improving both completion assessment and program refinement in aerial manipulation.
             </p></div>
     </div></section>
   </main>
-  <script src="static/js/overview.js" defer></script>
-  <script src="static/js/side-nav.js" defer></script>
+  <script src="static/js/overview.js?v=20261008-feedback3" defer></script>
+  <script src="static/js/side-nav.js?v=20261008" defer></script>
 </body>
 </html>

@@ -197,11 +197,7 @@ button.ov-af{padding:0}
 .ov-ours.ready .ov-hot:hover,.ov-hot:focus-visible{box-shadow:0 0 0 .3cqw color-mix(in srgb,var(--acc) 25%,transparent),0 1cqw 2.4cqw #10202a1f}
 .ov-hot:focus-visible{outline:.25cqw solid var(--acc);outline-offset:.3cqw}
 .ov-hot.on{box-shadow:0 0 0 .35cqw color-mix(in srgb,var(--acc) 35%,transparent),0 1cqw 2.4cqw #10202a1f!important}
-/* click invitation once the build-up has finished */
-.ov-ours.ready:not(.touched) .ov-hot:after{content:'';position:absolute;inset:-.5cqw;border-radius:1.6cqw;border:.2cqw solid var(--acc);opacity:0;pointer-events:none;animation:ov-pulse 2.4s ease-out infinite}
-.ov-ours.ready:not(.touched) .ov-probe:after{animation-delay:.8s}
-.ov-ours.ready:not(.touched) .ov-af:after{animation-delay:1.6s}
-@keyframes ov-pulse{0%{opacity:.55;transform:scale(.98)}70%{opacity:0;transform:scale(1.03)}100%{opacity:0}}
+/* Blocks stay still after the build-up; hover and keyboard-focus highlights remain. */
 .ov-bottom{display:grid;margin-top:12px}
 .ov-bottom>p{grid-area:1 / 1;margin:0;max-width:none;font-size:var(--text-min);color:var(--subtle)}
 .ov-bottom .b1{display:flex;justify-content:space-between;gap:12px}
@@ -245,7 +241,7 @@ button.ov-af{padding:0}
   .ax-author-list{font-size:15px;gap:2px 12px}
   .ov-bottom .b1{flex-direction:column;gap:2px}
 }
-@media(prefers-reduced-motion:reduce){.ov-hot:after,.ov-hint svg{animation:none!important}}
+@media(prefers-reduced-motion:reduce){.ov-hint svg{animation:none!important}}
 /* Method diagram: three screens cross-fade in turn (static/js/overview.js) */
 .ov-canvas{transition:opacity .35s ease}
 .ov-canvas.ov-fading{opacity:0}
@@ -415,8 +411,7 @@ body.ax-page{--paper:#ffffff;background:#ffffff}
 .ax-section .cstep-title{font-size:1.06rem}
 .ax-section .quote,.ax-section .tag,.ax-section .decision{font-size:.92rem}
 .ax-abstract p{font-size:.98rem}
-/* hero: no bottom rule and no play/pause control. The button stays in the HTML because
-   flight.js only autoplays the hero video when it exists. */
+/* Retain the collaborator's minimal hero: no bottom rule or visible control strip. */
 .ax-page .hero-film .hero-bottom{display:none!important}
 /* no horizontal rules between page sections */
 .ax-section+.ax-section:not(.ax-dark){border-top:0}

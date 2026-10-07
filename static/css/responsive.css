@@ -1,0 +1,175 @@
+/* Responsive layer for the current .ax-* layout (not the retired tabbed page).
+   Real-world demos fill the reading width; diagnostic/case clips stay height-fitted. */
+body.ax-page {
+  --ax-copy: clamp(1rem, min(calc(.875rem + .3vw), calc(.875rem + .55svh)), 1.125rem);
+  --ax-small: clamp(.9375rem, min(calc(.8125rem + .3vw), calc(.8125rem + .55svh)), 1.0625rem);
+  --ax-video-height: min(56svh, max(12rem, calc(100svh - 15rem)));
+}
+.ax-wrap { max-width: 1120px; min-width: 0; }
+.ax-section { padding-block: clamp(48px, 8svh, 96px); }
+.ax-section h2 { font-size: clamp(1.65rem, 2.7vw, 2.5rem); line-height: 1.18; }
+.ax-section p, .ax-section li, .ax-section td, .ax-section th,
+.ax-section summary, .ax-section .ax-lead, .ax-abstract p,
+.ov-detail p { font-size: var(--ax-copy); line-height: 1.7; }
+.ax-sub, .ax-card-body h3, .ov-detail h3, .ax-section h3.title.is-5 { font-size: clamp(1.25rem, 1.8vw, 1.5rem); }
+.ax-section figcaption, .ax-media figcaption, .ax-section .caption, .ax-note {
+  font-size: var(--ax-small) !important; line-height: 1.55;
+}
+.ax-section .table-wrap td, .ax-section .table-wrap th,
+.ax-section .case-summary > span:last-child, .ax-section .quote,
+.ax-section .tag, .ax-section .decision { font-size: var(--ax-small); }
+.ax-section .cstep-title { font-size: var(--ax-copy); }
+.ax-stats span:last-child { font-size: var(--ax-small); }
+.ax-num { font-size: clamp(2rem, 3vw, 2.65rem); }
+.ax-author-list { font-size: var(--ax-copy); }
+.ax-affil { font-size: var(--ax-small); }
+.ax-author-note { font-size: .875rem; }
+.publication-title {
+  max-width: 1040px; margin: 0 auto 28px;
+  font-size: clamp(1.375rem, 2.5vw, 2.25rem); font-weight: 600;
+  line-height: 1.3; letter-spacing: -.025em; text-wrap: balance;
+}
+.publication-layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px;
+  max-width: 1320px; margin-inline: auto; align-items: start;
+}
+.publication-info { min-width: 0; }
+.publication-info .ax-author-note { margin: 14px 0 0; text-align: center; }
+.publication-links {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  margin: 24px 0 0; padding-left: 22px; border-left: 1px solid #dce5e7;
+}
+.publication-control { position: relative; display: inline-flex; }
+.publication-link {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-width: 92px; min-height: 36px; padding: 7px 12px; border: 1px solid #38515c; border-radius: 7px;
+  background: #182e39; color: #f3f8fa; font: inherit; text-align: left;
+  cursor: pointer;
+}
+.publication-link:hover, .publication-link:focus-visible { background: #29414c; }
+.publication-link:focus-visible { outline: 2px solid #328a9b; outline-offset: 3px; }
+.publication-link svg { flex: none; width: 18px; height: 18px; color: #93d2d5; }
+.publication-link b { font-size: .875rem; font-weight: 600; line-height: 1.2; }
+.publication-hint {
+  position: absolute; z-index: 5; top: 50%; right: calc(100% + 7px); transform: translateY(-50%);
+  width: max-content; padding: 4px 8px; border: 1px solid #d9dfe2; border-radius: 5px;
+  background: #f0f2f3; color: #606b72; font-size: .75rem; line-height: 1.4; white-space: nowrap;
+  box-shadow: 0 2px 7px #101d2510;
+}
+.publication-hint[hidden] { display: none; }
+
+/* Real-world demos use the full card width without cropping their 16:9 frames. */
+.ax-card .ax-media { width: 100%; margin-inline: 0; }
+.ax-card .ax-media video { width: 100%; height: auto; max-height: none; }
+.ax-media video, .simclip video { object-fit: contain; }
+.simclip video { display: block; width: 100%; height: auto; max-height: var(--ax-video-height); }
+.ax-card-body { grid-template-columns: 1fr; padding: 20px 24px; }
+.ov-detail .ax-media { min-width: 0; }
+.ov-detail .ax-media video { max-height: var(--ax-video-height); }
+
+/* Keep the scientific figure legible instead of shrinking its text to phone width. */
+.ov-scroll { max-width: 100%; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; }
+.ov-canvas { min-width: 880px; }
+.ax-section .ov-cap { font-size: clamp(1rem, 1.45vw, 1.25rem); line-height: 1.35; }
+.ov-caprow { align-items: flex-start; }
+.ov-replay, .ov-close { box-sizing: border-box; min-height: 44px; }
+.ov-close { min-width: 44px; text-align: center; }
+.ov-replay { display: inline-flex; align-items: center; gap: 5px; }
+.ov-explore {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px 18px; margin: 16px 0; padding: 14px 16px;
+  border: 1px solid #e1d4bf; border-left: 4px solid #b98a43; border-radius: 8px;
+  background: #f8f3e9;
+}
+.ax-section .ov-clickhint {
+  display: flex; flex: 1 1 320px; align-items: center; gap: 9px;
+  margin: 0; opacity: 1; color: #655039; font-size: 1rem; font-weight: 650;
+  line-height: 1.4; white-space: normal;
+}
+.ov-clickhint svg { width: 22px; height: 22px; flex: none; }
+.ov-choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.ov-choice {
+  display: inline-flex; align-items: center; gap: 10px; justify-content: center;
+  min-height: 44px; padding: 9px 12px; border: 1px solid #b5c8e2; border-radius: 6px;
+  font: inherit; font-size: .875rem; font-weight: 650; color: #304d7e; background: #fff;
+  cursor: pointer; transition: background .15s, box-shadow .15s;
+}
+.ov-choice.view { color: #236176; border-color: #88bccb; }
+.ov-choice.probe { color: #784270; border-color: #c6a6c2; }
+.ov-choice:hover, .ov-choice.on { background: #e4eef5; box-shadow: 0 0 0 1px currentColor; }
+.ov-choice.view:hover, .ov-choice.view.on { background: #dff1f5; }
+.ov-choice.probe:hover, .ov-choice.probe.on { background: #f4e7f0; }
+.ov-choice:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+.ov-scroll:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; }
+.ax-cases .case-disclosure { scroll-margin-top: 0; }
+
+/* Lower the desktop title without changing its size or overlaying the mobile video. */
+@media (min-width: 761px) {
+  .ax-page .hero-copy { bottom: clamp(2.75rem, 6.5svh, 6rem); }
+}
+
+/* A left rail needs enough space beside the wider column. Else use a touch bar. */
+@media (min-width: 1440px) {
+  .ax-rail { display: flex; left: 12px; }
+  .ax-rail a { font-size: 1.0625rem; min-height: 44px; padding: 10px 8px 10px 10px; }
+}
+@media (max-width: 1439px) {
+  html { scroll-padding-top: 76px; }
+  .ax-rail, .ax-rail.shown {
+    position: sticky; top: 0; left: auto; transform: none; display: flex;
+    flex-direction: row; justify-content: flex-start; gap: 8px;
+    width: 100%; max-width: 100%; min-width: 0; height: 56px;
+    padding: 5px var(--gutter); overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
+    opacity: 1; pointer-events: auto; background: #fff; border-bottom: 1px solid #e3e8e8;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .ax-rail::-webkit-scrollbar { display: none; }
+  .ax-rail a, .ax-rail.dark a {
+    display: flex; align-items: center; flex: none; min-height: 44px;
+    padding: 8px 12px; white-space: nowrap; font-size: 1rem; color: #46555c;
+    border-left: 0; border-bottom: 2px solid transparent;
+  }
+  .ax-rail a.active, .ax-rail.dark a.active {
+    color: var(--teal); border-bottom-color: var(--teal);
+  }
+  .ax-rail a:hover, .ax-rail.dark a:hover { color: var(--ink); }
+  .ax-page .hero-film { height: calc(100svh - 56px); min-height: 32rem; }
+}
+@media (max-width: 1050px) {
+  .ov-swipe { display: block; margin-block: 8px; }
+  .ov-detail article { grid-template-columns: 1fr; }
+}
+/* Phones/tablets have no spare side gutter: keep the title and names full-width,
+   and tuck the compact controls into the upper-right of this same section. */
+@media (max-width: 1023px) {
+  .publication-layout { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .publication-links {
+    grid-row: 1; flex-direction: row; justify-self: end;
+    margin: 0; padding: 0; border: 0; gap: 8px;
+  }
+  .publication-hint { top: auto; bottom: calc(100% + 5px); right: 0; transform: none; }
+}
+@media (max-width: 760px) {
+  .ax-page .hero-film { height: auto; min-height: 0; max-height: none; padding: 0 0 20px; }
+  .ax-page .hero-video {
+    position: static; grid-area: 1 / 1; width: 100%; height: auto;
+    aspect-ratio: 16 / 9; object-fit: contain;
+  }
+  .ax-page .hero-copy { grid-row: 2; margin-top: 26px; }
+  .ax-page .hero-copy h1 { font-size: clamp(2rem, 9vw, 2.75rem); }
+  .ax-authors { padding-block: 32px; }
+  .publication-title { font-size: clamp(1.25rem, 4.9vw, 1.55rem); margin-bottom: 22px; }
+  .ax-author-list { font-size: .875rem; gap: 5px 12px; }
+  .ax-affil, .ax-author-note { font-size: .8125rem; line-height: 1.6; }
+  .publication-link { min-width: 82px; min-height: 34px; padding: 6px 10px; gap: 7px; }
+  .publication-link b { font-size: .8125rem; }
+  .ax-card-body { padding: 16px 18px; }
+  .ov-ours { padding: 14px 10px; }
+  .ov-explore { padding: 12px; }
+  .ax-section .ov-clickhint { font-size: .9375rem; }
+  .ov-choices { gap: 6px; }
+  .ov-choice { font-size: .8125rem; padding-inline: 10px; gap: 6px; }
+  .ov-detail { padding: 52px 14px 20px; }
+  .ax-stats { gap: 10px; }
+  .ax-stats > div { padding: 18px; }
+}

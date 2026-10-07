@@ -1,5 +1,5 @@
-// How-it-works diagram, played once (Replay restarts it): 1 coding-agent loop (3 s) -> the loop opens and Active Feedback
-// slides in (3 s) -> View and Probe come out of it, then the diagnostic-program panel. It then stays
+// How-it-works diagram: a brief plain-loop view -> Active Feedback -> View / Probe.
+// The complete build takes about 2.2 s; Replay restarts it. It then stays
 // on screen 3, where View / Probe / Active Feedback are clickable.
 // render(t) draws the figure at a timeline position; screen k is the state at STEP_END[k].
 // The static markup is the final layout, so without JS (or with reduced motion) the finished diagram shows.
@@ -85,7 +85,7 @@
   window.__ovRender = render;
 
   // ---- play once: hold each screen, then move continuously to the next one
-  const FIRST = 3000, HOLD = 3000, RATE = 1.15;            // RATE: timeline seconds per real second during a transition
+  const FIRST = 450, HOLD = 350, RATE = 2.5; // ~2.2 s total, rather than ~9 s with long idle holds
   let pos = STEP_END[0], raf = 0;
   const moveTo = (target, done) => {
     let last = performance.now();
@@ -108,7 +108,7 @@
 
   // ---- View / Probe / Active Feedback open a detail panel
   const detail = root.querySelector('#ov-detail');
-  const hots = [...root.querySelectorAll('.ov-hot')];
+  const hots = [...root.querySelectorAll('.ov-hot, .ov-choice')];
   const pages = [...detail.querySelectorAll('article')];
   let current = null;
   const stopVideos = () => detail.querySelectorAll('video').forEach(v => v.pause());
@@ -117,6 +117,9 @@
     hots.forEach(h => { h.classList.remove('on'); h.setAttribute('aria-expanded', 'false'); });
   }
   const open = key => {
+    // A click takes priority over the initial reveal; keep the selected demo open.
+    timers.forEach(clearTimeout); timers = []; cancelAnimationFrame(raf);
+    pos = STEP_END[2]; render(pos); root.classList.add('ready');
     root.classList.add('touched');
     if (current === key) return close();
     current = key; stopVideos();

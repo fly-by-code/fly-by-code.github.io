@@ -1,135 +1,159 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import vm from 'node:vm';
+import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
+import {legacyAnchors, resolveAnchor} from '../static/js/anchors.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const pages = ['index.html', 'research.html'];
-const html = Object.fromEntries(pages.map(name => [name, fs.readFileSync(path.join(root,name),'utf8')]));
+const read = name => fs.readFileSync(path.join(root, name), 'utf8');
+const html = Object.fromEntries(['index.html', 'research.html'].map(name => [name, read(name)]));
+const index = html['index.html'];
 const ids = {};
-for (const [name,source] of Object.entries(html)) {
-  const found = [...source.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
-  assert.equal(found.length, new Set(found).size, `${name}: duplicate IDs`);
+for (const [name, source] of Object.entries(html)) {
+  const found = [...source.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
+  assert.equal(found.length, new Set(found).size, name + ': duplicate IDs');
   ids[name] = new Set(found);
-  assert(!/ICLR|double.blind|under.{0,15}review|Anonymous Authors/i.test(source), `${name}: conference/review disclosure`);
-  if (name === 'index.html') {
-    assert.equal((source.match(/class="ax-author-list"/g)||[]).length,1,`${name}: author block`);
-    for (const author of ['Jaewoo Lee','Jeongyeon Seo','Sihyun Cho','Gyeongrak Choe','Yutong Wang','Bavin Saravanan','Jia-Bin Huang','Furong Huang','Sebastian Scherer','Guanya Shi','H. Jin Kim','Seungjae Lee','Dongjae Lee']) {
-      assert(source.includes(`<span>${author}`),`${name}: missing author ${author}`);
-    }
-  }
+  assert(!/ICLR|double.blind|under.{0,15}review|Anonymous Authors/i.test(source), name + ': conference/review disclosure');
 }
-let count=0;
-for (const [name,source] of Object.entries(html)) {
-  for (const match of source.matchAll(/\b(?:src|poster|href)="([^"]+)"/g)) {
-    const url=match[1];
+let count = 0;
+for (const [name, source] of Object.entries(html)) {
+  for (const [, url] of source.matchAll(/\b(?:src|poster|href)="([^"]+)"/g)) {
     if (/^(https?:|data:|mailto:)/.test(url)) continue;
-    const [file,fragment]=url.split('#');
-    const target=file.split('?')[0]||name;
-    assert(fs.existsSync(path.join(root,target)),`${name}: missing file ${target}`);
-    if (fragment && ids[target]) assert(ids[target].has(fragment),`${name}: missing anchor ${target}#${fragment}`);
+    const [file, fragment] = url.split('#');
+    const target = file.split('?')[0] || name;
+    assert(fs.existsSync(path.join(root, target)), name + ': missing file ' + target);
+    if (fragment && ids[target]) assert(ids[target].has(fragment), name + ': missing anchor ' + fragment);
     count++;
   }
+  for (const [, names] of source.matchAll(/\baria-(?:controls|labelledby|describedby)="([^"]+)"/g)) {
+    for (const id of names.split(/\s+/)) assert(ids[name].has(id), name + ': missing ARIA target ' + id);
+  }
 }
-assert(html['index.html'].includes('31.7'),'baseline missing');
-assert(!html['index.html'].includes('class="site-header"'),'top navigation bar was removed on purpose');
-assert(ids['index.html'].has('method'),'method section missing');
-// The project films are no longer embedded; the Method diagram explains the approach.
-// If the 38-second film (music) comes back, its footer credit must come back with it.
-const filmOnPage=html['index.html'].includes('fly-by-code-sns-v11-1080p.mp4');
-const footer=html['index.html'].match(/<footer\b[^>]*>[\s\S]*?<\/footer>/)?.[0]||'';
-if (filmOnPage) for (const credit of ['Royalty Free Music:', 'https://www.bensound.com', 'Artist: Benjamin Tissot', 'License code: 7XCGZP26MIZMBQZA']) assert(footer.includes(credit),`required footer attribution missing: ${credit}`);
-assert(ids['index.html'].has('ov-ours'),'method diagram missing');
-assert(!html['index.html'].includes('research-film-caption'),'removed film metadata row returned');
-assert(!html['index.html'].includes('Download MP4'),'removed download link returned');
-assert(html['index.html'].includes('48.3'),'trace baseline missing');
-assert(html['index.html'].includes('45 of 60'),'AF denominator missing');
-assert(html['index.html'].includes('static/videos/hero-sequence-v5-1440p.mp4'),'high-resolution desktop hero missing');
-assert(html['index.html'].includes('static/videos/hero-sequence-v5-1080p.mp4'),'smaller-screen hero missing');
-// Hero is deliberately minimal: name and full paper title over the video, nothing else.
-assert(html['index.html'].includes('<p class="hero-paper-title">Embodied Coding Agents for Aerial Manipulation with Active Visual and Physical Feedback</p>'),'hero paper title missing');
-for (const removed of ['Siheung Laboratory','Language → Code → Flight','Watch the experiments','Task code made by','Onboard ego RGB-D only','4× speed · Edited','Scroll to discover','id="hero-stage"']) assert(!html['index.html'].includes(removed),`removed hero text returned: ${removed}`);
-assert(!/Research(?: project)? \/ 2026/i.test(html['index.html']),'old research stamp remains');
-assert(!html['index.html'].includes('No hard-coded object coordinates'),'removed hero fact remains');
-assert(html['index.html'].includes('media="(max-width: 1023px)"'),'hero media breakpoint missing');
-assert(html['index.html'].includes('poster="static/images/hero-sequence.jpg"'),'high-resolution poster missing');
-assert(!html['index.html'].includes('static/papers/'),'preprint must stay unpublished during review');
-assert(!html['index.html'].includes('research.html'),'separate research-page link remains');
-assert(html['research.html'].includes('static/js/research-redirect.js'),'legacy redirect missing');
-for (const section of ['view-case','probe-details','physical-outcomes']) {
-  const tag=html['index.html'].match(new RegExp(`<details[^>]*id="${section}"[^>]*>`))?.[0];
-  assert(tag,`missing inline disclosure: ${section}`);
-  assert(!/\sopen(?:\s|=|>)/.test(tag),`detail should initially be collapsed: ${section}`);
+for (const [old, target] of Object.entries(legacyAnchors)) {
+  assert(ids['index.html'].has(target), 'legacy destination missing: ' + old);
+  assert.equal(resolveAnchor('#' + old), target);
 }
-for (const figure of ['tasks.jpg','results_success.png','results_models.png']) {
-  assert(html['index.html'].includes(`static/images/${figure}`),`missing main-page figure: ${figure}`);
+for (const id of ['top','method','real-world','results','case-studies','abstract','cabinet-demo','tools-demo','task-success','completion','generality','evaluation','tasks','view-case','probe-details','physical-outcomes']) {
+  assert(ids['index.html'].has(id), 'current/public destination missing: ' + id);
+  assert.equal(resolveAnchor('#' + id), id);
 }
-for (const video of ['k2_turn1','k2_af1','k2_turn2','align_af1','align_turn2']) {
-  assert(html['index.html'].includes(`static/videos/${video}.mp4`),`missing case video: ${video}`);
-}
-for (const name of ['flight.css','home.css']) {
-  const css=fs.readFileSync(path.join(root,'static/css',name),'utf8');
-  assert(!/Georgia|Times New Roman|var\(--serif\)/.test(css),`${name}: decorative serif reintroduced`);
-  for (const m of css.matchAll(/font-size:\s*(\d+(?:\.\d+)?)px/g)) assert(Number(m[1])>=15,`${name}: font below 15px`);
-}
-const homeCss=fs.readFileSync(path.join(root,'static/css/home.css'),'utf8');
-assert(/\.film-music-credit\{[^}]*font-size:\.6875rem/.test(homeCss),'footer credit should use the requested compact 11px-equivalent text');
-assert(/\.hero-location-title\{[^}]*text-transform:none/.test(homeCss),'hero location capitalization must not be overridden by uppercase CSS');
-for (const token of ['--copy-size','--copy-compact-size']) {
-  const rule=homeCss.match(new RegExp(`${token}:([^;]+)`))?.[1];
-  assert(rule?.startsWith('clamp(.9375rem,') && rule.includes('vw') && rule.includes('svh'),`${token}: descriptions must scale with the viewport with a 15px-equivalent minimum`);
-}
-for (const selector of ['.research-film-heading>p','.feedback-heading>p','.compact-heading>p','.abstract-copy p']) {
-  const rule=homeCss.slice(homeCss.indexOf(`${selector}{`)).split('}')[0];
-  assert(rule.includes('font-size:var(--copy-size)'),`${selector}: fluid description size missing`);
-}
-for (const selector of ['.case-summary>span:last-child','.detail-body','.concise-flight .demo-caption p','.task-key dd']) {
-  const rule=homeCss.slice(homeCss.indexOf(`${selector}{`)).split('}')[0];
-  assert(rule.includes('font-size:var(--copy-compact-size)'),`${selector}: fluid compact description size missing`);
-}
-for (const token of ['--film-height:', '--demo-height:', 'calc(var(--film-height) * 16 / 9)', 'calc(var(--demo-height) * 16 / 9)']) assert(homeCss.includes(token),`viewport-fitted video layout missing: ${token}`);
-assert(!/\.research-film-heading\s*,\s*\.research-film-player/.test(homeCss),'film heading must not inherit the player width limit');
-assert(/--hero-title-size:\s*clamp\([^;]*min\([^;]*vw[^;]*svh/.test(homeCss),'hero title must account for viewport width AND height');
-assert(/--hero-support-size:\s*clamp\([^;]*min\([^;]*vw[^;]*svh/.test(homeCss),'hero supporting text must account for viewport width AND height');
-assert(/\.hero-copy h1\{font-size:var\(--hero-title-size\)/.test(homeCss),'responsive hero title token is not applied');
-assert(/@media\(min-width:761px\)/.test(homeCss),'desktop hero sizing must stay separately scoped');
-const mobileHero=homeCss.slice(homeCss.indexOf('/* Mobile hero:'),homeCss.indexOf('.section-shell{padding-block:76px}'));
-assert(mobileHero.includes('@media(max-width:760px)'), 'mobile hero overrides must not affect laptops/desktops');
-for (const rule of ['height:auto;min-height:0;max-height:none','aspect-ratio:16/9;object-fit:contain','mask-image:none;-webkit-mask-image:none','.hero-shade{display:none}','.hero-bottom .icon-button{width:44px;height:44px;flex:none}']) {
-  assert(mobileHero.includes(rule),`uncropped, accessible mobile hero missing: ${rule}`);
-}
-assert(/\.hero-video\{[^}]*position:static/.test(mobileHero),'mobile video must participate in document flow');
-assert(/\.hero-film>\.hero-topline[^}]*position:static/.test(mobileHero),'mobile text must not overlay video');
-for (const selector of ['.hero-video','.hero-stage']) assert(new RegExp(`\\${selector}\\{grid-area:2 / 1`).test(mobileHero),`${selector}: task badge must share the video grid cell`);
-assert(/\.hero-stage\{[^}]*align-self:start;justify-self:end/.test(mobileHero),'mobile task badge must sit at the video top-right');
-assert(/\.hero-copy h1\{font-size:clamp\(2rem,9vw,2.75rem\)/.test(mobileHero),'mobile title should use the smaller 32–44px range');
-assert(/\.hero-copy>\.eyebrow\{[^}]*font-size:\.8125rem/.test(mobileHero),'mobile eyebrow should be the requested smaller 13px equivalent');
-assert(/\.site-header nav\{[^}]*min-width:0[^}]*overflow-x:auto/.test(mobileHero),'mobile navigation must scroll within its available width');
-assert(/\.site-header nav a\[href\]\{[^}]*display:flex;flex:none/.test(mobileHero),'all mobile navigation destinations must be shown and keep their width');
-assert(!/\.site-header nav a\[href="#[^"]+"\][^{]*\{display:none/.test(homeCss),'mobile section links must not be hidden');
-assert(html['index.html'].includes('name="robots" content="noindex'),'site must stay noindex during review');
-const mobileCredits=homeCss.slice(homeCss.indexOf('/* Compact mobile publication credits'));
-assert(mobileCredits.includes('@media(max-width:760px)'), 'compact publication credits must be mobile-only');
-for (const [selector,size] of [['.author-names','.875rem'],['.affiliations','.8125rem'],['.author-note','.8125rem']]) {
-  assert(mobileCredits.includes(`.publication-meta ${selector}{font-size:${size}`), `${selector}: requested smaller mobile credit size missing`);
-}
-assert(/\.publication-meta \.publication-links \.text-link\{font-size:\.8125rem[^}]*min-height:44px/.test(mobileCredits),'compact publication links must retain touch targets');
-console.log(`PASS: single-page content + legacy redirect; ${count} local references; unique IDs; all 13 authors; three closed disclosures; graphs and case videos retained; no conference/review disclosure.`);
-console.log('PASS: separately scoped desktop typography; width-fitted mobile film, top-right task badge, compact titles, and scrollable navigation.');
-console.log('PASS: mobile-only compact authors, affiliations, notes, and publication links with 44px touch targets.');
+assert.equal(resolveAnchor('#%69dea'), 'method');
+assert.equal(resolveAnchor('#%E0%A4%A'), '');
+assert.equal(resolveAnchor(''), '');
+assert.equal(resolveAnchor('#not-a-section'), 'not-a-section');
+assert.equal(resolveAnchor('#constructor'), 'constructor');
+assert(index.includes('static/js/flight.js?v=20261008-feedback6" type="module"'));
+assert(html['research.html'].includes('static/js/research-redirect.js?v=20261008" type="module"'));
+assert(read('static/js/research-redirect.js').includes("resolveAnchor(window.location.hash) || 'method'"));
 
-// Exercise the actual synchronization code, including backwards seeks/looping.
-const flight=fs.readFileSync(path.join(root,'static/js/flight.js'),'utf8');
-const syncSource=flight.slice(flight.indexOf('const heroStages'),flight.indexOf('function safelyPlay'));
-const stageFields={'#hero-stage-number':{},'#hero-stage-label':{}};
-const stage={hidden:true,querySelector:selector=>stageFields[selector]};
-const video={currentTime:0,addEventListener:()=>{}};
-const context=vm.createContext({hero:video,document:{querySelector:()=>stage}});
-vm.runInContext(syncSource,context);
-for (const [time,label] of [[0,'Grasp hammer'],[8.99,'Grasp hammer'],[9,'Place hammer'],[14.99,'Place hammer'],[15,'Open left door'],[24,'Open right door'],[33,'Grasp bottle'],[40,'Carry bottle'],[45,'Place bottle'],[48.99,'Place bottle'],[0,'Grasp hammer'],[24,'Open right door']]) {
-  vm.runInContext(`syncHeroStage(${time})`,context);
-  assert.equal(stageFields['#hero-stage-label'].textContent,label,`wrong hero label at ${time}s`);
-  assert.equal(stage.hidden,false);
+const authors = index.match(/<p class="ax-author-list">([\s\S]*?)<\/p>/)?.[1];
+assert(authors, 'missing current author block');
+for (const name of ['Jaewoo Lee','Jeongyeon Seo','Sihyun Cho','Gyeongrak Choe','Yutong Wang','Bavin Saravanan','Jia-Bin Huang','Furong Huang','Sebastian Scherer','Guanya Shi','H. Jin Kim','Seungjae Lee','Dongjae Lee']) {
+  assert(authors.includes('<span>' + name), 'missing author: ' + name);
 }
-console.log('PASS: hero stage boundaries, seek, and loop reset.');
+assert(index.includes('Equal contribution; order determined by coin flip.'));
+assert(index.includes('&dagger; Project leads') && !index.includes('Corresponding authors'));
+const releaseButtons = [...index.matchAll(/<button class="publication-link"([^>]*)>([\s\S]*?)<\/button>/g)];
+assert.equal(releaseButtons.length, 2);
+for (const [, attributes, content] of releaseButtons) {
+  assert(attributes.includes('aria-disabled="true"') && !/\sdisabled(?:\s|=|$)|\bhref=/.test(attributes));
+  assert(!/coming soon/i.test(content), 'release label must not add a second button line');
+}
+assert(releaseButtons[0][2].includes('arXiv') && releaseButtons[1][2].includes('Code'));
+assert.equal([...index.matchAll(/role="tooltip" hidden>coming soon<\/span>/g)].length, 2);
+assert(index.includes('class="publication-layout"') && index.includes('class="publication-info"'));
+assert(!index.includes('class="publication-footer"'), 'release controls must not share the author footnote row');
+assert(index.includes('Furong Huang<sup>3,4</sup>') && index.includes('All Purpose AI'));
+assert(index.includes('Dongjae Lee<sup>5&dagger;</sup>'));
+const hero = index.match(/<section class="hero-film"[\s\S]*?<\/section>/)?.[0];
+assert(hero?.includes('<h1>Fly-by-Code'));
+assert(!hero.includes('hero-paper-title') && !hero.includes('Embodied Coding Agents'));
+const titleAt = index.indexOf('<h2 class="publication-title">');
+const authorAt = index.indexOf('<p class="ax-author-list">');
+assert(titleAt > index.indexOf('<section class="ax-authors"') && titleAt < authorAt);
+for (const size of ['1080p', '1440p']) assert(hero.includes('static/videos/hero-sequence-v6-' + size + '.mp4'));
+assert(hero.includes('static/images/hero-sequence-v6.jpg'));
+assert(hero.includes('Edited excerpts at five times speed.'));
+assert(hero.includes('media="(max-width: 1023px)"') && hero.includes('muted loop playsinline'));
+assert(!/hero-task|stage-number/.test(hero), 'hero task badge must stay removed');
+assert(!/heroTask|heroStages|syncHeroStage|selectTab|\.site-header/.test(read('static/js/flight.js')), 'retired UI behavior remains');
+
+// Check current .ax-* rules, not the unused styles of the former site layout.
+// These are smoke checks; computed layout and interactions still need browser QA.
+const responsive = read('static/css/responsive.css');
+assert(index.includes('static/css/responsive.css?v=20261008-feedback6'));
+assert(responsive.includes('grid-template-columns: minmax(0, 1fr) auto'), 'publication side controls missing');
+assert(responsive.includes('@media (max-width: 1023px)'), 'narrow-screen publication layout missing');
+assert(!responsive.includes('.hero-task'), 'unused hero task styling remains');
+assert(responsive.includes('background: #f8f3e9') && responsive.includes('color: #655039'), 'demo instruction must use its own warm-neutral palette');
+for (const token of ['--ax-copy: clamp(', '--ax-small: clamp(', 'svh', 'vw', '.ax-wrap { max-width: 1120px',
+  '.ax-card .ax-media { width: 100%', '.ax-card .ax-media video { width: 100%; height: auto; max-height: none;', '.ov-canvas { min-width: 880px',
+  '@media (max-width: 1439px)', 'position: sticky', 'overflow-x: auto',
+  '@media (max-width: 760px)', '.ax-author-list { font-size: .875rem',
+  '.ax-affil, .ax-author-note { font-size: .8125rem', 'aspect-ratio: 16 / 9; object-fit: contain']) {
+  assert(responsive.includes(token), 'responsive rule missing: ' + token);
+}
+const nav = index.match(/<nav class="ax-rail"[\s\S]*?<\/nav>/)?.[0];
+for (const section of ['top','method','real-world','tasks','results','case-studies','abstract']) assert(nav.includes('href="#' + section + '"'));
+const tasks = index.match(/<section class="ax-section" id="tasks"[\s\S]*?<\/section>/)?.[0];
+assert(tasks?.includes('static/images/tasks.jpg') && tasks.includes('<figcaption>'), 'Tasks image and explanation must stay together');
+assert(index.indexOf(tasks) < index.indexOf('id="results"'), 'Tasks must precede Results');
+assert(!/ov-(?:inset-)?pulse/.test(responsive + read('static/css/aspire.css')), 'recurring Method block pulse returned');
+assert(responsive.includes('.ax-page .hero-copy { bottom: clamp(2.75rem, 6.5svh, 6rem)'), 'lower desktop title position missing');
+assert(responsive.includes('font-size: 1.0625rem; min-height: 44px'), 'larger section rail text missing');
+assert(index.includes('class="ov-scroll" tabindex="0" role="region"'));
+assert(read('static/js/side-nav.js').includes("setAttribute('aria-current', 'location')"));
+
+const overview = read('static/js/overview.js');
+const timing = overview.match(/const FIRST = (\d+), HOLD = (\d+), RATE = ([\d.]+)/);
+assert(timing, 'animation timing missing');
+const seconds = (+timing[1] + +timing[2]) / 1000 + (7.4 - 4) / +timing[3];
+assert(seconds > 1.5 && seconds < 3, 'diagram should build quickly but remain readable');
+assert(overview.includes("querySelectorAll('.ov-hot, .ov-choice')"));
+assert(index.includes('Click a highlighted block to watch a demo'));
+assert.equal([...index.matchAll(/class="ov-choice(?: view| probe)?"/g)].length, 3);
+const methodIntro = index.match(/<h2 id="method-title">([\s\S]*?)<div class="ov-figure/)?.[1];
+assert(methodIntro && (methodIntro.match(/<p\b/g) || []).length === 1, 'keep Method introduction concise');
+assert(methodIntro.replace(/<[^>]+>/g, '').trim().split(/\s+/).length < 25);
+
+// Method film text is deliberately unchanged per the current user instruction.
+assert(index.includes('One simulated Cabinet trial: attempt, View, attempt, Probe, refine, success</figcaption>'));
+for (const video of ['method_loop','method_view','method_probe','k2_turn1','k2_af1','k2_turn2','align_af1','align_turn2']) {
+  assert(index.includes('static/videos/' + video + '.mp4'), 'missing method/case video: ' + video);
+}
+for (const section of ['view-case','probe-details','physical-outcomes']) {
+  const tag = index.match(new RegExp('<details[^>]*id="' + section + '"[^>]*>'))?.[0];
+  assert(tag && !/\sopen(?:\s|=|>)/.test(tag), 'disclosure should start closed: ' + section);
+}
+for (const figure of ['tasks.jpg','results_success.png','results_models.png']) assert(index.includes('static/images/' + figure));
+for (const text of ['31.7%', '48.3%', '45 of 60', '25 to 5', '60 trials per condition']) assert(index.includes(text));
+const abstract = index.match(/<div class="ax-abstract"><p>([\s\S]*?)<\/p>/)?.[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+assert(abstract?.startsWith('Embodied coding agents construct robot policies'));
+for (const text of ['When execution feedback leaves unresolved questions', 'restrict onboard camera coverage',
+  'test hypotheses about failure causes', 'without task-program source-code modification']) assert(abstract.includes(text));
+assert(!abstract.includes('physically demanding settings'));
+assert(index.includes('name="robots" content="noindex'));
+assert(!index.includes('static/papers/') && !index.includes('Download MP4'));
+assert(!index.includes('research-film-caption'));
+
+// If the music-bearing SNS film is re-embedded, attribution must return as well.
+if (index.includes('fly-by-code-sns-v11-1080p.mp4')) {
+  const footer = index.match(/<footer\b[^>]*>[\s\S]*?<\/footer>/)?.[0] || '';
+  for (const text of ['Royalty Free Music:', 'https://www.bensound.com', 'Artist: Benjamin Tissot', 'License code: 7XCGZP26MIZMBQZA']) {
+    assert(footer.includes(text), 'missing music attribution: ' + text);
+  }
+}
+// Parse each loaded local script and check its relative module dependencies.
+for (const source of Object.values(html)) for (const [, script] of source.matchAll(/<script[^>]+src="([^"]+)"/g)) {
+  const name = script.split('?')[0], js = read(name);
+  const parsed = spawnSync(process.execPath, ['--input-type=module', '--check'], {input: js, encoding: 'utf8'});
+  assert.equal(parsed.status, 0, name + ': ' + parsed.stderr);
+  for (const [, specifier] of js.matchAll(/from\s+['"](\.[^'"]+)['"]/g)) {
+    assert(fs.existsSync(path.resolve(root, path.dirname(name), specifier)), 'missing module: ' + specifier);
+  }
+}
+console.log('PASS: ' + count + ' local references; unique IDs and ARIA targets; all public/legacy anchors.');
+console.log('PASS: current responsive-layout smoke checks; quick diagram; hero v6; 13 authors + coin-flip note.');
+console.log('PASS: latest abstract markers; captions/media preserved; closed disclosures; loaded scripts parse.');
+console.log('Browser QA remains required for viewport geometry, navigation, diagram interactions and media playback.');
