@@ -415,8 +415,6 @@ body.ax-page{--paper:#ffffff;background:#ffffff}
 .ax-section .cstep-title{font-size:1.06rem}
 .ax-section .quote,.ax-section .tag,.ax-section .decision{font-size:.92rem}
 .ax-abstract p{font-size:.98rem}
-/* hero: a small, faint play/pause control (still reachable by keyboard; fully visible on hover/focus) */
-.ax-page #hero-toggle{width:26px!important;height:26px!important;min-width:0;padding:0;opacity:.28;border-color:#ffffff40;background:transparent;transition:opacity .2s}
-.ax-page #hero-toggle svg{width:10px;height:10px}
-.ax-page #hero-toggle:hover,.ax-page #hero-toggle:focus-visible{opacity:.9}
-.ax-page .hero-bottom{border-top-color:transparent}
+/* hero: no bottom rule and no play/pause control. The button stays in the HTML because
+   flight.js only autoplays the hero video when it exists. */
+.ax-page .hero-film .hero-bottom{display:none!important}
