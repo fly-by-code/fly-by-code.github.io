@@ -15,19 +15,23 @@
   <title>Fly-by-Code — From code to flight</title>
   <link rel="icon" href="static/images/flight-mark.svg" type="image/svg+xml">
   <link rel="preload" href="static/fonts/inter-latin-0.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="static/css/fonts.css">
+  <link rel="stylesheet" href="static/css/fonts.css?v=3">
   <link rel="stylesheet" href="static/css/flight.css">
   <link rel="stylesheet" href="static/css/home.css?v=20261006-footer-credit">
+  <link rel="stylesheet" href="static/css/aspire.css?v=47">
   <script src="static/js/flight.js?v=20260930" defer></script>
   <noscript><style>[role="tabpanel"][hidden]{display:block!important}[role="tablist"],#hero-toggle{display:none}</style></noscript>
 </head>
-<body>
-  <a class="skip-link" href="#idea">Skip to overview</a>
-  <header class="site-header" id="site-header">
-    <a class="wordmark" href="#top" aria-label="Fly-by-Code home"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M5 25C11 25 8 11 17 11h13M24 5l6 6-6 6M5 31h26"/></svg>Fly-by-Code<span class="wordmark-dot">.</span></a>
-    <nav aria-label="Main navigation"><a href="#video">Video</a><a href="#idea">Method</a><a href="#in-flight">Experiments</a><a href="#results">Results</a></nav>
-    <div class="reading-progress" aria-hidden="true"></div>
-  </header>
+<body class="ax-page">
+  <a class="skip-link" href="#method">Skip to method</a>
+  <nav class="ax-rail" aria-label="Sections">
+    <a href="#top">Overview</a>
+    <a href="#method">Method</a>
+    <a href="#real-world">Real world</a>
+    <a href="#results">Results</a>
+    <a href="#case-studies">Case studies</a>
+    <a href="#abstract">Abstract</a>
+  </nav>
   <main>
     <section class="hero-film" id="top" aria-label="Fly-by-Code introduction">
       <video class="hero-video" id="hero-video" muted loop playsinline preload="metadata" poster="static/images/hero-sequence.jpg" aria-label="Real robot: grasp the hammer and place it in the basket, open the left and right cabinet doors, then grasp and deliver the bottle to the basket. Edited excerpts at four times speed.">
@@ -35,50 +39,114 @@
         <source src="static/videos/hero-sequence-v5-1440p.mp4" type="video/mp4">
       </video>
       <div class="hero-shade" aria-hidden="true"></div>
-      <div class="hero-topline"><span class="hero-location"><i class="status-dot" aria-hidden="true"></i><span class="hero-location-title">Real-world Aerial Manipulation</span><span class="hero-location-detail">At SNU’s Siheung Laboratory <span class="hero-area">(1,000 ft²)</span></span></span></div>
-      <div class="hero-stage" id="hero-stage" aria-label="Current video action" hidden><span id="hero-stage-number">01 / 07</span><span id="hero-stage-label">Grasp hammer</span></div>
-      <div class="hero-copy"><p class="eyebrow light">Language → Code → Flight</p><h1>Fly-by-Code<span class="title-period">.</span></h1><div class="hero-description"><p>Embodied coding agents for real-world aerial manipulation.</p><a class="round-link" href="#in-flight"><span aria-hidden="true">▶</span> Watch the experiments</a></div><div class="hero-facts" aria-label="Task program and visual input"><span class="hero-code-credit"><span>Task code made by</span><span class="hero-model"><img src="static/images/claude-code-clawd.svg" width="25" height="21" alt="">Claude Code · Opus 5</span></span><span>Onboard ego RGB-D only</span></div></div>
-      <div class="hero-bottom"><a class="scroll-cue" href="#idea"><span class="scroll-line" aria-hidden="true"></span> Scroll to discover</a><div class="film-controls"><span>Real robot · 4× speed · Edited excerpts</span><button class="icon-button" id="hero-toggle" type="button" aria-label="Play background video"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3l11 7-11 7Z"/></svg></button></div></div>
+      <div class="hero-copy"><h1>Fly-by-Code<span class="title-period">.</span></h1><p class="hero-paper-title">Embodied Coding Agents for Aerial Manipulation with Active Visual and Physical Feedback</p></div>
+      <div class="hero-bottom"><span></span><div class="film-controls"><button class="icon-button" id="hero-toggle" type="button" aria-label="Play background video"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3l11 7-11 7Z"/></svg></button></div></div>
     </section>
-    <section class="publication-meta" aria-label="Paper title, authors, and affiliations">
-      <p class="eyebrow">Fly-by-Code</p>
-      <h2>Embodied Coding Agents for Aerial Manipulation <br>with Active Visual and Physical Feedback</h2>
-      <div class="author-block">
-      <p class="author-names"><span>Jaewoo Lee<sup>1*</sup></span><span>Jeongyeon Seo<sup>1*</sup></span><span>Sihyun Cho<sup>1*</sup></span><span>Gyeongrak Choe<sup>1</sup></span><span>Yutong Wang<sup>2</sup></span><span>Bavin Saravanan<sup>2</sup></span><span>Jia-Bin Huang<sup>3</sup></span><span>Furong Huang<sup>3</sup></span><span>Sebastian Scherer<sup>2</sup></span><span>Guanya Shi<sup>2</sup></span><span>H. Jin Kim<sup>1</sup></span><span>Seungjae Lee<sup>3†</sup></span><span>Dongjae Lee<sup>4†</sup></span></p>
-      <div class="affiliations"><span><sup>1</sup> Seoul National University</span><span><sup>2</sup> Carnegie Mellon University</span><span><sup>3</sup> University of Maryland, College Park</span><span><sup>4</sup> Kyung Hee University</span></div>
-      <p class="author-note">* Equal contribution; order determined by coin flip.<span>† Corresponding authors.</span></p></div>
-      <div class="publication-links"><a class="text-link" href="#abstract">Abstract <span aria-hidden="true">↓</span></a><a class="text-link" href="#results">Results <span aria-hidden="true">↓</span></a></div>
+    <section class="ax-authors" aria-label="Authors and affiliations">
+      <p class="ax-author-list"><span>Jaewoo Lee<sup>1*</sup></span><span>Jeongyeon Seo<sup>1*</sup></span><span>Sihyun Cho<sup>1*</sup></span><span>Gyeongrak Choe<sup>1</sup></span><span>Yutong Wang<sup>2</sup></span><span>Bavin Saravanan<sup>2</sup></span><span class="ax-break" aria-hidden="true"></span><span>Jia-Bin Huang<sup>3</sup></span><span>Furong Huang<sup>3,4</sup></span><span>Sebastian Scherer<sup>2</sup></span><span>Guanya Shi<sup>2</sup></span><span>H. Jin Kim<sup>1</sup></span><span>Seungjae Lee<sup>3&dagger;</sup></span><span>Dongjae Lee<sup>5&dagger;</sup></span></p>
+      <p class="ax-affil"><span><sup>1</sup>Seoul National University</span><span><sup>2</sup>Carnegie Mellon University</span><span><sup>3</sup>University of Maryland, College Park</span><span class="ax-break" aria-hidden="true"></span><span><sup>4</sup>All Purpose AI</span><span><sup>5</sup>Kyung Hee University</span></p>
+      <p class="ax-author-note">* Equal contribution &middot; &dagger; Corresponding authors</p>
     </section>
 
-    <section class="research-film" id="video" aria-labelledby="research-film-title"><div class="section-shell">
-      <div class="research-film-heading"><div><p class="eyebrow">Project film</p><h2 id="research-film-title">From code to flight.</h2></div><p id="research-film-description">Active Feedback and real-world aerial manipulation, in 38 seconds.</p></div>
-      <figure class="research-film-player">
-        <video id="research-video" controls playsinline preload="none" width="1920" height="1080" poster="static/images/sns-film-v11.jpg" aria-label="Fly-by-Code 38-second project film with music" aria-describedby="research-film-description film-music-credit">
-          <source src="static/videos/fly-by-code-sns-v11-1080p.mp4" type="video/mp4">
-          Your browser does not support embedded video. <a href="static/videos/fly-by-code-sns-v11-1080p.mp4">Open the MP4 video</a>.
-        </video>
-      </figure>
-      <details class="full-film-disclosure" id="full-research-film">
-        <summary><span>Watch the full research film</span><span class="disclosure-plus" aria-hidden="true">+</span></summary>
-        <figure class="research-film-player">
-          <video id="full-research-video" controls playsinline preload="none" width="1920" height="1080" poster="static/images/research-film-v12.jpg" aria-label="Fly-by-Code full research film">
-            <source src="static/videos/fly-by-code-film-v12-1080p.mp4" type="video/mp4">
-            Your browser does not support embedded video. <a href="static/videos/fly-by-code-film-v12-1080p.mp4">Open the full MP4 video</a>.
-          </video>
-        </figure>
-      </details>
+    <section class="ax-section" id="method" aria-labelledby="method-title"><div class="ax-wrap">
+      <h2 id="method-title">Method: How Fly-by-Code Works</h2>
+      <p class="ax-lead" id="research-film-description">Embodied coding agents use execution feedback, such as console logs and the final camera view, to assess task completion and revise their programs. This feedback can leave <b>missing outcome observations</b> and <b>unresolved failure causes</b>.</p>
+      <p class="ax-lead"><b class="ax-strong">Fly-by-Code</b> adds <b class="ax-strong">Active Feedback</b> to the program-refinement loop in simulation: after a task execution, the agent writes and runs a diagnostic program to investigate unresolved questions. It moves to informative viewpoints to inspect task outcomes (<b class="ax-v">View</b>), performs targeted physical tests to investigate failure causes (<b class="ax-p">Probe</b>), or combines both. The new evidence helps the agent check whether the task is complete and write a better task program for the next attempt.</p>
+
+      <div class="ov-figure ov-ours" id="ov-ours">
+        <div class="ov-caprow"><p class="ov-cap"><span class="k0">Typical coding-agent refinement loop</span><span class="k1"><b>Fly-by-Code (ours)</b>: adds Active Feedback to the loop</span></p><span class="ov-clickhint" aria-hidden="true">Click a highlighted block to explore</span><button type="button" class="ov-replay" aria-label="Replay the animation"><span aria-hidden="true">&#8634;</span> Replay</button></div>
+        <p class="ov-swipe" aria-hidden="true">Swipe to see the whole loop &rarr;</p>
+        <div class="ov-scroll"><div class="ov-canvas" id="ov-canvas" style="aspect-ratio:1100/515"><svg class="ov-lines" viewBox="0 0 1100 515" aria-hidden="true"><defs><marker id="ov-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z"/></marker></defs><g id="ov-paths"><path id="ov-p-tp" marker-end="url(#ov-head)"/><path id="ov-p-pe" marker-end="url(#ov-head)"/><path id="ov-p-ev" marker-end="url(#ov-head)"/><path id="ov-p-af" marker-end="url(#ov-head)"/><path id="ov-p-vf" marker-end="url(#ov-head)"/><path id="ov-p-vr" marker-end="url(#ov-head)"/><path id="ov-p-rp" marker-end="url(#ov-head)"/></g><g id="ov-connect"><path class="ov-conn" d="M635 330V296M432.5 296H882.5M432.5 296V262M882.5 296V262"/><circle class="ov-dot" cx="635" cy="296" r="4"/></g></svg><div class="ov-node ov-box" data-k="task" style="left:0.000%;top:64.078%;width:11.364%;height:17.476%"><span class="ov-ic"><svg class="ov-i ov-doc" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M9 11h6M9 14h6M9 17h6"/></svg></span><span>Task prompt</span></div><div class="ov-node ov-box" data-k="policy" style="left:15.000%;top:64.078%;width:13.636%;height:17.476%"><span class="ov-ic"><img class="ov-i" src="static/images/claude-code-clawd.svg" alt="Claude Code" width="47" height="38"><img class="ov-i" src="static/images/overview/film_codex.png" alt="Codex" width="102" height="102"></span><span>Task program</span></div><div class="ov-node ov-box" data-k="exec" style="left:32.273%;top:64.078%;width:12.273%;height:17.476%"><span class="ov-ic"><img class="ov-i ov-i-sq" src="static/images/overview/film_isaac.png" alt="Isaac Sim" width="122" height="122"></span><span>Execution</span></div><button class="ov-node ov-box ov-af ov-hot" data-k="af" style="left:48.182%;top:64.078%;width:19.091%;height:17.476%" type="button" data-ov="af" aria-controls="ov-detail" aria-expanded="false"><span class="ov-ic"><img class="ov-i" src="static/images/claude-code-clawd.svg" alt="Claude Code" width="47" height="38"><img class="ov-i" src="static/images/overview/film_codex.png" alt="Codex" width="102" height="102"></span><span>Active Feedback</span></button><div class="ov-node ov-verdict" data-k="verdict" style="left:70.909%;top:62.136%;width:13.636%;height:21.359%"><svg class="ov-dia" viewBox="0 0 150 110" preserveAspectRatio="none" aria-hidden="true"><polygon points="75,1 149,55 75,109 1,55"/></svg><span>Verdict</span></div><div class="ov-node ov-box ov-finish" data-k="finish" style="left:88.182%;top:64.078%;width:11.818%;height:17.476%"><span>Finish</span></div><div class="ov-node ov-box ov-refine" data-k="refine" style="left:46.818%;top:88.350%;width:21.818%;height:9.709%"><span>Refine the code</span></div><button class="ov-node ov-diag ov-hot" data-k="diag" style="left:0.000%;top:0.000%;width:18.182%;height:50.874%" type="button" data-ov="af" aria-controls="ov-detail" aria-expanded="false" aria-label="Diagnostic program: show details"><svg class="ov-diag-arrows" viewBox="0 0 200 262" aria-hidden="true"><defs><marker id="ov-dh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z"/></marker></defs><path d="M214 44H62V80" marker-end="url(#ov-dh)"/><path d="M62 192V222H213" marker-end="url(#ov-dh)"/></svg><span class="ov-diag-t">Diagnostic program</span><img class="ov-drone" src="static/images/overview/drone.webp" alt=""><span class="ov-diag-b">New evidence</span></button><button class="ov-node ov-card ov-view ov-hot" data-k="view" style="left:19.545%;top:0.000%;width:39.545%;height:50.874%" type="button" data-ov="view" aria-controls="ov-detail" aria-expanded="false" aria-label="VIEW: Coding agent inspects from a new view. Show details."><span class="ov-card-head"><img src="static/images/overview/i_eye.png" alt=""><b>VIEW</b><span>Coding agent inspects from a new view.</span></span><span class="ov-pair"><img src="static/images/overview/view_before.jpg" alt=""><i aria-hidden="true">&rarr;</i><img src="static/images/overview/view_after.jpg" alt=""></span><span class="ov-labels"><span>Not visible</span><b>Verified</b></span><span class="ov-foot">Acquire visual evidence</span></button><button class="ov-node ov-card ov-probe ov-hot" data-k="probe" style="left:60.455%;top:0.000%;width:39.545%;height:50.874%" type="button" data-ov="probe" aria-controls="ov-detail" aria-expanded="false" aria-label="PROBE: Coding agent tests the interaction. Show details."><span class="ov-card-head"><img src="static/images/overview/i_hand.png" alt=""><b>PROBE</b><span>Coding agent tests the interaction.</span></span><span class="ov-pair"><img src="static/images/overview/probe_before.jpg" alt=""><i aria-hidden="true">&rarr;</i><img src="static/images/overview/probe_after.jpg" alt=""></span><span class="ov-labels"><span>Straight pull</span><b>Arc test</b></span><span class="ov-foot">Acquire physical evidence</span></button></div></div>
+                <div class="ov-detail" id="ov-detail" role="region" aria-live="polite" hidden>
+          <button type="button" class="ov-close" aria-label="Close details">&times;</button>
+          <article data-ov="view" hidden>
+            <div><p class="ov-kicker v">View &middot; visual evidence</p><h3>Look again from a new viewpoint</h3>
+              <p>When the evidence gathered during task execution leaves part of the outcome unseen, the agent writes a diagnostic program that flies the robot to new viewpoints and returns the images with its notes. What it sees helps the agent decide whether the task is done and how to revise the program. Here, after an incomplete first attempt, the program inspects the cabinet from new viewpoints to find what is missing.</p>
+              <p class="ov-link"><a href="#view-case">Another View case (2-Objects Pick-and-place): Did it land in the basket? &darr;</a></p></div>
+            <figure class="ax-media"><video muted loop playsinline controls preload="none" width="1280" height="720" poster="static/images/poster_method_view.jpg" aria-label="View: the robot inspects the cabinet from new viewpoints"><source src="static/videos/method_view.mp4" type="video/mp4"></video><figcaption>Simulated Cabinet trial</figcaption></figure>
+          </article>
+          <article data-ov="probe" hidden>
+            <div><p class="ov-kicker p">Probe &middot; physical evidence</p><h3>Test the interaction</h3>
+              <p>The diagnostic program runs physical tests in simulation to learn how an interaction behaves, such as how an object responds to contact, how a door opens, or how much the robot can lift. The measurements help the agent revise the program. Here, a straight pull does not open the cabinet door; pulling along a small arc about the hinge does.</p>
+              <p class="ov-link"><a href="#probe-details">Another Probe case (Align): Why does the box keep turning? &darr;</a></p></div>
+            <figure class="ax-media"><video muted loop playsinline controls preload="none" width="1280" height="720" poster="static/images/poster_method_probe.jpg" aria-label="Probe: the robot pulls the cabinet door along an arc"><source src="static/videos/method_probe.mp4" type="video/mp4"></video><figcaption>Simulated Cabinet trial</figcaption></figure>
+          </article>
+          <article data-ov="af" hidden>
+            <div><p class="ov-kicker">Active Feedback &middot; diagnostic program</p><h3>A diagnostic program after every execution</h3>
+              <p>After each execution, the coding agent writes a separate diagnostic program with the same robot APIs as the task program, using View, Probe, or both as needed. With the returned evidence and the execution logs, the agent decides to finish, or refines the code and runs the full task again from the initial state.</p></div>
+            <figure class="ax-media"><video muted playsinline controls preload="none" width="1920" height="1080" poster="static/images/poster_method_loop.jpg" aria-label="One simulated Cabinet trial: two attempts, View, Probe, refinement and success"><source src="static/videos/method_loop.mp4" type="video/mp4"></video><figcaption>One simulated Cabinet trial: attempt, View, attempt, Probe, refine, success</figcaption></figure>
+          </article>
+        </div>
+      </div>
+
     </div></section>
 
-    <section class="feedback-section concise-method" id="idea"><div class="section-shell">
-      <div class="section-top"><p class="eyebrow light">01 / Active Feedback</p><span class="margin-note">Program refinement in simulation</span></div>
-      <div class="feedback-heading" id="feedback"><h2>Write code.<br><em>Resolve uncertainty.</em></h2><p>When execution leaves questions open, the coding agent writes a diagnostic program to look again or test a physical hypothesis—then uses the evidence to assess completion and revise its task code.</p></div>
-      <div class="refinement-loop" aria-label="Program refinement process"><span><b>01</b> Write task code</span><i aria-hidden="true">→</i><span><b>02</b> Execute</span><i aria-hidden="true">→</i><span class="loop-highlight"><b>03</b> Diagnose</span><i aria-hidden="true">→</i><span><b>04</b> Assess &amp; revise</span></div>
-      <div class="case-list" id="case-studies">
+    <section class="ax-section" id="real-world" aria-labelledby="real-world-title"><div class="ax-wrap">
+      <h2 id="real-world-title">From simulation to the physical robot</h2>
+      <p class="ax-lead">Task programs refined in simulation transfer zero-shot to our aerial manipulator through shared robot APIs, without task-program source-code modification. Rather than replaying simulated trajectories, the deployed programs use real-world observations through the shared robot APIs to guide execution, despite differences between the simulated and physical scenes and variations in the initial robot pose.</p>
+      <div class="ax-stack">
+        <article class="ax-card"><figure class="ax-media"><video controls muted playsinline preload="none" poster="static/images/poster_real_water_bottle_delivery_faces_only.jpg" aria-label="Real-world Cabinet execution, four times speed" width="1920" height="1080"><source src="static/videos/real_water_bottle_delivery_faces_only.mp4" type="video/mp4"></video></figure><div class="ax-card-body"><h3>Cabinet</h3><p>Open both cabinet doors, grasp the bottle inside, and carry it to the hanging basket.</p></div></article>
+        <article class="ax-card"><figure class="ax-media"><video controls muted playsinline preload="none" poster="static/images/poster_real_tool_pick_and_place_faces_only.jpg" aria-label="Real-world 2-Objects Pick-and-place execution, four times speed" width="1920" height="1080"><source src="static/videos/real_tool_pick_and_place_faces_only.mp4" type="video/mp4"></video></figure><div class="ax-card-body"><h3>2-Objects Pick-and-place</h3><p>Pick the hammer from the pegboard and place it in the basket, then carry the wrench to the upper shelf.</p></div></article>
+      </div>
+      <details class="ax-more" id="physical-outcomes"><summary>Trial outcomes &amp; hardware</summary><div class="ax-more-body"><p>A custom omnidirectional coaxial quad-tiltrotor carries a four-degree-of-freedom arm, a UMI gripper and a wrist RGB-D camera. Trials vary the robot’s initial position and heading; object placements differ from simulation. The videos show successful runs. In the table below, denominators include all evaluated trials per task, even those not reaching the subtask.</p>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Physical task outcomes"><table class="res">
+          <thead><tr><th>Task</th><th class="l">Outcome</th><th>Successful trials</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="5">2-Objects Pick-and-place</td><td class="l">Grasp hammer</td><td>5/5</td></tr>
+            <tr><td class="l">Place hammer in basket</td><td>4/5</td></tr>
+            <tr><td class="l">Grasp wrench</td><td>5/5</td></tr>
+            <tr><td class="l">Place wrench on shelf</td><td>5/5</td></tr>
+            <tr class="ours"><td class="l">Full task</td><td>4/5</td></tr>
+            <tr><td rowspan="5">Cabinet</td><td class="l">Open left door</td><td>5/5</td></tr>
+            <tr><td class="l">Open right door</td><td>4/5</td></tr>
+            <tr><td class="l">Grasp bottle</td><td>4/5</td></tr>
+            <tr><td class="l">Place bottle in basket</td><td>3/5</td></tr>
+            <tr class="ours"><td class="l">Full task</td><td>3/5</td></tr>
+          </tbody>
+        </table></div></div></details>
+    </div></section>
+
+    <section class="ax-section" id="results" aria-labelledby="results-title"><div class="ax-wrap">
+      <h2 id="results-title">Results across six simulated tasks</h2>
+      <p class="ax-lead">Six aerial manipulation tasks in two simulated environments, with the same coding-agent configuration and task-execution limit. Each trial permits one initial execution and up to ten program revisions; 10 trials per task and condition.</p>
+      <div class="ax-stats">
+        <div><span class="ax-num">31.7%</span><span>CaP-X · 19 of 60 trials</span></div>
+        <div><span class="ax-num">48.3%</span><span>CaP-X+Trace · 29 of 60 trials</span></div>
+        <div class="ax-ours"><span class="ax-num">75.0%</span><span>Ours (CaP-X+AF) · 45 of 60 trials</span></div>
+      </div>
+      <h3 class="ax-sub">Final task success</h3>
+      <figure class="ax-figure ax-white"><div class="chart-scroll" tabindex="0" role="region" aria-label="Task success chart"><img class="fig" src="static/images/results_success.png" width="1659" height="645" loading="lazy"
+           alt="Bar chart of final task success on six tasks. Ours matches or exceeds both baselines on every task: Cabinet 4/10, 1-Object 10/10, 2-Objects 9/10, Payload 10/10, Box alignment (Align) 7/10, Object sorting (Sort) 5/10; 45/60 overall versus 19/60 for CaP-X and 29/60 for CaP-X+Trace."></div><figcaption>AF achieves the highest success overall and matches or exceeds both CaP-X and CaP-X+Trace on every task. Labels above the bars indicate successful trials out of ten per task.</figcaption></figure>
+      <h3 class="ax-sub">Completion assessment</h3>
+      <p>Across 60 trials, AF makes 5 false completion declarations, compared with 25 for CaP-X and 19 for CaP-X+Trace.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Completion judgments per task"><table class="res">
+          <thead>
+            <tr><th rowspan="2">Method</th><th colspan="6">Per task (TP / FP / ND)</th><th colspan="2" class="sep">Overall</th></tr>
+            <tr><th>Cabinet</th><th>1-Obj P&amp;P</th><th>2-Obj P&amp;P</th><th>Payload</th><th>Align</th><th>Sort</th><th class="sep">TP / FP / ND</th><th>Precision</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>CaP-X</td><td>1/1/8</td><td>9/1/0</td><td>4/5/1</td><td>3/6/1</td><td>0/10/0</td><td>2/2/6</td><td class="sep">19/25/16</td><td>43.2%</td></tr>
+            <tr><td>CaP-X+Trace</td><td>0/3/7</td><td>10/0/0</td><td>6/3/1</td><td>6/3/1</td><td>3/7/0</td><td>4/3/3</td><td class="sep">29/19/12</td><td>60.4%</td></tr>
+            <tr class="ours"><td>Ours (CaP-X+AF)</td><td>4/1/<span class="nd">5</span></td><td>10/0/<span class="nd">0</span></td><td>9/1/<span class="nd">0</span></td><td>10/0/<span class="nd">0</span></td><td>7/3/<span class="nd">0</span></td><td>5/0/<span class="nd">5</span></td><td class="sep">45/5/<span class="nd">10</span></td><td>90.0%</td></tr>
+          </tbody>
+        </table></div>
+      <p class="ax-note">TP: correct completion declaration. FP: incorrect declaration. ND: no declaration before the step limit. Precision = TP / (TP + FP).</p>
+      <h3 class="ax-sub">Models and interfaces</h3>
+      <figure class="ax-figure ax-white"><div class="chart-scroll" tabindex="0" role="region" aria-label="Model and interface comparison chart"><img class="fig" src="static/images/results_models.png" width="2096" height="651"  loading="lazy"
+           alt="Bar charts of final task success on Payload and Cabinet for five model and interface configurations under No harness, CaP-X and Ours (CaP-X+AF)."></div><figcaption>Final task success on Payload and Cabinet across models and agent interfaces. Across ten model&ndash;task pairs, AF improves on CaP-X in eight and ties in two.</figcaption></figure>
+      <h3 class="ax-sub">Tasks</h3>
+      <figure class="ax-figure"><img src="static/images/tasks.jpg" alt="Sort, Align, Cabinet and Payload in the warehouse and laboratory digital twin, with overlaid robot poses and paths." width="2000" height="1246" loading="lazy"><figcaption><b>Sort:</b> identify the target bottle and place it into the color-matched bin. <b>Align:</b> push protruding boxes into alignment with the rack; because of offset centers of mass, different contact points induce translation or rotation. <b>Cabinet:</b> open the cabinet doors, retrieve the bottle inside, and deliver it to a hanging basket. <b>Payload:</b> transport filled bottles and baskets with minimal hall crossings under an undisclosed payload limit. Sort and Align use the warehouse simulation; Cabinet and Payload use the laboratory digital twin.</figcaption></figure>
+    </div></section>
+
+    <section class="ax-section ax-dark" id="case-studies" aria-labelledby="case-title"><div class="ax-wrap">
+      <h2 id="case-title">Case studies</h2>
+      <p class="ax-lead">Two recorded simulation trials, with excerpts from the agent&rsquo;s analysis, code and console.</p>
+      <div class="case-list ax-cases">
         <details class="case-disclosure" id="view-case">
           <summary><img src="static/images/case_view_3.jpg" width="1280" height="720" alt="" loading="lazy"><span class="case-summary"><span class="case-label view-color">View / Look again</span><strong>Did it land in the basket?</strong><span>New viewpoints reveal a failed placement.</span></span><span class="disclosure-plus" aria-hidden="true">+</span></summary>
           <div class="detail-body research-detail"><p class="record-note">Recorded simulation case. Code, console output, and agent quotations are excerpts; omissions are marked […]. Image notes are inspection questions written before capture.</p><div class="case" style="margin-top:1.25rem; background:#fff;">
         <span class="tag view">View</span>
-        <h3 class="title is-5">Evidence against a reported success &mdash; 2-Objects Pick-and-place</h3>
+        <h3 class="title is-5">2-Objects Pick-and-place: acquiring additional outcome observations</h3>
 
         <section class="cstep view">
           <div class="cstep-head"><span class="cstep-num">1</span><h4 class="cstep-title">The task program reports success</h4></div>
@@ -174,7 +242,7 @@ o = <span class="t-fn">look</span>(fl, [[<span class="t-num">-0.8</span>, <span 
           <summary><img src="static/images/align_probe_before.jpg" width="1280" height="720" alt="" loading="lazy"><span class="case-summary"><span class="case-label probe-color">Probe / Test a hypothesis</span><strong>Why does the box keep turning?</strong><span>Contact tests guide the next pushing strategy.</span></span><span class="disclosure-plus" aria-hidden="true">+</span></summary>
           <div class="detail-body research-detail"><p class="record-note">Recorded simulation case. These are sequential diagnostic observations, not a controlled contact-location ablation. Code and console excerpts retain their original values.</p><div class="case" style="background:#fff;">
         <span class="tag probe">Probe</span>
-        <h3 class="title is-5">Box alignment: testing alternative contact points</h3>
+        <h3 class="title is-5">Align: testing alternative contact points</h3>
         <p>After repeated pushes kept rotating a carton, the agent used AF to test alternative contact locations and sideways slides.</p>
         <section class="cstep probe">
           <div class="cstep-head"><span class="cstep-num">1</span><h4 class="cstep-title">Agent&rsquo;s recorded AF analysis: which push reduces rotation?</h4></div>
@@ -230,7 +298,7 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
           </div>
         </section>
         <section class="cstep probe">
-          <div class="cstep-head"><span class="cstep-num">4</span><h4 class="cstep-title">Decision and subsequent policy revision</h4></div>
+          <div class="cstep-head"><span class="cstep-num">4</span><h4 class="cstep-title">Decision and program revision</h4></div>
           <div class="cstep-body">
           <p><span class="decision regen">REGENERATE</span> &mdash; the next program initialized a linear push-response model from the diagnostic observations and used it to select the lateral contact position.</p>
           <figure class="codebox py"><figcaption><span>Agent-generated code &mdash; next task program</span><span class="lang">Python</span></figcaption><pre class="code"><span class="t-com"># ---------------- twist model: yaw change (deg) per cm of push = alpha + beta*u ----------------</span>
@@ -250,7 +318,7 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
             <video controls muted playsinline preload="none" width="640" height="368" poster="static/images/poster_align_turn2.jpg">
               <source src="static/videos/align_turn2.mp4" type="video/mp4">
             </video>
-            <figcaption>In the next task execution, the robot pushed on the left side, toward which the carton&rsquo;s center of mass was shifted, and precisely aligned the boxes.</figcaption>
+            <figcaption>Its execution pushed on the high-y side, bringing the boxes closer to alignment.</figcaption>
           </figure>
           </div>
         </section>
@@ -258,74 +326,11 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
       </div></div>
         </details>
       </div>
-      <details class="inline-disclosure dark-disclosure" id="method"><summary>How the diagnostic loop works<span class="disclosure-plus" aria-hidden="true">+</span></summary><div class="detail-body"><img class="fig" src="static/images/method.png" width="2000" height="1160" loading="lazy"
-           alt="Overview of Fly-by-Code. Bottom: the program refinement loop from task prompt to policy code, execution, Active Feedback, verdict, and program revision, built on shared robot APIs (SAM3 segmentation, motion planning, semantic mapping, depth-to-point cloud, pixel-level pointing, grasp pose generation). Top: View navigates to an informative viewpoint to verify a placement; Probe tests door articulation with a small arc after a straight pull fails."><p>Task and diagnostic programs use the same robot APIs. Diagnosis starts from the post-execution state; the score is recorded before diagnosis, and the scene resets before the next task attempt. The returned evidence informs both the completion judgment and program revision.</p></div></details>
     </div></section>
 
-    <section class="section-shell concise-flight" id="in-flight">
-      <div class="section-top"><p class="eyebrow">02 / Real-world experiments</p><span class="margin-note">Simulation-synthesized task code</span></div>
-      <div class="compact-heading"><h2>Written in simulation.<br>Flown in reality.</h2><p>Shared robot APIs deploy the task program on our aerial manipulator without source-code changes.</p></div>
-      <div class="demo-switcher" role="tablist" aria-label="Real-world experiments"><button type="button" role="tab" id="cabinet-tab" aria-controls="cabinet-demo" aria-selected="true" data-demo="cabinet"><span>01</span> Cabinet &amp; bottle delivery</button><button type="button" role="tab" id="tools-tab" aria-controls="tools-demo" aria-selected="false" tabindex="-1" data-demo="tools"><span>02</span> Tool pick-and-place</button></div>
-      <div class="demo-panel" role="tabpanel" id="cabinet-demo" aria-labelledby="cabinet-tab" tabindex="0"><div class="demo-film"><video controls muted playsinline preload="none" poster="static/images/poster_real_water_bottle_delivery_faces_only.jpg" aria-label="Full cabinet and water-bottle delivery demonstration, four times speed" width="1920" height="1080"><source src="static/videos/real_water_bottle_delivery_faces_only.mp4" type="video/mp4"></video></div><div class="demo-caption"><div><span class="eyebrow">Real-world experiment / 4× speed</span><h3>Open. Retrieve. Deliver.</h3><p>Open both cabinet doors, grasp the bottle inside, and carry it to the hanging basket.</p></div><div class="demo-outcome"><strong>3<span>/5</span></strong><span>Full-task successes</span><small>16/20 subtask successes</small></div></div></div>
-      <div class="demo-panel" role="tabpanel" id="tools-demo" aria-labelledby="tools-tab" tabindex="0" hidden><div class="demo-film"><video controls muted playsinline preload="none" poster="static/images/poster_real_tool_pick_and_place_faces_only.jpg" aria-label="Full two-object tool pick-and-place demonstration, four times speed" width="1920" height="1080"><source src="static/videos/real_tool_pick_and_place_faces_only.mp4" type="video/mp4"></video></div><div class="demo-caption"><div><span class="eyebrow">Real-world experiment / 4× speed</span><h3>Two objects. One task program.</h3><p>Pick the hammer from the pegboard and place it in the basket, then carry the wrench to the upper shelf.</p></div><div class="demo-outcome"><strong>4<span>/5</span></strong><span>Full-task successes</span><small>19/20 subtask successes</small></div></div></div>
-
-      <details class="inline-disclosure" id="physical-outcomes"><summary>Trial outcomes &amp; hardware<span class="disclosure-plus" aria-hidden="true">+</span></summary><div class="detail-body">
-        <p>A custom coaxial quad-tiltrotor carries a four-degree-of-freedom arm and wrist RGB-D camera. Trials vary the robot’s initial position and heading; object placements differ from simulation. The videos show successful runs, while the counts below include all evaluated trials, including unreached stages.</p>
-        <div class="table-wrap" tabindex="0" role="region" aria-label="Physical task outcomes"><table class="res">
-          <thead><tr><th>Task</th><th class="l">Outcome</th><th>Successful trials</th></tr></thead>
-          <tbody>
-            <tr><td rowspan="5">Tool pick-and-place</td><td class="l">Grasp hammer</td><td>5/5</td></tr>
-            <tr><td class="l">Place hammer in basket</td><td>4/5</td></tr>
-            <tr><td class="l">Grasp wrench</td><td>5/5</td></tr>
-            <tr><td class="l">Place wrench on shelf</td><td>5/5</td></tr>
-            <tr class="ours"><td class="l">Full task</td><td>4/5</td></tr>
-            <tr><td rowspan="5">Water-bottle delivery (Cabinet door opening)</td><td class="l">Open left door</td><td>5/5</td></tr>
-            <tr><td class="l">Open right door</td><td>4/5</td></tr>
-            <tr><td class="l">Grasp bottle</td><td>4/5</td></tr>
-            <tr><td class="l">Place bottle in basket</td><td>3/5</td></tr>
-            <tr class="ours"><td class="l">Full task</td><td>3/5</td></tr>
-          </tbody>
-        </table></div>
-      </div></details>
-    </section>
-
-    <section class="results-section concise-results" id="results"><div class="section-shell">
-      <div class="section-top"><p class="eyebrow">03 / Results</p><span class="margin-note">Six tasks · two simulated environments</span></div>
-      <div class="result-headline"><h2>Better evidence.<br>Better task programs.</h2><div class="result-metric"><span>Final task success</span><strong><span>31.7%</span> → 75%</strong><span>CaP-X → CaP-X + Active Feedback</span></div></div>
-      <p class="result-context">Same primary coding agent and task-execution limit; 10 trials per task and condition. AF adds diagnostic inference and interaction.</p>
-      <div class="result-tabs" role="tablist" aria-label="Evaluation results">
-        <button type="button" role="tab" id="task-success-tab" aria-controls="task-success" aria-selected="true" data-result="success">By task</button>
-        <button type="button" role="tab" id="generality-tab" aria-controls="generality" aria-selected="false" tabindex="-1" data-result="models">Models &amp; interfaces</button>
-        <button type="button" role="tab" id="completion-tab" aria-controls="completion" aria-selected="false" tabindex="-1" data-result="completion">Completion judgments</button>
-      </div>
-      <div class="result-panel" role="tabpanel" id="task-success" aria-labelledby="task-success-tab" tabindex="0">
-        <figure><div class="chart-scroll" tabindex="0" role="region" aria-label="Task success chart"><img class="fig" src="static/images/results_success.png" width="1659" height="645" loading="lazy"
-           alt="Bar chart of final task success on six tasks. Ours matches or exceeds both baselines on every task: Cabinet 4/10, 1-Object 10/10, 2-Objects 9/10, Payload 10/10, Box alignment (Align) 7/10, Object sorting (Sort) 5/10; 45/60 overall versus 19/60 for CaP-X and 29/60 for CaP-X+Trace."></div><figcaption>Final task success: 31.7% (19/60), 48.3% (29/60), and 75% (45 of 60) for CaP-X, CaP-X + Trace, and CaP-X + AF, respectively.</figcaption></figure>
-      </div>
-      <div class="result-panel" role="tabpanel" id="generality" aria-labelledby="generality-tab" tabindex="0" hidden>
-        <figure><div class="chart-scroll" tabindex="0" role="region" aria-label="Model and interface comparison chart"><img class="fig" src="static/images/results_models.png" width="1667" height="597"  loading="lazy"
-           alt="Bar charts of success on Cabinet and Payload for six model and interface configurations under No harness, CaP-X and Ours."></div><figcaption>Across twelve model–task pairs, AF improves on CaP-X in eight and ties in four, including three ties at zero. Gains vary by configuration.</figcaption></figure>
-      </div>
-      <div class="result-panel" role="tabpanel" id="completion" aria-labelledby="completion-tab" tabindex="0" hidden>
-        <div class="completion-highlight"><strong>25 → 5</strong><span>False completion declarations<br>CaP-X → CaP-X + AF / 60 trials each</span></div>
-        <div class="table-wrap" tabindex="0" role="region" aria-label="Completion judgments per task"><table class="res">
-          <thead>
-            <tr><th rowspan="2">Method</th><th colspan="6">Per task (TP / FP / ND)</th><th colspan="2" class="sep">Overall</th></tr>
-            <tr><th>Cabinet</th><th>1-Obj P&amp;P</th><th>2-Obj P&amp;P</th><th>Payload</th><th>Align</th><th>Sort</th><th class="sep">TP / FP / ND</th><th>Precision</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>CaP-X</td><td>1/1/8</td><td>9/1/0</td><td>4/5/1</td><td>3/6/1</td><td>0/10/0</td><td>2/2/6</td><td class="sep">19/25/16</td><td>43.2%</td></tr>
-            <tr><td>CaP-X+Trace</td><td>0/3/7</td><td>10/0/0</td><td>6/3/1</td><td>6/3/1</td><td>3/7/0</td><td>4/3/3</td><td class="sep">29/19/12</td><td>60.4%</td></tr>
-            <tr class="ours"><td>Ours (CaP-X+AF)</td><td>4/1/<span class="nd">5</span></td><td>10/0/<span class="nd">0</span></td><td>9/1/<span class="nd">0</span></td><td>10/0/<span class="nd">0</span></td><td>7/3/<span class="nd">0</span></td><td>5/0/<span class="nd">5</span></td><td class="sep">45/5/<span class="nd">10</span></td><td>90.0%</td></tr>
-          </tbody>
-        </table></div><p class="panel-caption">TP: correct completion declaration. FP: incorrect declaration. ND: no declaration before the step limit. Precision = TP / (TP + FP).</p>
-      </div>
-      <p class="chart-mobile-note">Swipe the chart or table horizontally to see all details.</p>
-      <details class="inline-disclosure" id="evaluation"><summary>Evaluation setup<span class="disclosure-plus" aria-hidden="true">+</span></summary><div class="detail-body"><p>The primary agent is Claude Opus 5 in a persistent session. All three conditions share perception, control and semantic-map APIs, the skill library, and task-execution limit. CaP-X receives logs and the terminal RGB observation; Trace adds primitive-call records and execution keyframes; AF adds a generated diagnostic program. Every revised task program restarts from the initial state and must perform the full task.</p></div></details>
-      <details class="inline-disclosure" id="tasks"><summary>Explore the task environments<span class="disclosure-plus" aria-hidden="true">+</span></summary><div class="detail-body"><img src="static/images/tasks.jpg" alt="Sort, Align, Cabinet and Payload in the warehouse and laboratory digital twin, with overlaid robot poses and paths." width="2000" height="1246" loading="lazy"><p>The six tasks are one- and two-object pick-and-place, Sort, Align, Cabinet, and Payload. The latter four are shown above; robot poses and paths are montage annotations.</p><dl class="task-key"><div><dt>Sort</dt><dd>Place the target bottle in the color-matched bin.</dd></div><div><dt>Align</dt><dd>Push protruding boxes into alignment with the rack.</dd></div><div><dt>Cabinet</dt><dd>Open the doors, retrieve the bottle, and deliver it to the basket.</dd></div><div><dt>Payload</dt><dd>Transport bottles and baskets with minimal hall crossings under an undisclosed payload limit.</dd></div></dl></div></details>
-    </div></section>
-    <section class="section-shell paper-compact" id="research">
-      <details class="inline-disclosure" id="abstract"><summary>Read the abstract<span class="disclosure-plus" aria-hidden="true">+</span></summary><div class="detail-body abstract-copy"><p>
+    <section class="ax-section" id="abstract" aria-labelledby="abs-title"><div class="ax-wrap">
+      <h2 id="abs-title">Abstract</h2>
+      <div class="ax-abstract"><p>
               Embodied coding agents emerge as a promising approach to construct robot policies from natural-language instructions.
               However, extending these agents to physically demanding settings introduces two fundamental challenges: partial
               observability and limited interaction robustness. These challenges can leave task-critical outcomes unobserved, and
@@ -341,12 +346,10 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
               modifications and successfully execute multi-stage tasks in the real world. These results show that executable
               diagnosis helps embodied coding agents address gaps in execution feedback, improving both completion assessment
               and program refinement for autonomous aerial manipulation.
-            </p></div></details>
-    </section>
+            </p></div>
+    </div></section>
   </main>
-  <footer>
-    <div class="site-footer"><a class="wordmark" href="#top">Fly-by-Code<span class="wordmark-dot">.</span></a><span>Embodied coding agents for aerial manipulation</span><a href="#top">Back to top <span aria-hidden="true">↑</span></a></div>
-    <div class="film-music-credit" id="film-music-credit" aria-label="Music credit for the 38-second project film"><span><a href="#video">38-second project film</a> · Music credit</span><span>Royalty Free Music: <a href="https://www.bensound.com" target="_blank" rel="noopener">https://www.bensound.com</a></span><span>Artist: Benjamin Tissot</span><span>License code: 7XCGZP26MIZMBQZA</span></div>
-  </footer>
+  <script src="static/js/overview.js" defer></script>
+  <script src="static/js/side-nav.js" defer></script>
 </body>
 </html>

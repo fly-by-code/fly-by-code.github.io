@@ -14,9 +14,9 @@ for (const [name,source] of Object.entries(html)) {
   ids[name] = new Set(found);
   assert(!/ICLR|double.blind|under.{0,15}review|Anonymous Authors/i.test(source), `${name}: conference/review disclosure`);
   if (name === 'index.html') {
-    assert.equal((source.match(/class="author-names"/g)||[]).length,1,`${name}: author block`);
+    assert.equal((source.match(/class="ax-author-list"/g)||[]).length,1,`${name}: author block`);
     for (const author of ['Jaewoo Lee','Jeongyeon Seo','Sihyun Cho','Gyeongrak Choe','Yutong Wang','Bavin Saravanan','Jia-Bin Huang','Furong Huang','Sebastian Scherer','Guanya Shi','H. Jin Kim','Seungjae Lee','Dongjae Lee']) {
-      assert(source.includes(`${author}<sup>`),`${name}: missing author ${author}`);
+      assert(source.includes(`<span>${author}`),`${name}: missing author ${author}`);
     }
   }
 }
@@ -33,51 +33,36 @@ for (const [name,source] of Object.entries(html)) {
   }
 }
 assert(html['index.html'].includes('31.7'),'baseline missing');
-assert(/<nav[^>]*>[\s\S]*?<a href="#video">Video<\/a>/.test(html['index.html']),'Video navigation missing');
-assert(ids['index.html'].has('video'),'research-film section missing');
-const researchVideo=html['index.html'].match(/<video\b[^>]*id="research-video"[^>]*>/)?.[0];
-assert(researchVideo,'research-film player missing');
-for (const attribute of ['controls','playsinline','preload="none"','width="1920"','height="1080"']) assert(researchVideo.includes(attribute),`research-film player missing ${attribute}`);
-assert(!/\b(?:autoplay|loop|muted)\b/.test(researchVideo),'project film must play music only after user initiation');
-const filmPath=path.join(root,'static/videos/fly-by-code-sns-v11-1080p.mp4');
-assert(html['index.html'].includes('src="static/videos/fly-by-code-sns-v11-1080p.mp4"') && researchVideo.includes('poster="static/images/sns-film-v11.jpg"'),'project film and first-frame poster must both use SNS v11');
-assert(fs.statSync(filmPath).size>1_000_000,'research-film asset is empty or incomplete');
-assert(fs.statSync(filmPath).size<100*1024*1024,'research-film asset exceeds the GitHub file limit');
-const footer=html['index.html'].match(/<footer\b[^>]*>[\s\S]*?<\/footer>/)?.[0];
-assert(footer?.includes('id="film-music-credit"'),'music credit must be at the bottom of the page');
-for (const credit of ['Royalty Free Music:', 'https://www.bensound.com', 'Artist: Benjamin Tissot', 'License code: 7XCGZP26MIZMBQZA']) assert(footer.includes(credit),`required footer attribution missing: ${credit}`);
-assert(!html['index.html'].split('</main>')[0].includes('class="film-music-credit"'),'music credit must not occupy the video section');
-const fullFilm=html['index.html'].match(/<details\b[^>]*id="full-research-film"[^>]*>[\s\S]*?<\/details>/)?.[0];
-assert(fullFilm && !/\sopen(?:\s|=|>)/.test(fullFilm.split('>')[0]),'full research film must be retained in a closed disclosure');
-assert(fullFilm.includes('static/videos/fly-by-code-film-v12-1080p.mp4') && fullFilm.includes('static/images/research-film-v12.jpg'),'original full film and poster must be preserved');
-assert(!/\bautoplay\b/.test(fullFilm),'full film must not autoplay');
+assert(!html['index.html'].includes('class="site-header"'),'top navigation bar was removed on purpose');
+assert(ids['index.html'].has('method'),'method section missing');
+// The project films are no longer embedded; the Method diagram explains the approach.
+// If the 38-second film (music) comes back, its footer credit must come back with it.
+const filmOnPage=html['index.html'].includes('fly-by-code-sns-v11-1080p.mp4');
+const footer=html['index.html'].match(/<footer\b[^>]*>[\s\S]*?<\/footer>/)?.[0]||'';
+if (filmOnPage) for (const credit of ['Royalty Free Music:', 'https://www.bensound.com', 'Artist: Benjamin Tissot', 'License code: 7XCGZP26MIZMBQZA']) assert(footer.includes(credit),`required footer attribution missing: ${credit}`);
+assert(ids['index.html'].has('ov-ours'),'method diagram missing');
 assert(!html['index.html'].includes('research-film-caption'),'removed film metadata row returned');
 assert(!html['index.html'].includes('Download MP4'),'removed download link returned');
-assert(researchVideo.includes('aria-describedby="research-film-description film-music-credit"') && ids['index.html'].has('research-film-description'),'film description and footer-credit association are missing');
 assert(html['index.html'].includes('48.3'),'trace baseline missing');
 assert(html['index.html'].includes('45 of 60'),'AF denominator missing');
 assert(html['index.html'].includes('static/videos/hero-sequence-v5-1440p.mp4'),'high-resolution desktop hero missing');
 assert(html['index.html'].includes('static/videos/hero-sequence-v5-1080p.mp4'),'smaller-screen hero missing');
-assert(html['index.html'].includes('<p>Embodied coding agents for real-world aerial manipulation.</p>'),'hero sentence should not contain a forced line break');
-assert(html['index.html'].includes('class="hero-location-title">Real-world Aerial Manipulation</span>'),'hero location capitalization is incorrect');
-assert(html['index.html'].includes('At SNU’s Siheung Laboratory'),'laboratory location missing');
+// Hero is deliberately minimal: name and full paper title over the video, nothing else.
+assert(html['index.html'].includes('<p class="hero-paper-title">Embodied Coding Agents for Aerial Manipulation with Active Visual and Physical Feedback</p>'),'hero paper title missing');
+for (const removed of ['Siheung Laboratory','Language → Code → Flight','Watch the experiments','Task code made by','Onboard ego RGB-D only','4× speed · Edited','Scroll to discover','id="hero-stage"']) assert(!html['index.html'].includes(removed),`removed hero text returned: ${removed}`);
 assert(!/Research(?: project)? \/ 2026/i.test(html['index.html']),'old research stamp remains');
-assert(html['index.html'].includes('Task code made by'),'task-code attribution missing');
-assert(html['index.html'].includes('Claude Code · Opus 5'),'coding-agent attribution missing');
-assert(html['index.html'].includes('Onboard ego RGB-D only'),'visual-input qualification missing');
 assert(!html['index.html'].includes('No hard-coded object coordinates'),'removed hero fact remains');
-assert(html['index.html'].includes('id="hero-stage-label"'),'video action label missing');
 assert(html['index.html'].includes('media="(max-width: 1023px)"'),'hero media breakpoint missing');
 assert(html['index.html'].includes('poster="static/images/hero-sequence.jpg"'),'high-resolution poster missing');
 assert(!html['index.html'].includes('static/papers/'),'preprint must stay unpublished during review');
 assert(!html['index.html'].includes('research.html'),'separate research-page link remains');
 assert(html['research.html'].includes('static/js/research-redirect.js'),'legacy redirect missing');
-for (const section of ['view-case','probe-details','method','physical-outcomes','evaluation','tasks','abstract']) {
+for (const section of ['view-case','probe-details','physical-outcomes']) {
   const tag=html['index.html'].match(new RegExp(`<details[^>]*id="${section}"[^>]*>`))?.[0];
   assert(tag,`missing inline disclosure: ${section}`);
   assert(!/\sopen(?:\s|=|>)/.test(tag),`detail should initially be collapsed: ${section}`);
 }
-for (const figure of ['method.png','tasks.jpg','results_success.png','results_models.png']) {
+for (const figure of ['tasks.jpg','results_success.png','results_models.png']) {
   assert(html['index.html'].includes(`static/images/${figure}`),`missing main-page figure: ${figure}`);
 }
 for (const video of ['k2_turn1','k2_af1','k2_turn2','align_af1','align_turn2']) {
@@ -130,7 +115,7 @@ for (const [selector,size] of [['.author-names','.875rem'],['.affiliations','.81
   assert(mobileCredits.includes(`.publication-meta ${selector}{font-size:${size}`), `${selector}: requested smaller mobile credit size missing`);
 }
 assert(/\.publication-meta \.publication-links \.text-link\{font-size:\.8125rem[^}]*min-height:44px/.test(mobileCredits),'compact publication links must retain touch targets');
-console.log(`PASS: single-page content + legacy redirect; ${count} local references; unique IDs; all 13 authors; seven closed disclosures; graphs and case videos retained; no conference/review disclosure.`);
+console.log(`PASS: single-page content + legacy redirect; ${count} local references; unique IDs; all 13 authors; three closed disclosures; graphs and case videos retained; no conference/review disclosure.`);
 console.log('PASS: separately scoped desktop typography; width-fitted mobile film, top-right task badge, compact titles, and scrollable navigation.');
 console.log('PASS: mobile-only compact authors, affiliations, notes, and publication links with 44px touch targets.');
 
