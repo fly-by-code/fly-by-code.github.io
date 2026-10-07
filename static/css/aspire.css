@@ -418,3 +418,6 @@ body.ax-page{--paper:#ffffff;background:#ffffff}
 /* hero: no bottom rule and no play/pause control. The button stays in the HTML because
    flight.js only autoplays the hero video when it exists. */
 .ax-page .hero-film .hero-bottom{display:none!important}
+/* no horizontal rules between page sections */
+.ax-section+.ax-section:not(.ax-dark){border-top:0}
+.ax-authors{border-bottom:0}
