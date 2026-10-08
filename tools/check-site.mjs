@@ -149,7 +149,7 @@ assert(!index.includes('src="static/videos/method_probe.mp4"'), 'retired Probe c
 assert(index.includes('such as hinge-aware opening of the cabinet door.</figcaption>'));
 assert(!index.includes('task-program replay'));
 assert(index.includes('poster="static/images/poster_method_probe_attempt_20261008.jpg"'));
-for (const [id, basename] of [['cabinet-demo', 'real_cabinet_compact_20261008'], ['tools-demo', 'real_2objects_compact_20261008']]) {
+for (const [id, basename] of [['cabinet-demo', 'real_cabinet_readable_map_20261008'], ['tools-demo', 'real_2objects_readable_map_20261008']]) {
   const card = index.match(new RegExp('<article[^>]+id="' + id + '"[\\s\\S]*?<\\/article>'))?.[0];
   assert(card?.includes('static/videos/' + basename + '.mp4'), 'long-film excerpt missing: ' + id);
   assert(card.includes('static/images/poster_' + basename + '.jpg'), 'excerpt poster mismatch: ' + id);
