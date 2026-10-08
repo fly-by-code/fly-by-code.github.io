@@ -59,6 +59,7 @@ const expectedAuthorLinks = new Map([
   ['Sihyun Cho', 'https://cstrinng.github.io/'],
   ['Gyeongrak Choe', 'https://gyeong-rak.github.io/'],
   ['Yutong Wang', 'https://ywang760.github.io/'],
+  ['Bavin Saravanan', 'https://bavin-hub.github.io/'],
   ['Jia-Bin Huang', 'https://jbhuang0604.github.io/'],
   ['Furong Huang', 'https://furong-huang.com/'],
   ['Sebastian Scherer', 'https://theairlab.org/'],
@@ -188,7 +189,7 @@ for (const source of Object.values(html)) for (const [, script] of source.matchA
   }
 }
 console.log('PASS: ' + count + ' local references; unique IDs and ARIA targets; all public/legacy anchors.');
-console.log('PASS: current responsive-layout smoke checks; quick diagram; hero v6; 13 authors, 12 homepages + coin-flip note.');
+console.log('PASS: current responsive-layout smoke checks; quick diagram; hero v6; 13 authors, 13 homepages + coin-flip note.');
 console.log('PASS: collaborator TL;DR/layout preserved; matching View/Probe labels + compact 8x real-world excerpts; closed disclosures; loaded scripts parse.');
 console.log('Browser QA remains required for viewport geometry, navigation, diagram interactions and media playback.');
 // Release buttons sit centred under the author note so the whole author block shares the page's centre axis.
