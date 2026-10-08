@@ -140,18 +140,21 @@ assert(methodIntro.replace(/<[^>]+>/g, '').trim().split(/\s+/).length < 40, 'kee
 
 // Method film: task instruction above the clip; the caption explains what an attempt is.
 assert(index.includes('<p class="ov-task"><b>Task</b>') && index.includes('the final attempt (4 of 4) completes the task.</figcaption>'));
-for (const video of ['method_loop','method_view','method_probe_e7_matched_20261008','k2_turn1','k2_af1','k2_turn2','align_af1','align_turn2']) {
+// View and Probe use matching ATTEMPT labels.
+for (const video of ['method_loop','method_view_attempt_20261008','method_probe_attempt_20261008','k2_turn1','k2_af1','k2_turn2','align_af1','align_turn2']) {
   assert(index.includes('static/videos/' + video + '.mp4'), 'missing method/case video: ' + video);
 }
 assert(!index.includes('src="static/videos/method_probe.mp4"'), 'retired Probe clip returned');
-assert(index.includes('replaying the door-opening portion of a successful task program.'));
-assert(index.includes('Cabinet door opening &middot; task-program replay</figcaption>'));
-assert(index.includes('poster="static/images/poster_method_probe_e7_matched_20261008.jpg"'));
-for (const [id, basename] of [['cabinet-demo', 'real_cabinet_film_v12_labels_20261008'], ['tools-demo', 'real_2objects_film_v12_labels_20261008']]) {
+assert(index.includes('using the door-opening portion of a successful task program.'));
+assert.equal((index.match(/Cabinet door opening<\/figcaption>/g) || []).length, 2);
+assert(!index.includes('task-program replay'));
+assert(index.includes('poster="static/images/poster_method_probe_attempt_20261008.jpg"'));
+for (const [id, basename] of [['cabinet-demo', 'real_cabinet_compact_20261008'], ['tools-demo', 'real_2objects_compact_20261008']]) {
   const card = index.match(new RegExp('<article[^>]+id="' + id + '"[\\s\\S]*?<\\/article>'))?.[0];
   assert(card?.includes('static/videos/' + basename + '.mp4'), 'long-film excerpt missing: ' + id);
   assert(card.includes('static/images/poster_' + basename + '.jpg'), 'excerpt poster mismatch: ' + id);
   assert(card.includes('eight times speed') && card.includes('ego camera, semantic map and task-program panels'), 'excerpt description mismatch: ' + id);
+  assert(card.includes('width="1920" height="900"'), 'compact native aspect ratio missing: ' + id);
 }
 for (const section of ['view-case','probe-details','physical-outcomes']) {
   const tag = index.match(new RegExp('<details[^>]*id="' + section + '"[^>]*>'))?.[0];
@@ -186,7 +189,7 @@ for (const source of Object.values(html)) for (const [, script] of source.matchA
 }
 console.log('PASS: ' + count + ' local references; unique IDs and ARIA targets; all public/legacy anchors.');
 console.log('PASS: current responsive-layout smoke checks; quick diagram; hero v6; 13 authors, 11 homepages + coin-flip note.');
-console.log('PASS: collaborator TL;DR/layout preserved; Probe task replay + 8x real-world excerpts; closed disclosures; loaded scripts parse.');
+console.log('PASS: collaborator TL;DR/layout preserved; matching View/Probe labels + compact 8x real-world excerpts; closed disclosures; loaded scripts parse.');
 console.log('Browser QA remains required for viewport geometry, navigation, diagram interactions and media playback.');
 // Release buttons sit centred under the author note so the whole author block shares the page's centre axis.
 assert(read('static/css/aspire.css').includes('.ax-authors .publication-layout{grid-template-columns:minmax(0,1fr)'), 'author block must stay single-column and centred');

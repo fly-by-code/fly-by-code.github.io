@@ -85,7 +85,7 @@
 /* real-world: one large video per task */
 .ax-stack{display:grid;gap:40px;margin-top:44px}
 .ax-card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.ax-card .ax-media video{border-radius:0;aspect-ratio:16/9}
+.ax-card .ax-media video{border-radius:0;aspect-ratio:auto}
 .ax-card-body{padding:24px 28px 26px;display:grid;grid-template-columns:1fr auto;column-gap:40px;align-items:center}
 .ax-card-body h3{font-size:22px;font-weight:600;letter-spacing:-.03em;grid-column:1}
 .ax-card-body p{color:var(--subtle);margin-top:6px;line-height:1.6;grid-column:1}
