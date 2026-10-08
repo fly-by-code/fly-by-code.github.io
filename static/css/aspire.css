@@ -364,11 +364,7 @@ body.ax-page{--paper:#ffffff;background:#ffffff}
 .ov-under{margin:12px 0 0;font-size:14px;line-height:1.5;color:var(--subtle)}
 .ov-under{margin:10px 2px 0;font-size:13px;line-height:1.5;color:#8d999f}
 .ax-lead+.ax-lead{margin-top:14px}
-/* click hint sits in the caption row, left of Replay; shown once View/Probe are on screen */
 .ov-caprow .ov-cap{flex:1}
-.ov-clickhint{flex:none;font-size:13px;color:#8d999f;opacity:0;transition:opacity .4s;white-space:nowrap}
-.ov-ours.ready .ov-clickhint,.ov-ours:not(.armed) .ov-clickhint{opacity:1}
-@media(max-width:860px){.ov-clickhint{display:none}}
 /* affiliations: two lines (1-3, then 4-5), as in the paper */
 .ax-affil .ax-break{flex-basis:100%;height:0}
 @media(max-width:760px){.ax-affil .ax-break{display:none}}
@@ -445,3 +441,69 @@ body.ax-page{--paper:#ffffff;background:#ffffff}
 .ax-ours{transition:box-shadow .5s,border-color .5s}
 .ax-stats.ax-live:not(.ax-done) .ax-ours{box-shadow:none}
 .ax-stats.ax-done .ax-ours{box-shadow:inset 0 0 0 1px var(--teal),0 14px 34px #286d8c22}
+/* Author block on one centre axis: title, authors, affiliations, note, then the arXiv / Code
+   buttons in a centred row (overrides the side column from responsive.css), then the TL;DR. */
+.ax-authors .publication-layout{grid-template-columns:minmax(0,1fr);gap:0;max-width:1120px}
+.ax-authors .publication-links{grid-row:auto;flex-direction:row;justify-content:center;justify-self:center;gap:10px;margin:22px 0 0;padding:0;border:0}
+.ax-authors .publication-hint{top:auto;bottom:calc(100% + 6px);left:50%;right:auto;transform:translateX(-50%)}
+/* TL;DR, after C-Slerp: centred heading with a highlighter underline, one short narrow paragraph,
+   key phrases marked; no card. */
+.ax-authors .ax-tldr{max-width:740px;margin:56px auto 0;padding:0;background:none;border:0;border-radius:0;text-align:left}
+.ax-tldr h2{margin:0 0 14px;text-align:center;font-size:1.6rem;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.ax-tldr h2 span{padding:0 4px;background:linear-gradient(transparent 58%,rgba(16,29,37,.1) 58%,rgba(16,29,37,.1) 96%,transparent 96%)}
+.ax-tldr h2:before{display:none}
+.ax-tldr p{margin:0;font-size:1rem;line-height:1.65;color:var(--ink)}
+.ax-mark{font-weight:600;padding:0 1px;background:linear-gradient(transparent 62%,rgba(40,109,140,.22) 62%,rgba(40,109,140,.22) 96%,transparent 96%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+@media(max-width:760px){.ax-authors .ax-tldr{margin-top:40px}.ax-tldr h2{font-size:1.35rem}}
+/* TL;DR: one point larger; justified so the block reads as centred under the title */
+.ax-tldr p{font-size:1.0625rem;line-height:1.66;text-align:justify;text-align-last:center;hyphens:manual}
+.ax-tldr h2{font-size:1.7rem}
+/* section titles no larger than the paper title (36px) */
+.ax-page .ax-section h2{font-size:clamp(1.5rem,2.3vw,2rem)}
+.ax-tldr p{text-align:center;text-align-last:auto;text-wrap:balance}
+
+/* diagram captions: one style for both screens (same size, weight and colour); only the
+   names carry colour, matching the blocks below */
+.ax-section .ov-cap{font-size:1.18rem}
+.ov-cap .k0,.ov-cap .k1{font-weight:600;color:var(--ink);will-change:transform,opacity}
+.ov-cap .k1 b{font-weight:700;color:var(--ink)}
+.ov-cap .ov-cap-af{color:#2f84b5}
+/* the "click a highlighted block" bar appears with the clickable third screen */
+.ov-ours.armed .ov-explore{transition:opacity .4s ease,transform .4s ease,visibility 0s linear .4s}
+.ov-ours.armed:not(.ready) .ov-explore{opacity:0;visibility:hidden;transform:translateY(6px)}
+.ov-ours.armed.ready .ov-explore{opacity:1;visibility:visible;transform:none;transition:opacity .4s ease,transform .4s ease,visibility 0s}
+/* captions are measured and moved by overview.js: each line is only as wide as its text */
+.ov-caprow .ov-cap{flex:1;min-width:0}
+.ov-cap>span{justify-self:start;width:max-content;max-width:100%;transform-origin:center;white-space:nowrap}
+.ov-ours{position:relative}
+/* "Click a highlighted block" line: text and cursor icon only, no box */
+.ax-section .ov-explore{border:0;background:none;padding:0 2px;margin:8px 0 14px}
+@media(max-width:860px){.ov-cap>span{white-space:normal;width:auto}}
+/* "Click a highlighted block": centred line above the diagram */
+.ax-section .ov-explore{justify-content:center}
+.ax-section .ov-clickhint{flex:0 1 auto;justify-content:center}
+/* Active Feedback panel and beam (behind the cards), after the paper figure */
+.ov-lines .ov-afpanel{fill:#e8f2f8;stroke:#7fb6d6;stroke-width:1.2;vector-effect:non-scaling-stroke}
+.ov-lines .ov-beam{fill:#cfe5f1;stroke:none;opacity:0}
+.ov-ours.armed .ov-afpanel{opacity:0}
+/* the clickable blocks (Active Feedback, diagnostic program, View, Probe) stay visibly highlighted */
+.ov-ours.ready .ov-hot{box-shadow:0 0 0 .32cqw color-mix(in srgb,var(--acc) 30%,transparent),0 .8cqw 2cqw color-mix(in srgb,var(--acc) 22%,transparent)}
+.ov-ours.ready:not(.touched) .ov-hot{animation:ov-glow 2.2s ease-in-out infinite}
+.ov-ours.ready:not(.touched) .ov-probe{animation-delay:.35s}
+.ov-ours.ready:not(.touched) .ov-af,.ov-ours.ready:not(.touched) .ov-diag{animation-delay:.7s}
+@keyframes ov-glow{0%,100%{box-shadow:0 0 0 .32cqw color-mix(in srgb,var(--acc) 30%,transparent),0 .8cqw 2cqw color-mix(in srgb,var(--acc) 22%,transparent)}
+  50%{box-shadow:0 0 0 .6cqw color-mix(in srgb,var(--acc) 22%,transparent),0 .8cqw 2.6cqw color-mix(in srgb,var(--acc) 30%,transparent)}}
+@media(prefers-reduced-motion:reduce){.ov-ours .ov-hot{animation:none!important}}
+/* View / Probe: heavier before -> after arrows, bold footers */
+.ov-pair i{position:relative;display:block;height:2cqw;font-size:0;color:var(--acc)}
+.ov-pair i::before{content:'';position:absolute;left:.15cqw;right:.75cqw;top:50%;height:.32cqw;margin-top:-.16cqw;border-radius:.16cqw;background:currentColor}
+.ov-pair i::after{content:'';position:absolute;right:.1cqw;top:50%;margin-top:-.62cqw;border-left:.85cqw solid currentColor;border-top:.62cqw solid transparent;border-bottom:.62cqw solid transparent}
+.ov-foot{font-weight:700}
+/* TL;DR heading without the grey highlighter */
+.ax-tldr h2 span{background:none;padding:0}
+/* Replay: the click hint disappears at once (it only fades in when screen 3 is ready) */
+.ov-ours.armed:not(.ready) .ov-explore{transition:none}
+/* TL;DR heading uses the section-title marker (short gradient bar), centred and one step smaller */
+.ax-tldr h2{font-size:1.55rem;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:0 0 14px}
+.ax-tldr h2:before{content:'';display:block!important;width:44px;height:3px;margin:0 auto 14px;border-radius:2px;background:var(--lab-gradient)}
+.ax-section .ov-intro{margin:0 0 4px;color:#46555c}

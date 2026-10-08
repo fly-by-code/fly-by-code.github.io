@@ -1,5 +1,5 @@
 // How-it-works diagram: a brief plain-loop view -> Active Feedback -> View / Probe.
-// The complete build takes about 2.2 s; Replay restarts it. It then stays
+// The complete build takes about 3.6 s; Replay restarts it. It then stays
 // on screen 3, where View / Probe / Active Feedback are clickable.
 // render(t) draws the figure at a timeline position; screen k is the state at STEP_END[k].
 // The static markup is the final layout, so without JS (or with reduced motion) the finished diagram shows.
@@ -17,7 +17,7 @@
                  verdict: [780, 320, 150, 110], finish: [970, 330, 130, 90], refine: [515, 455, 240, 50]};
   const BASE = {task: 125, policy: 290, exec: 480, verdict: 655, finish: 845, refine: 450};
   const LIFT = 160;
-  const STEP_END = [4.0, 5.4, 7.4];          // timeline position at the end of each step
+  const STEP_END = [4.0, 5.4, 8.0];          // timeline position at the end of each step
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const place = (el, x, y, w, h) => Object.assign(el.style, {left: `${x / W * 100}%`, top: `${y / H * 100}%`, width: `${w / W * 100}%`, height: `${h / H * 100}%`});
@@ -68,24 +68,45 @@
     draw('af', [[L('af') - 14, cy], [L('af') - 1, cy]], ao > .05 ? 1 : 0);
     pathEl('af').style.opacity = ao;
     // step 3: View and Probe come out of the Active Feedback block, then the diagnostic-program panel
-    const p = win(t, 5.5, 6.5), ax = C('af'), ay = cy;
+    const p = win(t, 6.0, 7.0), ax = C('af'), ay = cy;
     for (const k of ['view', 'probe']) {
       const el = $(k), [x, y, w, h] = k === 'view' ? [215, 0, 435, 262] : [665, 0, 435, 262];
       const dx = (ax - (x + w / 2)) * (1 - p), dyy = (ay - (y + h / 2)) * (1 - p);
       el.style.opacity = p; el.style.pointerEvents = p < .6 ? 'none' : '';
       el.style.transform = p < 1 ? `translate(${u(dx)}, ${u(dyy)}) scale(${(.2 + .8 * p).toFixed(3)})` : '';
     }
-    conn.style.opacity = win(t, 6.2, 6.6);
-    const dp = win(t, 6.6, 7.2), diag = $('diag');
+    // Active Feedback "opens up": a beam spreads from its block into the panel that holds View, Probe
+    // and the diagnostic program (as in the paper figure); both follow the block while the loop settles
+    const beam = conn.querySelector('.ov-beam'), panel = conn.querySelector('.ov-afpanel');
+    const bl = L('af'), br = R('af');
+    beam.setAttribute('d', `M${C('af') - 195} 270L${C('af') + 195} 270L${br} ${g.af[1]}L${bl} ${g.af[1]}Z`);
+    beam.style.opacity = win(t, 5.8, 6.3);
+    panel.style.opacity = win(t, 5.9, 6.5);
+    const dp = win(t, 7.1, 7.7), diag = $('diag');
     diag.style.opacity = dp; diag.style.pointerEvents = dp < .6 ? 'none' : '';
     diag.style.transform = dp < 1 ? `translateX(${u(-24 * (1 - dp))})` : '';
     // caption follows the screen: plain loop, then ours
-    cap0.style.opacity = (1 - win(t, 4.0, 4.4)).toFixed(3); cap1.style.opacity = win(t, 4.3, 4.8).toFixed(3);
+    // the plain-loop caption slides up and out as the loop opens; ours slides up into its place
+    const c0 = win(t, 4.0, 4.35), c1 = win(t, 4.25, 4.7);
+    // On screens 1 and 2 each caption sits large and centred about a quarter of the way down the box;
+    // just before View / Probe appear it glides to its resting place at the top left.
+    const rootBox = root.getBoundingClientRect();
+    const m = rootBox.width > 760 ? 1 - win(t, 5.4, 6.0) : 0;   // phones: captions stay in place and wrap
+    const placeCaption = (el, fade, slide) => {
+      el.style.transform = '';
+      const r = el.getBoundingClientRect();
+      const dx = (rootBox.left + rootBox.width / 2) - (r.left + r.width / 2);
+      const dy = (rootBox.top + rootBox.height * 0.25) - (r.top + r.height / 2);
+      el.style.opacity = fade.toFixed(3);
+      el.style.transform = `translate(${(dx * m).toFixed(1)}px, calc(${(dy * m).toFixed(1)}px + ${slide.toFixed(3)}em)) scale(${(1 + 0.22 * m).toFixed(3)})`;
+    };
+    placeCaption(cap0, 1 - c0, -0.45 * c0);
+    placeCaption(cap1, c1, 0.45 * (1 - c1));
   };
   window.__ovRender = render;
 
   // ---- play once: hold each screen, then move continuously to the next one
-  const FIRST = 450, HOLD = 350, RATE = 2.5; // ~2.2 s total, rather than ~9 s with long idle holds
+  const FIRST = 1000, HOLD = 1000, RATE = 2.5; // 1 s on screens 1 and 2; ~3.6 s in total
   let pos = STEP_END[0], raf = 0;
   const moveTo = (target, done) => {
     let last = performance.now();
@@ -108,7 +129,7 @@
 
   // ---- View / Probe / Active Feedback open a detail panel
   const detail = root.querySelector('#ov-detail');
-  const hots = [...root.querySelectorAll('.ov-hot, .ov-choice')];
+  const hots = [...root.querySelectorAll('.ov-hot')];
   const pages = [...detail.querySelectorAll('article')];
   let current = null;
   const stopVideos = () => detail.querySelectorAll('video').forEach(v => v.pause());

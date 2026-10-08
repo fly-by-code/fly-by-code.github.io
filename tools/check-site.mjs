@@ -108,13 +108,15 @@ assert(read('static/js/side-nav.js').includes("setAttribute('aria-current', 'loc
 const overview = read('static/js/overview.js');
 const timing = overview.match(/const FIRST = (\d+), HOLD = (\d+), RATE = ([\d.]+)/);
 assert(timing, 'animation timing missing');
-const seconds = (+timing[1] + +timing[2]) / 1000 + (7.4 - 4) / +timing[3];
-assert(seconds > 1.5 && seconds < 3, 'diagram should build quickly but remain readable');
-assert(overview.includes("querySelectorAll('.ov-hot, .ov-choice')"));
+const seconds = (+timing[1] + +timing[2]) / 1000 + (8.0 - 4) / +timing[3];
+assert(seconds > 1.5 && seconds < 4, 'diagram should build quickly but remain readable (1 s on screens 1 and 2)');
+assert(overview.includes("querySelectorAll('.ov-hot')"));
 assert(index.includes('Click a highlighted block for more details'));
-assert.equal([...index.matchAll(/class="ov-choice(?: view| probe)?"/g)].length, 3);
+// The diagram blocks themselves are the controls (the separate demo buttons were removed).
+assert(!index.includes('class="ov-choices"'), 'separate demo buttons returned');
+assert.equal([...index.matchAll(/class="ov-node [^"]*ov-hot/g)].length, 4);
 const methodIntro = index.match(/<h2 id="method-title">([\s\S]*?)<div class="ov-figure/)?.[1];
-assert(methodIntro && (methodIntro.match(/<p\b/g) || []).length === 1, 'keep Method introduction concise');
+assert(methodIntro && (methodIntro.match(/<p\b/g) || []).length <= 1, 'keep Method introduction concise (currently none)');
 assert(methodIntro.replace(/<[^>]+>/g, '').trim().split(/\s+/).length < 25);
 
 // Method film text is deliberately unchanged per the current user instruction.
@@ -130,9 +132,9 @@ for (const figure of ['tasks.jpg','results_success.png','results_models.png']) a
 for (const text of ['31.7%', '48.3%', '45 of 60']) assert(index.includes(text));
 // The full abstract was replaced by a short TL;DR under the author list (it keeps the #abstract anchor).
 assert(!index.includes('class="ax-abstract"'), 'abstract section returned');
-const tldr = index.match(/<p class="ax-tldr" id="abstract">([\s\S]*?)<\/p>/)?.[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+const tldr = index.match(/<div class="ax-tldr" id="abstract">([\s\S]*?)<\/div>/)?.[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 assert(tldr?.startsWith('TL;DR'), 'TL;DR missing under the author list');
-for (const text of ['diagnostic program', 'new viewpoints (View) and targeted physical tests (Probe)', 'task-program refinement', 'without modifying the task programs']) assert(tldr.includes(text));
+for (const text of ['diagnostic program', 'new viewpoints ( View ) and targeted physical tests ( Probe )', 'task-program refinement']) assert(tldr.includes(text));
 assert(index.includes('name="robots" content="noindex'));
 assert(!index.includes('static/papers/') && !index.includes('Download MP4'));
 assert(!index.includes('research-film-caption'));
@@ -157,3 +159,5 @@ console.log('PASS: ' + count + ' local references; unique IDs and ARIA targets; 
 console.log('PASS: current responsive-layout smoke checks; quick diagram; hero v6; 13 authors + coin-flip note.');
 console.log('PASS: TL;DR markers; captions/media preserved; closed disclosures; loaded scripts parse.');
 console.log('Browser QA remains required for viewport geometry, navigation, diagram interactions and media playback.');
+// Release buttons sit centred under the author note so the whole author block shares the page's centre axis.
+assert(read('static/css/aspire.css').includes('.ax-authors .publication-layout{grid-template-columns:minmax(0,1fr)'), 'author block must stay single-column and centred');
