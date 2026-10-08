@@ -50,7 +50,7 @@ assert(read('static/js/research-redirect.js').includes("resolveAnchor(window.loc
 const authors = index.match(/<p class="ax-author-list">([\s\S]*?)<\/p>/)?.[1];
 assert(authors, 'missing current author block');
 for (const name of ['Jaewoo Lee','Jeongyeon Seo','Sihyun Cho','Gyeongrak Choe','Yutong Wang','Bavin Saravanan','Jia-Bin Huang','Furong Huang','Sebastian Scherer','Guanya Shi','H. Jin Kim','Seungjae Lee','Dongjae Lee']) {
-  assert(authors.includes('<span>' + name), 'missing author: ' + name);
+  assert(authors.includes('<span>' + name) || new RegExp('<span><a class="ax-author-link" href="https://[^"]+" target="_blank" rel="noopener">' + name + '</a>').test(authors), 'missing author: ' + name);
 }
 assert(index.includes('Equal contribution; order determined by coin flip.'));
 assert(index.includes('&dagger; Project leads') && !index.includes('Corresponding authors'));
@@ -64,8 +64,8 @@ assert(releaseButtons[0][2].includes('arXiv') && releaseButtons[1][2].includes('
 assert.equal([...index.matchAll(/role="tooltip" hidden>coming soon<\/span>/g)].length, 2);
 assert(index.includes('class="publication-layout"') && index.includes('class="publication-info"'));
 assert(!index.includes('class="publication-footer"'), 'release controls must not share the author footnote row');
-assert(index.includes('Furong Huang<sup>3,4</sup>') && index.includes('All Purpose AI'));
-assert(index.includes('Dongjae Lee<sup>5&dagger;</sup>'));
+assert(index.includes('Furong Huang</a><sup>3,4</sup>') && index.includes('All Purpose AI'));
+assert(index.includes('Dongjae Lee</a><sup>5&dagger;</sup>'));
 const hero = index.match(/<section class="hero-film"[\s\S]*?<\/section>/)?.[0];
 assert(hero?.includes('<h1>Fly-by-Code'));
 assert(!hero.includes('hero-paper-title') && !hero.includes('Embodied Coding Agents'));
@@ -95,7 +95,7 @@ for (const token of ['--ax-copy: clamp(', '--ax-small: clamp(', 'svh', 'vw', '.a
   assert(responsive.includes(token), 'responsive rule missing: ' + token);
 }
 const nav = index.match(/<nav class="ax-rail"[\s\S]*?<\/nav>/)?.[0];
-for (const section of ['top','method','real-world','tasks','results','case-studies','abstract']) assert(nav.includes('href="#' + section + '"'));
+for (const section of ['top','method','real-world','tasks','results','case-studies']) assert(nav.includes('href="#' + section + '"'));
 const tasks = index.match(/<section class="ax-section" id="tasks"[\s\S]*?<\/section>/)?.[0];
 assert(tasks?.includes('static/images/tasks.jpg') && tasks.includes('<figcaption>'), 'Tasks image and explanation must stay together');
 assert(index.indexOf(tasks) < index.indexOf('id="results"'), 'Tasks must precede Results');
@@ -127,12 +127,12 @@ for (const section of ['view-case','probe-details','physical-outcomes']) {
   assert(tag && !/\sopen(?:\s|=|>)/.test(tag), 'disclosure should start closed: ' + section);
 }
 for (const figure of ['tasks.jpg','results_success.png','results_models.png']) assert(index.includes('static/images/' + figure));
-for (const text of ['31.7%', '48.3%', '45 of 60', '25 to 5', '60 trials per condition']) assert(index.includes(text));
-const abstract = index.match(/<div class="ax-abstract"><p>([\s\S]*?)<\/p>/)?.[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-assert(abstract?.startsWith('Embodied coding agents construct robot policies'));
-for (const text of ['When execution feedback leaves unresolved questions', 'restrict onboard camera coverage',
-  'test hypotheses about failure causes', 'without task-program source-code modification']) assert(abstract.includes(text));
-assert(!abstract.includes('physically demanding settings'));
+for (const text of ['31.7%', '48.3%', '45 of 60']) assert(index.includes(text));
+// The full abstract was replaced by a short TL;DR under the author list (it keeps the #abstract anchor).
+assert(!index.includes('class="ax-abstract"'), 'abstract section returned');
+const tldr = index.match(/<p class="ax-tldr" id="abstract">([\s\S]*?)<\/p>/)?.[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+assert(tldr?.startsWith('TL;DR'), 'TL;DR missing under the author list');
+for (const text of ['diagnostic program', 'new viewpoints (View) and targeted physical tests (Probe)', 'task-program refinement', 'without modifying the task programs']) assert(tldr.includes(text));
 assert(index.includes('name="robots" content="noindex'));
 assert(!index.includes('static/papers/') && !index.includes('Download MP4'));
 assert(!index.includes('research-film-caption'));
@@ -155,5 +155,5 @@ for (const source of Object.values(html)) for (const [, script] of source.matchA
 }
 console.log('PASS: ' + count + ' local references; unique IDs and ARIA targets; all public/legacy anchors.');
 console.log('PASS: current responsive-layout smoke checks; quick diagram; hero v6; 13 authors + coin-flip note.');
-console.log('PASS: latest abstract markers; captions/media preserved; closed disclosures; loaded scripts parse.');
+console.log('PASS: TL;DR markers; captions/media preserved; closed disclosures; loaded scripts parse.');
 console.log('Browser QA remains required for viewport geometry, navigation, diagram interactions and media playback.');

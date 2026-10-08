@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="static/css/fonts.css?v=3">
   <link rel="stylesheet" href="static/css/flight.css">
   <link rel="stylesheet" href="static/css/home.css?v=20261006-footer-credit">
-  <link rel="stylesheet" href="static/css/aspire.css?v=20261008-feedback2">
+  <link rel="stylesheet" href="static/css/aspire.css?v=20261008-stats">
   <link rel="stylesheet" href="static/css/responsive.css?v=20261008-feedback6">
   <script src="static/js/flight.js?v=20261008-feedback6" type="module"></script>
   <noscript><style>[role="tabpanel"][hidden]{display:block!important}[role="tablist"],#hero-toggle{display:none}</style></noscript>
@@ -32,7 +32,6 @@
     <a href="#tasks">Tasks</a>
     <a href="#results">Results</a>
     <a href="#case-studies">Case studies</a>
-    <a href="#abstract">Abstract</a>
   </nav>
   <main>
     <section class="hero-film" id="top" aria-label="Fly-by-Code introduction">
@@ -48,7 +47,7 @@
       <div class="publication-layout">
       <div class="publication-info">
       <h2 class="publication-title">Embodied Coding Agents for Aerial Manipulation with Active Visual and Physical Feedback</h2>
-      <p class="ax-author-list"><span>Jaewoo Lee<sup>1*</sup></span><span>Jeongyeon Seo<sup>1*</sup></span><span>Sihyun Cho<sup>1*</sup></span><span>Gyeongrak Choe<sup>1</sup></span><span>Yutong Wang<sup>2</sup></span><span>Bavin Saravanan<sup>2</sup></span><span class="ax-break" aria-hidden="true"></span><span>Jia-Bin Huang<sup>3</sup></span><span>Furong Huang<sup>3,4</sup></span><span>Sebastian Scherer<sup>2</sup></span><span>Guanya Shi<sup>2</sup></span><span>H. Jin Kim<sup>1</sup></span><span>Seungjae Lee<sup>3&dagger;</sup></span><span>Dongjae Lee<sup>5&dagger;</sup></span></p>
+      <p class="ax-author-list"><span>Jaewoo Lee<sup>1*</sup></span><span>Jeongyeon Seo<sup>1*</sup></span><span>Sihyun Cho<sup>1*</sup></span><span>Gyeongrak Choe<sup>1</sup></span><span><a class="ax-author-link" href="https://ywang760.github.io/" target="_blank" rel="noopener">Yutong Wang</a><sup>2</sup></span><span>Bavin Saravanan<sup>2</sup></span><span class="ax-break" aria-hidden="true"></span><span><a class="ax-author-link" href="https://jbhuang0604.github.io/" target="_blank" rel="noopener">Jia-Bin Huang</a><sup>3</sup></span><span><a class="ax-author-link" href="https://furong-huang.com/" target="_blank" rel="noopener">Furong Huang</a><sup>3,4</sup></span><span>Sebastian Scherer<sup>2</sup></span><span><a class="ax-author-link" href="https://www.gshi.me/" target="_blank" rel="noopener">Guanya Shi</a><sup>2</sup></span><span>H. Jin Kim<sup>1</sup></span><span><a class="ax-author-link" href="https://sjlee.cc/" target="_blank" rel="noopener">Seungjae Lee</a><sup>3&dagger;</sup></span><span><a class="ax-author-link" href="https://dongjaelee95.github.io/" target="_blank" rel="noopener">Dongjae Lee</a><sup>5&dagger;</sup></span></p>
       <p class="ax-affil"><span><sup>1</sup>Seoul National University</span><span><sup>2</sup>Carnegie Mellon University</span><span><sup>3</sup>University of Maryland, College Park</span><span class="ax-break" aria-hidden="true"></span><span><sup>4</sup>All Purpose AI</span><span><sup>5</sup>Kyung Hee University</span></p>
         <p class="ax-author-note">* Equal contribution; order determined by coin flip. &middot; &dagger; Project leads</p>
       </div>
@@ -69,6 +68,7 @@
           </span>
         </div>
       </div>
+      <p class="ax-tldr" id="abstract"><b>TL;DR</b> We ask a coding agent to write a separate diagnostic program after each task execution in simulation. Through new viewpoints (<b class="ax-v">View</b>) and targeted physical tests (<b class="ax-p">Probe</b>), the program gathers evidence missing from execution feedback to guide task-program refinement. The refined task programs then perform multi-stage tasks on a real aerial manipulator without modifying the task programs.</p>
     </section>
 
     <section class="ax-section" id="method" aria-labelledby="method-title"><div class="ax-wrap">
@@ -144,10 +144,10 @@
     <section class="ax-section" id="results" aria-labelledby="results-title"><div class="ax-wrap">
       <h2 id="results-title">Results across six simulated tasks</h2>
       <p class="ax-lead" id="evaluation">Six aerial manipulation tasks in two simulated environments, with the same coding-agent configuration and task-execution limit. Each trial permits one initial execution and up to ten program revisions; 10 trials per task and condition.</p>
-      <div class="ax-stats">
-        <div><span class="ax-num">31.7%</span><span>CaP-X · 19 of 60 trials</span></div>
-        <div><span class="ax-num">48.3%</span><span>CaP-X+Trace · 29 of 60 trials</span></div>
-        <div class="ax-ours"><span class="ax-num">75.0%</span><span>Ours (CaP-X+AF) · 45 of 60 trials</span></div>
+      <div class="ax-stats" id="success-stats">
+        <div data-value="31.7"><span class="ax-num">31.7%</span><span>CaP-X · 19 of 60 trials</span><i class="ax-bar" aria-hidden="true"><i></i></i></div>
+        <div data-value="48.3"><span class="ax-num">48.3%</span><span>CaP-X+Trace · 29 of 60 trials</span><i class="ax-bar" aria-hidden="true"><i></i></i></div>
+        <div class="ax-ours" data-value="75.0"><span class="ax-num">75.0%</span><span>Ours (CaP-X+AF) · 45 of 60 trials</span><i class="ax-bar" aria-hidden="true"><i></i></i></div>
       </div>
       <h3 class="ax-sub" id="task-success">Final task success</h3>
       <figure class="ax-figure ax-white"><div class="chart-scroll" tabindex="0" role="region" aria-label="Task success chart"><img class="fig" src="static/images/results_success.png" width="1659" height="645" loading="lazy"
@@ -361,24 +361,9 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
       </div>
     </div></section>
 
-    <section class="ax-section" id="abstract" aria-labelledby="abs-title"><div class="ax-wrap">
-      <h2 id="abs-title">Abstract</h2>
-      <div class="ax-abstract"><p>
-              Embodied coding agents construct robot policies from natural-language instructions by generating executable programs and refining them from execution feedback.
-              This refinement assumes that execution feedback reveals whether the task succeeded and, after a failure, provides sufficient evidence to guide program revision.
-              Aerial manipulation violates this assumption in two ways.
-              Payload constraints restrict onboard camera coverage and leave task-critical outcomes outside the robot’s view (partial observability), while strong dynamic coupling and limited control margins make physical interactions fragile (limited interaction robustness) and leave failure causes unresolved.
-              Re-examining the same feedback cannot recover observations that were never collected or separate failure causes that the available evidence does not distinguish.
-              To acquire this missing evidence, we introduce <b>Active Feedback (AF)</b>, an active “View and Probe” framework.
-              When execution feedback leaves unresolved questions, the agent synthesizes a separate diagnostic program that runs in simulation to inspect unseen outcomes from informative viewpoints (View) or test hypotheses about failure causes through targeted physical interactions (Probe).
-              The returned evidence supports more reliable completion assessment and guides program revision using newly observed outcomes and tested interaction hypotheses.
-              Across six simulated aerial manipulation tasks with 60 trials per condition, AF reduces false completion declarations from 25 to 5 and raises final task success from 31.7% to 75% compared with terminal feedback under the same coding-agent configuration and task-execution limit.
-              Using shared robot APIs, task programs refined with AF in simulation run on a physical aerial manipulator without task-program source-code modification and complete multi-stage manipulation tasks in the real world.
-              These results show that executable diagnosis fills gaps in execution feedback for embodied coding agents, improving both completion assessment and program refinement in aerial manipulation.
-            </p></div>
-    </div></section>
   </main>
   <script src="static/js/overview.js?v=20261008-feedback3" defer></script>
   <script src="static/js/side-nav.js?v=20261008" defer></script>
+  <script src="static/js/results-stats.js?v=1" defer></script>
 </body>
 </html>
