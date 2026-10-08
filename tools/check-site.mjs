@@ -56,6 +56,7 @@ for (const name of ['Jaewoo Lee','Jeongyeon Seo','Sihyun Cho','Gyeongrak Choe','
 const expectedAuthorLinks = new Map([
   ['Jaewoo Lee', 'https://jwleesnu.github.io/'],
   ['Jeongyeon Seo', 'https://jeong-yeon-seo.github.io/'],
+  ['Sihyun Cho', 'https://cstrinng.github.io/'],
   ['Gyeongrak Choe', 'https://gyeong-rak.github.io/'],
   ['Yutong Wang', 'https://ywang760.github.io/'],
   ['Jia-Bin Huang', 'https://jbhuang0604.github.io/'],
@@ -130,7 +131,7 @@ assert(timing, 'animation timing missing');
 const seconds = (+timing[1] + +timing[2]) / 1000 + (8.0 - 4) / +timing[3];
 assert(seconds > 1.5 && seconds < 4, 'diagram should build quickly but remain readable (1 s on screens 1 and 2)');
 assert(overview.includes("querySelectorAll('.ov-hot')"));
-assert(index.includes('Click a highlighted block for more details'));
+assert(index.includes('Click Active Feedback, View, or Probe to learn more.'));
 // The diagram blocks themselves are the controls (the separate demo buttons were removed).
 assert(!index.includes('class="ov-choices"'), 'separate demo buttons returned');
 assert.equal([...index.matchAll(/class="ov-node [^"]*ov-hot/g)].length, 4);
@@ -145,8 +146,7 @@ for (const video of ['method_loop','method_view_attempt_20261008','method_probe_
   assert(index.includes('static/videos/' + video + '.mp4'), 'missing method/case video: ' + video);
 }
 assert(!index.includes('src="static/videos/method_probe.mp4"'), 'retired Probe clip returned');
-assert(index.includes('using the door-opening portion of a successful task program.'));
-assert.equal((index.match(/Cabinet door opening<\/figcaption>/g) || []).length, 2);
+assert(index.includes('such as hinge-aware opening of the cabinet door.</figcaption>'));
 assert(!index.includes('task-program replay'));
 assert(index.includes('poster="static/images/poster_method_probe_attempt_20261008.jpg"'));
 for (const [id, basename] of [['cabinet-demo', 'real_cabinet_compact_20261008'], ['tools-demo', 'real_2objects_compact_20261008']]) {
@@ -188,7 +188,7 @@ for (const source of Object.values(html)) for (const [, script] of source.matchA
   }
 }
 console.log('PASS: ' + count + ' local references; unique IDs and ARIA targets; all public/legacy anchors.');
-console.log('PASS: current responsive-layout smoke checks; quick diagram; hero v6; 13 authors, 11 homepages + coin-flip note.');
+console.log('PASS: current responsive-layout smoke checks; quick diagram; hero v6; 13 authors, 12 homepages + coin-flip note.');
 console.log('PASS: collaborator TL;DR/layout preserved; matching View/Probe labels + compact 8x real-world excerpts; closed disclosures; loaded scripts parse.');
 console.log('Browser QA remains required for viewport geometry, navigation, diagram interactions and media playback.');
 // Release buttons sit centred under the author note so the whole author block shares the page's centre axis.

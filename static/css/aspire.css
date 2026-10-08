@@ -465,7 +465,7 @@ body.ax-page{--paper:#ffffff;background:#ffffff}
 /* diagram captions: one style for both screens (same size, weight and colour); only the
    names carry colour, matching the blocks below */
 .ax-section .ov-cap{font-size:1.18rem}
-.ov-cap .k0,.ov-cap .k1{font-weight:600;color:var(--ink);will-change:transform,opacity}
+.ov-cap .k0,.ov-cap .k1{font-weight:600;color:var(--ink)}
 .ov-cap .k1 b{font-weight:700;color:var(--ink)}
 .ov-cap .ov-cap-af{color:#2f84b5}
 /* the "click a highlighted block" bar appears with the clickable third screen */
@@ -519,3 +519,20 @@ body.ax-page{--paper:#ffffff;background:#ffffff}
 .ax-authors .ax-tldr{max-width:1110px}
 /* TL;DR about 4/5 of the previous width */
 .ax-authors .ax-tldr{max-width:890px}
+
+/* TL;DR emphasis: a soft full-height tint in the site's teal-to-blue palette instead of a half-height marker */
+.ax-mark{font-weight:600;color:#1d5f7d;padding:.06em .3em;border-radius:.35em;
+  background:linear-gradient(90deg,rgba(109,191,190,.2),rgba(86,151,216,.2));
+  -webkit-box-decoration-break:clone;box-decoration-break:clone}
+/* TL;DR emphasis back to a highlighter stroke (lower part of the line), coloured with the teal-to-blue tint */
+.ax-mark{color:inherit;padding:0 2px;border-radius:0;
+  background:linear-gradient(90deg,rgba(109,191,190,.42),rgba(86,151,216,.42)) no-repeat 0 88%/100% .5em}
+.ax-mark{background-image:linear-gradient(90deg,rgba(109,191,190,.26),rgba(86,151,216,.26))}
+/* small, faint captions under the View / Probe clips */
+.ov-detail .ov-vcap{font-size:.8rem!important;line-height:1.5;color:#8d999f}
+/* Active Feedback trial caption: a little larger and darker than before */
+.ov-detail article[data-ov="af"] figcaption{font-size:.86rem!important;color:#5f6b72}
+.ov-detail article[data-ov="af"] figcaption b{color:var(--ink)}
+/* one caption style under all three demo clips (Active Feedback, View, Probe) */
+.ov-detail figcaption.ov-vcap{font-size:.92rem!important;line-height:1.5;color:#5f6b72;margin-top:8px}
+.ov-detail article[data-ov] figcaption.ov-vcap{font-size:.92rem!important;color:#5f6b72}

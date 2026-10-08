@@ -93,12 +93,14 @@
     const rootBox = root.getBoundingClientRect();
     const m = rootBox.width > 760 ? 1 - win(t, 5.4, 6.0) : 0;   // phones: captions stay in place and wrap
     const placeCaption = (el, fade, slide) => {
+      // enlarge with a real font size (not a scale transform) so the text stays sharp
+      el.style.fontSize = `${(1 + 0.22 * m).toFixed(3)}em`;
       el.style.transform = '';
       const r = el.getBoundingClientRect();
       const dx = (rootBox.left + rootBox.width / 2) - (r.left + r.width / 2);
       const dy = (rootBox.top + rootBox.height * 0.25) - (r.top + r.height / 2);
       el.style.opacity = fade.toFixed(3);
-      el.style.transform = `translate(${(dx * m).toFixed(1)}px, calc(${(dy * m).toFixed(1)}px + ${slide.toFixed(3)}em)) scale(${(1 + 0.22 * m).toFixed(3)})`;
+      el.style.transform = `translate(${(dx * m).toFixed(1)}px, calc(${(dy * m).toFixed(1)}px + ${slide.toFixed(3)}em))`;
     };
     placeCaption(cap0, 1 - c0, -0.45 * c0);
     placeCaption(cap1, c1, 0.45 * (1 - c1));
