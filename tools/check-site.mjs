@@ -55,6 +55,7 @@ for (const name of ['Jaewoo Lee','Jeongyeon Seo','Sihyun Cho','Gyeongrak Choe','
 // Preserve collaborators' author links; new links use exactly the same markup/style.
 const expectedAuthorLinks = new Map([
   ['Jaewoo Lee', 'https://jwleesnu.github.io/'],
+  ['Gyeongrak Choe', 'https://gyeong-rak.github.io/'],
   ['Yutong Wang', 'https://ywang760.github.io/'],
   ['Jia-Bin Huang', 'https://jbhuang0604.github.io/'],
   ['Furong Huang', 'https://furong-huang.com/'],
@@ -134,10 +135,10 @@ assert(!index.includes('class="ov-choices"'), 'separate demo buttons returned');
 assert.equal([...index.matchAll(/class="ov-node [^"]*ov-hot/g)].length, 4);
 const methodIntro = index.match(/<h2 id="method-title">([\s\S]*?)<div class="ov-figure/)?.[1];
 assert(methodIntro && (methodIntro.match(/<p\b/g) || []).length <= 1, 'keep Method introduction concise (currently none)');
-assert(methodIntro.replace(/<[^>]+>/g, '').trim().split(/\s+/).length < 25);
+assert(methodIntro.replace(/<[^>]+>/g, '').trim().split(/\s+/).length < 40, 'keep the Method title and its two-sentence problem statement short');
 
-// Method film text is deliberately unchanged per the current user instruction.
-assert(index.includes('One simulated Cabinet trial: attempt, View, attempt, Probe, refine, success</figcaption>'));
+// Method film: task instruction above the clip; the caption explains what an attempt is.
+assert(index.includes('<p class="ov-task"><b>Task</b>') && index.includes('the final attempt (4 of 4) completes the task.</figcaption>'));
 for (const video of ['method_loop','method_view','method_probe_e7_matched_20261008','k2_turn1','k2_af1','k2_turn2','align_af1','align_turn2']) {
   assert(index.includes('static/videos/' + video + '.mp4'), 'missing method/case video: ' + video);
 }
@@ -161,7 +162,7 @@ for (const text of ['31.7%', '48.3%', '45 of 60']) assert(index.includes(text));
 assert(!index.includes('class="ax-abstract"'), 'abstract section returned');
 const tldr = index.match(/<div class="ax-tldr" id="abstract">([\s\S]*?)<\/div>/)?.[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 assert(tldr?.startsWith('TL;DR'), 'TL;DR missing under the author list');
-for (const text of ['diagnostic program', 'new viewpoints ( View ) and targeted physical tests ( Probe )', 'task-program refinement']) assert(tldr.includes(text));
+for (const text of ['diagnostic program', 'new viewpoints ( View ) and targeted physical tests ( Probe )', 'task outcomes and failure causes', 'task-program refinement']) assert(tldr.includes(text));
 assert(index.includes('name="robots" content="noindex'));
 assert(!index.includes('static/papers/') && !index.includes('Download MP4'));
 assert(!index.includes('research-film-caption'));
@@ -183,7 +184,7 @@ for (const source of Object.values(html)) for (const [, script] of source.matchA
   }
 }
 console.log('PASS: ' + count + ' local references; unique IDs and ARIA targets; all public/legacy anchors.');
-console.log('PASS: current responsive-layout smoke checks; quick diagram; hero v6; 13 authors, 9 homepages + coin-flip note.');
+console.log('PASS: current responsive-layout smoke checks; quick diagram; hero v6; 13 authors, 10 homepages + coin-flip note.');
 console.log('PASS: collaborator TL;DR/layout preserved; Probe task replay + 8x real-world excerpts; closed disclosures; loaded scripts parse.');
 console.log('Browser QA remains required for viewport geometry, navigation, diagram interactions and media playback.');
 // Release buttons sit centred under the author note so the whole author block shares the page's centre axis.

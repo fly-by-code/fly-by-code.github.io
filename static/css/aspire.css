@@ -507,3 +507,15 @@ body.ax-page{--paper:#ffffff;background:#ffffff}
 .ax-tldr h2{font-size:1.55rem;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:0 0 14px}
 .ax-tldr h2:before{content:'';display:block!important;width:44px;height:3px;margin:0 auto 14px;border-radius:2px;background:var(--lab-gradient)}
 .ax-section .ov-intro{margin:0 0 4px;color:#46555c}
+/* task instruction shown above the Active Feedback trial clip */
+.ov-detail .ov-task{margin:0 0 8px;font-size:.92rem;line-height:1.5;color:var(--ink)}
+.ov-task b{display:inline-block;margin-right:6px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2f84b5}
+.ov-detail .ov-why{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.ov-why b{color:var(--ink)}
+/* trial caption under the Active Feedback clip: small and faint, two lines */
+.ov-detail article[data-ov="af"] figcaption{font-size:.78rem!important;line-height:1.5;color:#8d999f;letter-spacing:-.005em}
+.ov-detail article[data-ov="af"] figcaption b{color:#6b7a81}
+/* TL;DR about 1.5x wider */
+.ax-authors .ax-tldr{max-width:1110px}
+/* TL;DR about 4/5 of the previous width */
+.ax-authors .ax-tldr{max-width:890px}
