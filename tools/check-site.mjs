@@ -76,13 +76,22 @@ for (const [name, url] of expectedAuthorLinks) {
 assert(index.includes('Equal contribution; order determined by coin flip.'));
 assert(index.includes('&dagger; Project leads') && !index.includes('Corresponding authors'));
 const releaseButtons = [...index.matchAll(/<button class="publication-link"([^>]*)>([\s\S]*?)<\/button>/g)];
-assert.equal(releaseButtons.length, 2);
+assert.equal(releaseButtons.length, 1, 'only Code remains unreleased');
 for (const [, attributes, content] of releaseButtons) {
   assert(attributes.includes('aria-disabled="true"') && !/\sdisabled(?:\s|=|$)|\bhref=/.test(attributes));
   assert(!/coming soon/i.test(content), 'release label must not add a second button line');
 }
-assert(releaseButtons[0][2].includes('arXiv') && releaseButtons[1][2].includes('Code'));
-assert.equal([...index.matchAll(/role="tooltip" hidden>coming soon<\/span>/g)].length, 2);
+assert(releaseButtons[0][2].includes('Code'));
+const paperLinks = [...index.matchAll(/<a class="publication-link"([^>]*)>([\s\S]*?)<\/a>/g)];
+assert.equal(paperLinks.length, 1);
+assert(paperLinks[0][1].includes('href="https://arxiv.org/abs/2610.12549"'));
+assert(paperLinks[0][1].includes('target="_blank"') && paperLinks[0][1].includes('rel="noopener"'));
+assert(!/aria-disabled|aria-describedby/.test(paperLinks[0][1]));
+assert(paperLinks[0][2].includes('<b>arXiv</b>'));
+assert(!index.includes('arxiv-release-hint'), 'published paper must not show a coming-soon tooltip');
+assert(index.includes('aria-label="Paper and code"'));
+assert.equal([...index.matchAll(/role="tooltip" hidden>coming soon<\/span>/g)].length, 1);
+assert.equal([...index.matchAll(/class="publication-control"/g)].length, 1, 'tooltip behavior applies only to Code');
 assert(index.includes('class="publication-layout"') && index.includes('class="publication-info"'));
 assert(!index.includes('class="publication-footer"'), 'release controls must not share the author footnote row');
 assert(index.includes('Furong Huang</a><sup>3,4</sup>') && index.includes('All Purpose AI'));
