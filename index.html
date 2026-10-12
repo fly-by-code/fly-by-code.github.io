@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="static/css/fonts.css?v=3">
   <link rel="stylesheet" href="static/css/flight.css">
   <link rel="stylesheet" href="static/css/home.css?v=20261006-footer-credit">
-  <link rel="stylesheet" href="static/css/aspire.css?v=20261008-vcap3-compact-video">
+  <link rel="stylesheet" href="static/css/aspire.css?v=20261012-bibtex">
   <link rel="stylesheet" href="static/css/responsive.css?v=20261008-feedback6">
   <script src="static/js/flight.js?v=20261008-feedback6" type="module"></script>
   <noscript><style>[role="tabpanel"][hidden]{display:block!important}[role="tablist"],#hero-toggle{display:none}</style></noscript>
@@ -32,6 +32,7 @@
     <a href="#tasks">Tasks</a>
     <a href="#results">Results</a>
     <a href="#case-studies">Case studies</a>
+    <a href="#bibtex">BibTeX</a>
   </nav>
   <main>
     <section class="hero-film" id="top" aria-label="Fly-by-Code introduction">
@@ -357,9 +358,29 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
       </div>
     </div></section>
 
+    <section class="ax-section" id="bibtex" aria-labelledby="bibtex-title"><div class="ax-wrap">
+      <div class="ax-bib-head"><h2 id="bibtex-title">BibTeX</h2><button class="ax-bib-copy" type="button" data-copy="bibtex-code">Copy</button></div>
+      <pre class="ax-bib"><code id="bibtex-code">@misc{lee2026flybycodeembodiedcodingagents,
+      title={Fly-by-Code: Embodied Coding Agents for Aerial Manipulation with Active Visual and Physical Feedback}, 
+      author={Jaewoo Lee and Jeongyeon Seo and Sihyun Cho and Gyeongrak Choe and Yutong Wang and Bavin Saravanan and Jia-Bin Huang and Furong Huang and Sebastian Scherer and Guanya Shi and H. Jin Kim and Seungjae Lee and Dongjae Lee},
+      year={2026},
+      eprint={2610.12549},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2610.12549}, 
+}</code></pre>
+    </div></section>
+
   </main>
   <script src="static/js/overview.js?v=20261008-sharpcap" defer></script>
   <script src="static/js/side-nav.js?v=20261008" defer></script>
   <script src="static/js/results-stats.js?v=1" defer></script>
+  <script>
+    document.querySelectorAll('.ax-bib-copy').forEach(b => b.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(document.getElementById(b.dataset.copy).textContent); b.textContent = 'Copied'; }
+      catch { b.textContent = 'Select and copy'; }
+      setTimeout(() => { b.textContent = 'Copy'; }, 1800);
+    }));
+  </script>
 </body>
 </html>

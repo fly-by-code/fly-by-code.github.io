@@ -536,3 +536,12 @@ body.ax-page{--paper:#ffffff;background:#ffffff}
 /* one caption style under all three demo clips (Active Feedback, View, Probe) */
 .ov-detail figcaption.ov-vcap{font-size:.92rem!important;line-height:1.5;color:#5f6b72;margin-top:8px}
 .ov-detail article[data-ov] figcaption.ov-vcap{font-size:.92rem!important;color:#5f6b72}
+
+/* BibTeX block at the end of the page. */
+.ax-bib-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.ax-bib-head h2{margin:0}
+.ax-bib-copy{min-height:36px;padding:6px 14px;border:1px solid #c9d3d6;border-radius:6px;background:#fff;color:var(--ink);font:inherit;font-size:.875rem;font-weight:600;cursor:pointer}
+.ax-bib-copy:hover{background:#f1f5f6}
+.ax-bib-copy:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.ax-bib{margin:0;padding:18px 20px;border:1px solid var(--line);border-radius:8px;background:#f6f8f8;overflow-x:auto;font-size:.875rem;line-height:1.6}
+.ax-bib code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:#22343b;background:none;padding:0}
