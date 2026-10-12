@@ -177,7 +177,8 @@ assert(!index.includes('class="ax-abstract"'), 'abstract section returned');
 const tldr = index.match(/<div class="ax-tldr" id="abstract">([\s\S]*?)<\/div>/)?.[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 assert(tldr?.startsWith('TL;DR'), 'TL;DR missing under the author list');
 for (const text of ['diagnostic program', 'new viewpoints ( View ) and targeted physical tests ( Probe )', 'task outcomes and failure causes', 'task-program refinement']) assert(tldr.includes(text));
-assert(index.includes('name="robots" content="noindex'));
+// The real-name page is indexable now that the arXiv paper is public (the anonymous page stays noindex).
+assert(!/name="robots"[^>]*noindex/.test(index), 'main page must stay indexable');
 assert(!index.includes('static/papers/') && !index.includes('Download MP4'));
 assert(!index.includes('research-film-caption'));
 
