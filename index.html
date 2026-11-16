@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="static/css/home.css?v=20261006-footer-credit">
   <link rel="stylesheet" href="static/css/aspire.css?v=20261012-bibtex">
   <link rel="stylesheet" href="static/css/responsive.css?v=20261008-feedback6">
+  <link rel="stylesheet" href="static/css/b1k.css?v=20261117">
   <script src="static/js/flight.js?v=20261008-feedback6" type="module"></script>
   <noscript><style>[role="tabpanel"][hidden]{display:block!important}[role="tablist"],#hero-toggle{display:none}</style></noscript>
 </head>
@@ -31,6 +32,7 @@
     <a href="#tasks">Tasks</a>
     <a href="#results">Results</a>
     <a href="#case-studies">Case studies</a>
+    <a href="#behavior-1k">BEHAVIOR-1K</a>
     <a href="#bibtex">BibTeX</a>
   </nav>
   <main>
@@ -357,6 +359,98 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
       </div>
     </div></section>
 
+    <section class="ax-section" id="behavior-1k" aria-labelledby="b1k-title"><div class="ax-wrap">
+      <h2 id="b1k-title">Generality across tasks and embodiments: BEHAVIOR-1K</h2>
+      <p class="ax-lead">Two long-horizon household tasks from the BEHAVIOR-1K benchmark, run with the same AF framework on an R1Pro
+        humanoid that observes the scene only through its head camera.</p>
+
+      <div class="b1k-card">
+        <h3>Chopping Wood</h3>
+        <p class="b1k-task"><b>Task.</b> Four logs, an axe and a chopping block lie on a garden driveway. Split all four
+          logs in half, ending with both grippers empty.</p>
+        <div class="b1k-block">
+          <span class="b1k-phase ok">Successful trial</span>
+          <div class="b1k-pair" data-sync>
+            <figure class="b1k-cam agent">
+              <div class="cam-label agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg><span><b>Agent&rsquo;s view</b> <span class="sub">&middot; head camera, the only view the agent receives</span></span></div>
+              <video controls muted playsinline preload="none" width="720" height="720" poster="static/images/poster_b1k_chop_success_head.jpg" aria-label="Head-camera view: the humanoid grasps the axe and splits the logs on the driveway.">
+                <source src="static/videos/b1k_chop_success_head.mp4" type="video/mp4"></video>
+            </figure>
+            <figure class="b1k-cam observer">
+              <div class="cam-label observer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg><span><b>Not visible to the agent</b> <span class="sub">&middot; third-person view for the reader</span></span></div>
+              <video muted playsinline preload="none" width="720" height="720" poster="static/images/poster_b1k_chop_success_3rd.jpg" aria-label="Third-person view of the same run, played in sync with the head-camera video.">
+                <source src="static/videos/b1k_chop_success_3rd.mp4" type="video/mp4"></video>
+            </figure>
+          </div>
+        </div>
+        <div class="b1k-block b1k-case view">
+          <span class="b1k-phase">View case study</span>
+          <div class="b1k-af">
+            <div class="b1k-pair tight" data-sync>
+              <figure class="b1k-cam agent">
+                <div class="cam-label agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg><span><b>Agent&rsquo;s view</b></span></div>
+                <video controls muted playsinline preload="none" width="720" height="720" poster="static/images/poster_b1k_chop_view_head.jpg" aria-label="Head-camera view of the diagnostic program: the humanoid drives to each log site and looks down at the pieces.">
+                  <source src="static/videos/b1k_chop_view_head.mp4" type="video/mp4"></video>
+              </figure>
+              <figure class="b1k-cam observer">
+                <div class="cam-label observer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg><span><b>Not visible to the agent</b></span></div>
+                <video muted playsinline preload="none" width="720" height="720" poster="static/images/poster_b1k_chop_view_3rd.jpg" aria-label="Third-person view of the diagnostic program, played in sync.">
+                  <source src="static/videos/b1k_chop_view_3rd.mp4" type="video/mp4"></video>
+              </figure>
+            </div>
+            <div class="b1k-text">
+              <p><b>Chopping Wood (Resolving Visual Ambiguity):</b> Baselines declared false completions more often than Ours
+                (3 and 2 of 10 trials vs. 0) when unchopped pieces fell outside the humanoid&rsquo;s head-camera view. AF navigated
+                to acquire missing viewpoints, reducing false declarations to zero (0 false FINISH).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="b1k-card">
+        <h3>Hanging Pictures</h3>
+        <p class="b1k-task"><b>Task.</b> Hang the poster lying on the kitchen countertop on a wall nail, ending with both
+          grippers empty.</p>
+        <div class="b1k-block">
+          <span class="b1k-phase ok">Successful trial</span>
+          <div class="b1k-pair" data-sync>
+            <figure class="b1k-cam agent">
+              <div class="cam-label agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg><span><b>Agent&rsquo;s view</b> <span class="sub">&middot; head camera, the only view the agent receives</span></span></div>
+              <video controls muted playsinline preload="none" width="720" height="720" poster="static/images/poster_b1k_poster_success_head.jpg" aria-label="Head-camera view: the humanoid carries the poster to the wall and hangs it on the nail.">
+                <source src="static/videos/b1k_poster_success_head.mp4" type="video/mp4"></video>
+            </figure>
+            <figure class="b1k-cam observer">
+              <div class="cam-label observer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg><span><b>Not visible to the agent</b> <span class="sub">&middot; third-person view for the reader</span></span></div>
+              <video muted playsinline preload="none" width="720" height="720" poster="static/images/poster_b1k_poster_success_3rd.jpg" aria-label="Third-person view of the same run, played in sync with the head-camera video.">
+                <source src="static/videos/b1k_poster_success_3rd.mp4" type="video/mp4"></video>
+            </figure>
+          </div>
+        </div>
+        <div class="b1k-block b1k-case probe">
+          <span class="b1k-phase">Probe case study</span>
+          <div class="b1k-af">
+            <div class="b1k-pair tight" data-sync>
+              <figure class="b1k-cam agent">
+                <div class="cam-label agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg><span><b>Agent&rsquo;s view</b></span></div>
+                <video controls muted playsinline preload="none" width="720" height="720" poster="static/images/poster_b1k_poster_probe_head.jpg" aria-label="Head-camera view of the diagnostic program: holding the poster, the humanoid presses its top edge onto the nail at several tilts, then releases it.">
+                  <source src="static/videos/b1k_poster_probe_head.mp4" type="video/mp4"></video>
+              </figure>
+              <figure class="b1k-cam observer">
+                <div class="cam-label observer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg><span><b>Not visible to the agent</b></span></div>
+                <video muted playsinline preload="none" width="720" height="720" poster="static/images/poster_b1k_poster_probe_3rd.jpg" aria-label="Third-person view of the diagnostic program, played in sync.">
+                  <source src="static/videos/b1k_poster_probe_3rd.mp4" type="video/mp4"></video>
+              </figure>
+            </div>
+            <div class="b1k-text">
+              <p><b>Hanging Pictures (Physical Hypothesis Testing):</b> AF generated diagnostic programs to physically test
+                candidate hanging positions and angles in the unscored stage, informing subsequent program revisions and enabling
+                successes (3/10) where baselines failed (0/10).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></section>
+
     <section class="ax-section" id="bibtex" aria-labelledby="bibtex-title"><div class="ax-wrap">
       <div class="ax-bib-head"><h2 id="bibtex-title">BibTeX</h2><button class="ax-bib-copy" type="button" data-copy="bibtex-code">Copy</button></div>
       <pre class="ax-bib"><code id="bibtex-code">@misc{lee2026flybycodeembodiedcodingagents,
@@ -374,6 +468,7 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
   <script src="static/js/overview.js?v=20261008-sharpcap" defer></script>
   <script src="static/js/side-nav.js?v=20261008" defer></script>
   <script src="static/js/results-stats.js?v=1" defer></script>
+  <script src="static/js/b1k-sync.js?v=20261117" defer></script>
   <script>
     document.querySelectorAll('.ax-bib-copy').forEach(b => b.addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(document.getElementById(b.dataset.copy).textContent); b.textContent = 'Copied'; }
