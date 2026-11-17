@@ -2,12 +2,12 @@
    (Inter, --ink, View #2a8f8a, Probe #7d55b5). */
 #behavior-1k{background:#f4f7f7}
 .b1k-card{background:#fff;border:1px solid #e3e8e8;border-radius:10px;padding:1.25rem;margin-top:1.25rem}
-.b1k-card h3{font-size:1.18rem;font-weight:600;letter-spacing:-.02em;margin:0 0 .6rem;color:var(--ink)}
+.b1k-card h3{font-size:1.18rem;font-weight:800;letter-spacing:-.02em;margin:0 0 .6rem;color:var(--ink)}
 .ax-section .b1k-task{margin:.1rem 0 1rem}
 .b1k-block{margin:0 0 1.6rem}
 .b1k-block:last-child{margin-bottom:.2rem}
-.b1k-phase{display:inline-block;margin:0 0 .4rem;padding:.18rem .6rem;border-radius:4px;color:#fff;
-  font-size:.8rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+.b1k-phase{display:inline-block;margin:0 0 .5rem;padding:.28rem .75rem;border-radius:4px;color:#fff;
+  font-size:1rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
 .b1k-phase.ok{background:#1c7a4b}
 
 /* two synchronised cameras */
