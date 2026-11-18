@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="static/css/aspire.css?v=20261012-bibtex">
   <link rel="stylesheet" href="static/css/responsive.css?v=20261008-feedback6">
   <link rel="stylesheet" href="static/css/b1k.css?v=20261117b">
+  <link rel="stylesheet" href="static/css/real-feedback.css?v=20261119">
   <script src="static/js/flight.js?v=20261008-feedback6" type="module"></script>
   <noscript><style>[role="tabpanel"][hidden]{display:block!important}[role="tablist"],#hero-toggle{display:none}</style></noscript>
 </head>
@@ -33,6 +34,7 @@
     <a href="#results">Results</a>
     <a href="#case-studies">Case studies</a>
     <a href="#behavior-1k">BEHAVIOR-1K</a>
+    <a href="#real-world-feedback">Real-world AF</a>
     <a href="#bibtex">BibTeX</a>
   </nav>
   <main>
@@ -451,6 +453,72 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
       </div>
     </div></section>
 
+    <section class="ax-section rwf-section" id="real-world-feedback" aria-labelledby="rwf-title"><div class="ax-wrap">
+      <div class="rwf-heading">
+        <div><p class="rwf-eyebrow">Real-world program refinement</p>
+          <h2 id="rwf-title">Active Feedback on the physical robot</h2></div>
+        <span class="rwf-duration">95-second film</span>
+      </div>
+      <p class="ax-lead">Beyond deploying a simulation-refined program, the agent uses diagnostic evidence collected on the real robot to improve it. Three feedback turns correct a missed basket placement and a persistent shelf-selection error.</p>
+      <div class="rwf-task"><strong>2-Objects Pick-and-place</strong><span>Hammer into the basket.</span><span>Wrench onto the upper shelf.</span></div>
+
+      <figure class="rwf-film" aria-describedby="rwf-film-note">
+        <div class="rwf-screen">
+          <video id="rwf-video" controls muted playsinline preload="none" width="1920" height="1080" poster="static/images/real-feedback-poster.jpg" aria-label="Real-world Active Feedback: initial failure, three diagnostic and program-revision turns, and successful placement of both objects.">
+            <source src="static/videos/real-feedback-loop.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+          <button class="rwf-play" type="button" aria-label="Play the real-world feedback loop film" hidden><span aria-hidden="true">&#9654;</span><b>Watch the feedback loop</b><small>1:35 &nbsp; / &nbsp; Real robot</small></button>
+        </div>
+        <div class="rwf-chapters" aria-label="Jump to a feedback turn" hidden>
+          <button type="button" data-rwf-seek="3.5" data-rwf-chapter="0" aria-current="step"><span>00 <small>0:03</small></span><b>Initial trial</b></button>
+          <button type="button" data-rwf-seek="17.5" data-rwf-chapter="1"><span>01 <small>0:17</small></span><b>Fix the release</b></button>
+          <button type="button" data-rwf-seek="45" data-rwf-chapter="2"><span>02 <small>0:45</small></span><b>Keep what works</b></button>
+          <button type="button" data-rwf-seek="61.5" data-rwf-chapter="3"><span>03 <small>1:01</small></span><b>Fix the wrench placement</b></button>
+        </div>
+      </figure>
+      <p class="rwf-film-note" id="rwf-film-note">Use the chapters to explore each turn.</p>
+
+      <div class="rwf-start">
+        <span class="rwf-start-label">The starting point</span>
+        <p>The hammer strikes the basket handle and falls outside. CaP-X returns <strong>FINISH</strong> from the execution log and terminal image. Fly-by-Code instead generates a diagnostic program to check the basket.</p>
+        <span class="rwf-false"><span aria-hidden="true">&#10005;</span> False completion</span>
+      </div>
+
+      <div class="rwf-story-heading"><h3>New evidence. Targeted revisions.</h3><span>Active Feedback <i aria-hidden="true">&#8594;</i> Assess &amp; revise <i aria-hidden="true">&#8594;</i> Execute</span></div>
+      <div class="rwf-turns">
+        <article class="rwf-turn" data-rwf-turn="1" aria-labelledby="rwf-turn-1">
+          <header><span class="rwf-number">01</span><div><span class="rwf-turn-label">Feedback turn</span><h4 id="rwf-turn-1">Fix the release</h4></div></header>
+          <ol class="rwf-steps">
+            <li data-rwf-phase="inspect"><div class="rwf-step-label"><b>Active Feedback</b><button type="button" data-rwf-seek="17.5" aria-label="Watch turn 1 Active Feedback at 17 seconds" hidden>0:17 &#8599;</button></div><p>New viewpoints reveal the empty basket and its handle geometry.</p></li>
+            <li data-rwf-phase="revise"><div class="rwf-step-label"><b>Assess &amp; revise</b><button type="button" data-rwf-seek="23" aria-label="Watch turn 1 program revision at 23 seconds" hidden>0:23 &#8599;</button></div><p>Change the hammer&rsquo;s release pose and location to avoid the handle.</p></li>
+            <li data-rwf-phase="execute"><div class="rwf-step-label"><b>Execute</b><button type="button" data-rwf-seek="27.5" aria-label="Watch turn 1 execution at 27 seconds" hidden>0:27 &#8599;</button></div><p>The hammer lands in the basket, but the wrench is placed on the lower shelf.</p></li>
+          </ol>
+          <div class="rwf-outcome"><span class="rwf-check" aria-hidden="true">&#10003;</span> Hammer placement corrected</div>
+        </article>
+        <article class="rwf-turn" data-rwf-turn="2" aria-labelledby="rwf-turn-2">
+          <header><span class="rwf-number">02</span><div><span class="rwf-turn-label">Feedback turn</span><h4 id="rwf-turn-2">Keep what works</h4></div></header>
+          <ol class="rwf-steps">
+            <li data-rwf-phase="inspect"><div class="rwf-step-label"><b>Active Feedback</b><button type="button" data-rwf-seek="45" aria-label="Watch turn 2 Active Feedback at 45 seconds" hidden>0:45 &#8599;</button></div><p>Inspect the basket again and verify that the hammer is inside.</p></li>
+            <li data-rwf-phase="revise"><div class="rwf-step-label"><b>Assess &amp; revise</b><button type="button" data-rwf-seek="50" aria-label="Watch turn 2 program revision at 50 seconds" hidden>0:50 &#8599;</button></div><p>Preserve the successful hammer code and revise shelf selection.</p></li>
+            <li data-rwf-phase="execute"><div class="rwf-step-label"><b>Execute</b><button type="button" data-rwf-seek="55.5" aria-label="Watch turn 2 execution at 55 seconds" hidden>0:55 &#8599;</button></div><p>The wrench still lands on the lower shelf. The cabinet&rsquo;s top remains unresolved.</p></li>
+          </ol>
+          <div class="rwf-outcome rwf-unresolved"><span aria-hidden="true">&#8594;</span> Shelf selection still needs evidence</div>
+        </article>
+        <article class="rwf-turn" data-rwf-turn="3" aria-labelledby="rwf-turn-3">
+          <header><span class="rwf-number">03</span><div><span class="rwf-turn-label">Feedback turn</span><h4 id="rwf-turn-3">Fix the wrench placement</h4></div></header>
+          <ol class="rwf-steps">
+            <li data-rwf-phase="inspect"><div class="rwf-step-label"><b>Active Feedback</b><button type="button" data-rwf-seek="61.5" aria-label="Watch turn 3 Active Feedback at 61 seconds" hidden>1:01 &#8599;</button></div><p>Back away to see the entire cabinet, including its roof and shelf heights.</p></li>
+            <li data-rwf-phase="revise"><div class="rwf-step-label"><b>Assess &amp; revise</b><button type="button" data-rwf-seek="67.5" aria-label="Watch turn 3 program revision at 67 seconds" hidden>1:07 &#8599;</button></div><p>Use the roof as a reference and select the highest valid shelf below it.</p></li>
+            <li data-rwf-phase="execute"><div class="rwf-step-label"><b>Execute</b><button type="button" data-rwf-seek="73" aria-label="Watch turn 3 execution at 73 seconds" hidden>1:13 &#8599;</button></div><p>The revised program places the hammer in the basket and the wrench on the upper shelf.</p></li>
+          </ol>
+          <div class="rwf-outcome"><span class="rwf-check" aria-hidden="true">&#10003;</span> Both placement goals achieved</div>
+        </article>
+      </div>
+      <div class="rwf-result"><div><span class="rwf-result-label">After three code revisions</span><h3>All four task goals achieved.</h3></div><ul aria-label="Achieved task goals"><li>Grasp hammer</li><li>Place in basket</li><li>Grasp wrench</li><li>Place on upper shelf</li></ul></div>
+      <p class="rwf-takeaway">Diagnostic flights do more than identify a failure: they provide evidence to preserve successful code and correct the remaining error.</p>
+    </div></section>
+
     <section class="ax-section" id="bibtex" aria-labelledby="bibtex-title"><div class="ax-wrap">
       <div class="ax-bib-head"><h2 id="bibtex-title">BibTeX</h2><button class="ax-bib-copy" type="button" data-copy="bibtex-code">Copy</button></div>
       <pre class="ax-bib"><code id="bibtex-code">@misc{lee2026flybycodeembodiedcodingagents,
@@ -469,6 +537,7 @@ RESULT hi-edge:       centre moved 0.0430, yaw change -2.11 deg</pre></figure>
   <script src="static/js/side-nav.js?v=20261008" defer></script>
   <script src="static/js/results-stats.js?v=1" defer></script>
   <script src="static/js/b1k-sync.js?v=20261117" defer></script>
+  <script src="static/js/real-feedback.js?v=20261119" defer></script>
   <script>
     document.querySelectorAll('.ax-bib-copy').forEach(b => b.addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(document.getElementById(b.dataset.copy).textContent); b.textContent = 'Copied'; }

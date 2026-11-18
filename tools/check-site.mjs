@@ -125,6 +125,18 @@ for (const token of ['--ax-copy: clamp(', '--ax-small: clamp(', 'svh', 'vw', '.a
   assert(responsive.includes(token), 'responsive rule missing: ' + token);
 }
 const nav = index.match(/<nav class="ax-rail"[\s\S]*?<\/nav>/)?.[0];
+// Keep the additional hardware feedback loop after the cross-embodiment results.
+const sectionOrder = [...index.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map(m => m[1]);
+const b1kAt = sectionOrder.indexOf('behavior-1k');
+assert(b1kAt >= 0 && sectionOrder[b1kAt + 1] === 'real-world-feedback', 'Real-world AF must immediately follow BEHAVIOR-1K');
+for (const section of ['behavior-1k', 'real-world-feedback', 'bibtex']) assert(nav.includes('href="#' + section + '"'));
+const feedback = index.match(/<section[^>]*id="real-world-feedback"[\s\S]*?<\/section>/)?.[0];
+assert(feedback?.includes('static/videos/real-feedback-loop.mp4'));
+assert.equal([...feedback.matchAll(/<article class="rwf-turn"/g)].length, 3);
+assert.equal([...feedback.matchAll(/data-rwf-chapter="\d"/g)].length, 4);
+assert(feedback.includes('data-rwf-seek="3.5" data-rwf-chapter="0"'));
+assert(feedback.includes('Fix the wrench placement') && feedback.includes('Use the chapters to explore each turn.'));
+assert(!/fbycode\.github\.io|real-feedback-loop-anonymous/.test(index), 'new media must be hosted on the public site itself');
 for (const section of ['top','method','real-world','tasks','results','case-studies']) assert(nav.includes('href="#' + section + '"'));
 const tasks = index.match(/<section class="ax-section" id="tasks"[\s\S]*?<\/section>/)?.[0];
 assert(tasks?.includes('static/images/tasks.jpg') && tasks.includes('<figcaption>'), 'Tasks image and explanation must stay together');
